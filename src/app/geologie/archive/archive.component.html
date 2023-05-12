@@ -1,0 +1,144 @@
+<p-toast></p-toast>
+<div class="col-12">
+    <div class="card">
+        <h5>Archives Management</h5>
+        <p-table #dt1 [value]="archives" dataKey="id" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['archiveLibelle','archiveDate','archiveType']" responsiveLayout="scroll">
+            
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+                    <button pButton label="Add" class="p-button-outlined mb-2" icon="pi pi-plus" (click)="openNew()" ></button>
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword" class="w-full"/>
+                    </span>
+                </div>
+            </ng-template>
+            
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Libelle
+                        </div>
+                    </th>
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Date
+                        </div>
+                    </th>
+                    <th style="min-width: 14rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Type
+                           
+                        </div>
+                    </th>
+                   
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-archive>
+                <tr>
+                    <td>
+                        {{archive.archiveLibelle}}
+                    </td>
+                    <td>
+                        {{archive.archiveDate | date : 'dd/MM/yyyy'}}
+                    </td>
+                    <td>
+                        {{archive.archiveType}}
+                    </td>
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editNew(archive)" ></button> 
+                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteNew(archive)"></button>
+                    </td>
+                    
+                    
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">No archive/s found.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="8">Loading customers data. Please wait.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+</div>
+
+    <!-- Add Archive -->
+    <p-dialog [(visible)]="addDialog" [style]="{width: '450px'}" header="Archive Detail" [modal]="true" styleClass="p-fluid">
+        <ng-template pTemplate="content" let-gisement>
+            <div class="field">
+                <label for="code">Libelle</label>
+                <input type="text" pInputText id="code" [(ngModel)]="newArchive.archiveLibelle" required autofocus />
+                <small class="p-error" *ngIf="submitted && !newArchive.archiveLibelle">Libelle is required.</small>
+            </div>
+            <div class="field">
+                <label for="libelle">Date</label>
+                <input type="datetime-local" pInputText id="code" [(ngModel)]="newArchive.archiveDate" required  />
+                <small class="p-error" *ngIf="submitted && !newArchive.archiveDate">Date is required.</small>
+            </div>
+    
+            <div class="field">
+                <label for="libelle">Type</label>
+                <p-dropdown [(ngModel)]="newArchive.archiveType" inputId="archiveType" [options]="types!" placeholder="Select">
+                    <ng-template let-option pTemplate="item">
+                        <span>{{option.label}}</span>
+                    </ng-template>
+                </p-dropdown>
+                <small class="p-error" *ngIf="submitted && !newArchive.archiveType">Type is required.</small>
+            </div>  
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveArchive()"></button>
+        </ng-template>
+    </p-dialog>
+
+    <!-- Update Archive -->
+
+    <p-dialog [(visible)]="updateDialog" [style]="{width: '450px'}" header="Archive Detail" [modal]="true" styleClass="p-fluid">
+        <ng-template pTemplate="content" let-gisement>
+            <div class="field">
+                <label for="libelle">Libelle</label>
+                <input type="text" pInputText id="libelle" [(ngModel)]="currentArchive.archiveLibelle" required autofocus />
+                <small class="p-error" *ngIf="submitted && !currentArchive.archiveLibelle">Libelle is required.</small>
+            </div>
+            <div class="field">
+                <label for="date">Date</label>
+                <input type="datetime-local" pInputText id="date" [(ngModel)]="currentArchive.archiveDate" required  />
+                <small class="p-error" *ngIf="submitted && !currentArchive.archiveDate">Date is required.</small>
+            </div>
+    
+            <div class="field">
+                <label for="archiveType">Type</label>
+                <p-dropdown [(ngModel)]="currentArchive.archiveType" inputId="archiveType" [options]="types!" placeholder="Select">
+                    <ng-template let-option pTemplate="item">
+                        <span [class]="option.value">{{option.label}}</span>
+                    </ng-template>
+                </p-dropdown>
+                
+            </div>  
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog1()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateArchive(currentArchive)"></button>
+        </ng-template>
+    </p-dialog>
+
+
+    <p-dialog [(visible)]="deleteDialog" [style]="{width: '450px'}" header="Archive Details" [modal]="true" styleClass="p-fluid">
+        <ng-template pTemplate="content" let-gisement>
+           <div>
+            Are u sure want to delete this archive
+           </div>
+            
+        </ng-template>
+    
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog2()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="deleteArchive()"></button>
+        </ng-template>
+    </p-dialog>

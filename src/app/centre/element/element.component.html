@@ -1,0 +1,111 @@
+<div class="col-12">
+    <div class="card">
+        <h5>Archives Management</h5>
+        <p-table #dt1 [value]="elements" dataKey="id" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['archiveLibelle','archiveDate','archiveType']" responsiveLayout="scroll">
+            
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+                    <button pButton label="Add" class="p-button-outlined mb-2" icon="pi pi-plus" (click)="openNew()" ></button>
+                    <span class="p-input-icon-left mb-2">
+                        <!-- <i class="pi pi-search"></i> -->
+                        <!-- <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword" class="w-full"/> -->
+                    </span>
+                </div>
+            </ng-template>
+            
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Element Code
+                        </div>
+                    </th>
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Element Libelle
+                        </div>
+                    </th>
+                    
+                   
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-element>
+                <tr>
+                    <td>
+                        {{element.elementCode}}
+                    </td>
+                    
+                    <td>
+                        {{element.elementLibelle}}
+                    </td>
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editNew(element)" ></button> 
+                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteNew(element)"></button>
+                    </td>
+                    
+                    
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">No Element/s found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+</div>
+
+<!-- Add Operation -->
+<p-dialog [(visible)]="addDialog" [style]="{width: '450px'}" header="Archive Detail" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content" let-gisement>
+        <div class="field">
+            <label for="code">Element Code</label>
+            <input type="text" pInputText id="code" [(ngModel)]="newElement.elementCode" required autofocus />
+            <small class="p-error" *ngIf="submitted && !newElement.elementCode">Libelle is required.</small>
+        </div>
+        <div class="field">
+            <label for="code">Element Libelle</label>
+            <input type="text" pInputText id="code" [(ngModel)]="newElement.elementLibelle" required  />
+            <small class="p-error" *ngIf="submitted && !newElement.elementLibelle">Libelle is required.</small>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog1()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addElement()"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- update Element -->
+<p-dialog [(visible)]="editDialog" [style]="{width: '450px'}" header="Archive Detail" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content" let-gisement>
+        <div class="field">
+            <label for="code">Element Code</label>
+            <input type="text" pInputText id="code" [(ngModel)]="currentElement.elementCode" required autofocus />
+            <small class="p-error" *ngIf="submitted && !currentElement.elementCode">Libelle is required.</small>
+        </div>
+        <div class="field">
+            <label for="code">Element Libelle</label>
+            <input type="text" pInputText id="code" [(ngModel)]="currentElement.elementLibelle" required  />
+            <small class="p-error" *ngIf="submitted && !currentElement.elementLibelle">Libelle is required.</small>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog2()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateElement()"></button>
+    </ng-template>
+</p-dialog>
+
+
+<!-- delete ELement -->
+<p-dialog [(visible)]="deleteDialog" [style]="{width: '450px'}" header="Gisement Details" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content" let-gisement>
+       <div>
+        Are u sure want to delete this element
+       </div>
+        
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog2()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="confirmDeleteElement()"></button>
+    </ng-template>
+</p-dialog>

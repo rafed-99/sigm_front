@@ -1,0 +1,114 @@
+
+<div class="">
+    <!-- Retour Button -->
+    <div class="retour">
+        <p-button class="p-button-outlined  retour justify-content-end" (click)="retour()" > Point List</p-button>
+    </div>
+    <!-- Tabs -->
+    <div class="d-flex" >
+        <p-tabView [(activeIndex)]="Tabindex">
+            <p-tabPanel header="Point details" leftIcon="pi pi-bell" >
+    
+                <div class="card">
+                    <p-table #dt1 [value]="points" dataKey="id" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines"  [globalFilterFields]="['']" responsiveLayout="scroll">
+                        <ng-template pTemplate="body" let-point>   
+                                <tr>
+                                    <td>
+                                        <label for="code">Hole Id</label>
+                                        <br>
+                                        <input type="text" pInputText id="code" value="{{point?.holeId}}" disabled/>
+                                    </td>
+                                    <td>
+                                        <label for="libelle">Systeme Coordonnes </label>
+                                        <br>
+                                        <input type="text" pInputText id="code" value="{{point?.systemeCoordonnees}}" disabled/>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="libelle">X </label>
+                                        <br>
+                                        <input type="text" pInputText id="code" value="{{point?.x}}" disabled/>
+                                    </td>
+                                    <td>
+                                        <label for="libelle">Y </label>
+                                        <br>
+                                        <input type="text" pInputText id="code" value="{{point?.y}}" disabled/>
+                                    </td>
+                                    <td>
+                                        <label for="libelle">Z </label>
+                                        <br>
+                                        <input type="text" pInputText id="code" value="{{point?.z}}" disabled/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="libelle">X Converted </label>
+                                        <br>
+                                        <input type="text" pInputText id="code" value="{{point?.xc}}" disabled/>
+                                    </td>
+                                    <td>
+                                        <label for="libelle">Y Converted </label>
+                                        <br>
+                                        <input type="text" pInputText id="code" value="{{point?.yc}}" disabled/>
+                                    </td>
+                                    <td>
+                                        <label for="libelle">Z Converted </label>
+                                        <br>
+                                        <input type="text" pInputText id="code" value="{{point?.zc}}" disabled/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="libelle">Dip </label>
+                                        <br>
+                                        <input type="text" pInputText id="code" value="{{point?.dip}}" disabled/>
+                                    </td>
+                                    <td>
+                                        <label for="libelle">Azimut </label>
+                                        <br>
+                                        <input type="text" pInputText id="code" value="{{point?.azimut}}" disabled/>
+                                    </td>
+                                    <td>
+                                        <label for="libelle">Depth Max </label>
+                                        <br>
+                                        <input type="text" pInputText id="code" value="{{point?.depthMax}}" disabled/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="libelle">Niveau Pizometrique </label>
+                                        <br>
+                                        <input type="text" pInputText id="code" value="{{point?.niveauPizometrique}}" disabled/>
+                                    </td>
+                                    <td>
+                                        <label for="libelle">Point Type </label>
+                                        <br>
+                                        <input type="text" pInputText id="code" value="{{point?.pointType}}" disabled/>
+                                    </td>
+                                    <td>
+                                        <label for="libelle">Export Gis </label>
+                                        <br>
+                                        <p-checkbox [(ngModel)]="point.exportGis" [binary]="true" inputId="binary" [disabled]="true"> </p-checkbox>
+                                    </td>
+                                </tr>
+                                </ng-template>
+                                
+                    </p-table>
+                </div>
+    
+            </p-tabPanel>
+            <p-tabPanel header="Geologies">
+                <app-geologies  [geologies]="geologiee"></app-geologies>
+            </p-tabPanel>
+            <p-tabPanel header="Samples">
+                <app-echantillon  ></app-echantillon>
+    
+            </p-tabPanel>
+        </p-tabView>
+     
+    </div>
+</div>
+
+    

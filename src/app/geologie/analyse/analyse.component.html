@@ -1,0 +1,117 @@
+<div class="card">
+    <p-table #dt1 [columns]="cols" [value]="analyseResult" dataKey="id" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['']" responsiveLayout="scroll">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th style="min-width: 8rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Geology / Layer
+                    </div>
+                </th>
+                <th style="min-width: 8rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Depth From
+                    </div>
+                </th>
+                <th style="min-width: 8rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Depth To
+                    </div>
+                </th>
+                
+                <th style="min-width: 8rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Observation
+                    </div>
+                </th>
+                <th style="min-width: 8rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Sample Status
+                    </div>
+                </th>
+                <th style="min-width: 8rem" *ngFor="let col of elementList">
+                    <div class="flex justify-content-between align-items-center">
+                        {{col}}
+                    </div>
+                </th>
+                
+                
+                
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-resultatAnalyse let-columns="columns">
+            <tr>
+                <td>
+                    {{resultatAnalyse.echantillon.geologie.couche.coucheCode}}
+                </td>
+                <td>
+                    {{resultatAnalyse.echantillon.depthFrom}}
+                </td>
+                <td>
+                    {{resultatAnalyse.echantillon.depthTo}}
+                </td>
+                
+                <td>
+                    {{resultatAnalyse.echantillon.observation}}
+                </td>
+                <td>
+                    {{resultatAnalyse.echantillon.etatEchantillon}}
+                </td>
+                <td *ngFor="let col of resultatAnalyse.analyseList">
+                    {{col.valeurAnalyse}}
+                </td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editAnalyse(resultatAnalyse)"></button> 
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eraseAnalyse(resultatAnalyse)"></button>
+                </td>
+                </tr>
+                </ng-template>
+                
+                </p-table>
+    
+</div>
+
+
+<p-dialog [(visible)]="updateDialog" [style]="{width: '450px'}" header="Gisement Detail" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content" let-gisement>
+        <div class="field">
+            <label for="code">Hole Id</label>
+            <input type="text" pInputText id="code" [(ngModel)]="currentAnalyse.valeurAnalyse" required autofocus />
+            <small class="p-error" *ngIf="submitted && !currentAnalyse.valeurAnalyse">Code is required.</small>
+        </div>
+        <div class="field">
+            <label for="libelle">Couche</label>
+            <p-dropdown [(ngModel)]="currentAnalyse.coupure" inputId="coupure" [options]="coupures!" placeholder="Select" optionLabel="coupureLibelle" >
+               
+            </p-dropdown>
+            <!-- <small class="p-error" *ngIf="submitted && !newEchantillon.etatEchantillon">Type is required.</small> -->
+        </div>
+        <div class="field">
+            <label for="libelle">Couche</label>
+            <p-dropdown [(ngModel)]="currentAnalyse.element" inputId="element" [options]="elements!" placeholder="Select" optionLabel="elementCode" >
+               
+            </p-dropdown>
+            <!-- <small class="p-error" *ngIf="submitted && !newEchantillon.etatEchantillon">Type is required.</small> -->
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog2()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateAnalyse(currentAnalyse)"></button>
+    </ng-template>
+</p-dialog>
+
+
+
+<p-dialog [(visible)]="deleteDialog" [style]="{width: '450px'}" header="Gisement Details" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content" let-gisement>
+       <div>
+        Are u sure want to delete this analyse
+       </div>
+        
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog2()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="DeleteAnalyse()"></button>
+    </ng-template>
+</p-dialog>

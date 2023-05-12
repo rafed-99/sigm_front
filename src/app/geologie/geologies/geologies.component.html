@@ -1,0 +1,215 @@
+<div class="card" >
+    <p-table #dt1 [value]="geologies" dataKey="id" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['']" responsiveLayout="scroll">
+        
+        <ng-template pTemplate="caption">
+            <div class="flex justify-content-between flex-column sm:flex-row">
+                <button pButton label="Add" class="p-button-outlined mb-2" icon="pi pi-plus" (click)="openNew()"  ></button>
+                <span class="p-input-icon-left mb-2">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" #filter  placeholder="Search Keyword" class="w-full"/>
+                </span>
+            </div>
+        </ng-template>
+        
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="min-width: 12rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Layer
+                    </div>
+                </th>
+                <th style="min-width: 12rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Depth From
+                    </div>
+                </th>
+                <th style="min-width: 12rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Depth To
+                    </div>
+                </th>
+                <th style="min-width: 14rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Puissance
+                    </div>
+                </th>
+                <th style="min-width: 14rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Puissance Reelle
+                    </div>
+                </th>
+                <th style="min-width: 14rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Description Lithologique
+                    </div>
+                </th>
+               
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-geologie>
+            <tr>
+                <td>
+                    {{geologie.couche.coucheCode}}
+                </td>
+                <td>
+                    {{geologie.depthFrom}}
+                </td>
+                <td>
+                    {{geologie.depthTo}}
+                </td>
+                <td>
+                    {{geologie.puissance}}
+                </td>
+                <td>
+                    {{geologie.puissanceReelle}}
+                </td>
+                <td>
+                    {{geologie.descriptionLithologique}}
+                </td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editGeologie(geologie)"></button> 
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteGeologie(geologie)"></button>
+                    <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-info" (click)="needGeologie(geologie)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="8">No geologie/s found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+
+
+<p-dialog [(visible)]="addDialog" [style]="{width: '450px'}" header="Gisement Detail" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content" let-geologie>
+        <div class="field">
+            <label for="libelle">Couche</label>
+            <p-dropdown [(ngModel)]="selectCouche" inputId="couche" [options]="couchefiltre!" placeholder="Select" optionLabel="coucheCode" >
+               
+            </p-dropdown>
+            <!-- <small class="p-error" *ngIf="submitted && !newEchantillon.etatEchantillon">Type is required.</small> -->
+        </div>
+        <div class="field">
+            <label for="code">Depth From</label>
+            <input type="text" pInputText id="code" [(ngModel)]="newGeologie.depthFrom" required autofocus />
+            <small class="p-error" *ngIf="submitted && !newGeologie.depthFrom">Code is required.</small>
+        </div>
+        <div class="field">
+            <label for="libelle">Depth To</label>
+            <input type="text" pInputText id="code" [(ngModel)]="newGeologie.depthTo" required  />
+            <small class="p-error" *ngIf="submitted && !newGeologie.depthTo">Libelle is required.</small>
+        </div>
+        <div class="field">
+            <label for="libelle">Puissance Réelle</label>
+            <input type="text" pInputText id="code" [(ngModel)]="newGeologie.puissanceReelle" required  />
+            <small class="p-error" *ngIf="submitted && !newGeologie.puissanceReelle">Libelle is required.</small>
+        </div>
+        <div class="field">
+            <label for="libelle">Description Lithologique</label>
+            <input type="text" pInputText id="code" [(ngModel)]="newGeologie.descriptionLithologique" required  />
+            <small class="p-error" *ngIf="submitted && !newGeologie.descriptionLithologique">Libelle is required.</small>
+        </div>
+        
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog1()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addGeologie()"></button>
+    </ng-template>
+</p-dialog>
+
+
+<p-dialog [(visible)]="editDialog" [style]="{width: '450px'}" header="Gisement Detail" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content" let-geologie>
+        <div class="field">
+            <label for="libelle">Couche</label>
+            <p-dropdown [(ngModel)]="currentGeologie.couche" inputId="couche" [options]="couches!" placeholder="Select" optionLabel="coucheCode" >
+               
+            </p-dropdown>
+            <!-- <small class="p-error" *ngIf="submitted && !newEchantillon.etatEchantillon">Type is required.</small> -->
+        </div>
+        <div class="field">
+            <label for="code">Depth From</label>
+            <input type="text" pInputText id="code" [(ngModel)]="currentGeologie.depthFrom" required autofocus />
+            <small class="p-error" *ngIf="submitted && !currentGeologie.depthFrom">Code is required.</small>
+        </div>
+        <div class="field">
+            <label for="libelle">Depth To</label>
+            <input type="text" pInputText id="code" [(ngModel)]="currentGeologie.depthTo" required  />
+            <small class="p-error" *ngIf="submitted && !currentGeologie.depthTo">Libelle is required.</small>
+        </div>
+        <div class="field">
+            <label for="libelle">Puissance</label>
+            <input type="text" pInputText id="code" [(ngModel)]="currentGeologie.puissance" required  />
+            <small class="p-error" *ngIf="submitted && !currentGeologie.puissance">Libelle is required.</small>
+        </div>
+        <div class="field">
+            <label for="libelle">Puissance Réelle</label>
+            <input type="text" pInputText id="code" [(ngModel)]="currentGeologie.puissanceReelle" required  />
+            <small class="p-error" *ngIf="submitted && !currentGeologie.puissanceReelle">Libelle is required.</small>
+        </div>
+        <div class="field">
+            <label for="libelle">Description Lithologique</label>
+            <input type="text" pInputText id="code" [(ngModel)]="currentGeologie.descriptionLithologique" required  />
+            <small class="p-error" *ngIf="submitted && !currentGeologie.descriptionLithologique">Libelle is required.</small>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog2()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateGeologie(currentGeologie)"></button>
+    </ng-template>
+</p-dialog>
+
+
+<p-dialog [(visible)]="deleteDialog" [style]="{width: '450px'}" header="Gisement Details" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content" let-gisement>
+       <div>
+        Are you sure want to delete this geology
+       </div>
+        
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog3()"></button>
+        <button pButton pRipple label="Deltee" icon="pi pi-check" class="p-button-text" (click)="eraseGeologie()"></button>
+    </ng-template>
+</p-dialog>
+
+
+<p-dialog [(visible)]="needDialog" [style]="{width: '450px'}" header="Gisement Detail" [modal]="true" styleClass="p-fluid">
+   
+    <ng-template pTemplate="content" let-geologie>
+        <div class="field">
+            <label for="libelle">Layer / Geology</label>
+            <input type="text" pInputText id="code" [value]="currentGeologie.couche!.coucheCode" disabled="true" />
+            
+            <!-- <small class="p-error" *ngIf="submitted && !newEchantillon.etatEchantillon">Type is required.</small> -->
+        </div>
+        <div class="field">
+            <label for="code">Depth From</label>
+            <input type="text" pInputText id="depthFrom" [(ngModel)]="newEchantillon.depthFrom"  required  [class]="newEchantillon!.depthFrom! >= currentGeologie!.depthFrom! && newEchantillon!.depthFrom! <= currentGeologie!.depthTo! ? 'none' : 'ng-invalid ng-dirty'" />
+            <small class="p-error" *ngIf="submitted && !newEchantillon.depthFrom">Code is required.</small>
+            <small class="p-error" *ngIf="(newEchantillon!.depthFrom! < currentGeologie!.depthFrom!)||(newEchantillon!.depthFrom! > currentGeologie!.depthTo!)">Verify the Depth From  {{currentGeologie!.depthFrom!}} and {{currentGeologie.depthTo}}</small>
+        </div>
+        <div class="field">
+            <label for="libelle">Depth To</label>
+            <input type="text" pInputText id="depthTo" [(ngModel)]="newEchantillon.depthTo"  required  [class]="newEchantillon!.depthTo! <= currentGeologie!.depthTo! && newEchantillon!.depthTo! >= currentGeologie!.depthFrom! ? 'none' : 'ng-invalid ng-dirty'"/>
+            <small class="p-error" *ngIf="submitted && !newEchantillon.depthTo">Libelle is required.</small>
+            <small class="p-error" *ngIf="(newEchantillon!.depthTo! > currentGeologie!.depthTo!)||(newEchantillon!.depthTo! < currentGeologie!.depthFrom!)">Verify the Depth To  {{currentGeologie!.depthFrom!}} and {{currentGeologie.depthTo}}</small>
+        </div>
+        <div class="field">
+            <label for="libelle">Observation</label>
+            <input type="text" pInputText id="code" [(ngModel)]="newEchantillon.observation"   />
+            <small class="p-error" *ngIf="submitted && !newEchantillon.observation">Libelle is required.</small>
+        </div>
+        
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog4()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addEchantillon()"></button>
+    </ng-template>
+</p-dialog>
+
+

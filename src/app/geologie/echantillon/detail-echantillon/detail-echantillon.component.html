@@ -1,0 +1,78 @@
+<div class="retour">
+<button pButton pRipple icon="pi pi-eye" class="" (click)="retour()"></button>
+</div>        
+
+<div class="d-flex" >
+                <p-tabView [(activeIndex)]="Tabindex">
+                    <p-tabPanel header="Sample details" leftIcon="pi pi-bell" >
+            
+                        <div class="card">
+                            <p-table #dt1 [value]="echantillons" dataKey="id" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['geologie.couche.coucheCode']" responsiveLayout="scroll">
+        
+    
+    
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th style="min-width: 8rem">
+                                            <div class="flex justify-content-between align-items-center">
+                                                Geology / Layer
+                                            </div>
+                                        </th>
+                                        <th style="min-width: 8rem">
+                                            <div class="flex justify-content-between align-items-center">
+                                                Depth From
+                                            </div>
+                                        </th>
+                                        <th style="min-width: 8rem">
+                                            <div class="flex justify-content-between align-items-center">
+                                                Depth To
+                                            </div>
+                                        </th>
+                                        
+                                        <th style="min-width: 8rem">
+                                            <div class="flex justify-content-between align-items-center">
+                                                Observation
+                                            </div>
+                                        </th>
+
+                                        <th style="min-width: 8rem">
+                                            <div class="flex justify-content-between align-items-center">
+                                                Sample Status
+                                            </div>
+                                        </th>
+                                        
+                                        
+                                       
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-echantillon>
+                                    <tr>
+                                        <td>
+                                            {{echantillon.geologie.couche.coucheCode}}
+                                        </td>
+                                        <td>
+                                            {{echantillon.depthFrom}}
+                                        </td>
+                                        <td>
+                                            {{echantillon.depthTo}}
+                                        </td>
+                                        
+                                        <td>
+                                            {{echantillon.observation}}
+                                        </td>
+                                        <td>
+                                            {{echantillon.echantillonId}}
+                                        </td>
+                                        </tr>
+                                        </ng-template>
+                                        </p-table>
+                            
+                        </div>
+            
+                    </p-tabPanel>
+                    <p-tabPanel header="Analyses">
+                        <app-analyse [analyses]="analysess"></app-analyse>
+                    </p-tabPanel>
+                </p-tabView>
+             
+            </div>
