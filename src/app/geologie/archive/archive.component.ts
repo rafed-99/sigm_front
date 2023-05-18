@@ -23,13 +23,15 @@ export class ArchiveComponent {
   deleteDialog ?: boolean;
   types ?: any[];
   currentArchive = new Archive();
+  filterArchive : Archive[] = [];
 
   ngOnInit() :void{
-    this.getArchives();
+    // this.getArchives();
     // this.types = [
     //   {label: 'POINT', value: 'Point'},
     //   {label: 'BORDEREAU', value: 'Bordereau'},
     // ]
+    this.getArchivesFilter();
   }
 
   getArchives(){
@@ -40,6 +42,37 @@ export class ArchiveComponent {
         
       }
     )
+  }
+
+  getArchivesFilter(){
+    if(sessionStorage.getItem('profile')=='geologie'){
+      this.archiveService.retrieveArchives().subscribe(
+        data => {
+          this.archives = data;
+          for(let i=0;i<this.archives.length;i++){
+            if(this.archives[i].archiveType==="Point"){
+              this.filterArchive?.push(this.archives[i])
+              console.log("filterArchive",this.filterArchive)
+            }
+          }
+          console.log("/**/**/**",this.archives);
+        }
+      )
+    }
+    else{
+      this.archiveService.retrieveArchives().subscribe(
+        data => {
+          this.archives= data
+          for(let i=0;i<this.archives.length;i++){
+            if(this.archives[i].archiveType==="Bordereau"){
+              this.filterArchive?.push(this.archives[i])
+            }
+          }
+          console.log("*/*/*/*/*",this.archives);
+        }
+      )
+    }
+    
   }
 
   onGlobalFilter(table: Table, event: Event) {
@@ -67,7 +100,7 @@ export class ArchiveComponent {
     this.archiveService.saveArchive(this.newArchive).subscribe(
       archive => {
         console.log(archive);
-        this.archives.push(archive);
+        this.filterArchive.push(archive);
         this.messageService.add({severity:'success', summary:'Archive', detail:'Added with success' , life:3000});
       }
     )

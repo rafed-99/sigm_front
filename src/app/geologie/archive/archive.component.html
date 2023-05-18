@@ -2,7 +2,7 @@
 <div class="col-12">
     <div class="card">
         <h5>Archives Management</h5>
-        <p-table #dt1 [value]="archives" dataKey="id" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['archiveLibelle','archiveDate','archiveType']" responsiveLayout="scroll">
+        <p-table #dt1 [value]="filterArchive!" dataKey="id" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['archiveLibelle','archiveDate','archiveType']" responsiveLayout="scroll">
             
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
