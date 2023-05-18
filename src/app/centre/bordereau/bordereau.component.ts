@@ -16,11 +16,15 @@ export class BordereauComponent {
   bordereaux : Bordereau[] = [];
   deleteDialog ?: boolean;
   currentBordereau = new Bordereau();
+  currentBordereau1 : Bordereau[] = [];
   submitted ?: boolean;
   newBordereau = new Bordereau();
-  updateDialog ?: boolean;
+  archiveDialog ?: boolean;
   archives ?: Archive[] = []
-  
+  selectedBordereau ?: Bordereau[] = []
+  a = new Bordereau()
+  checkButton ?: boolean
+  currentArchive ?:Archive;
 
   ngOnInit() : void{
     this.retrieveBordereaux();
@@ -32,9 +36,10 @@ export class BordereauComponent {
       data =>{
         this.bordereaux = data;
         console.log("bordereaux : ", this.bordereaux);
-        
+        this.bordereaux.sort((a, b) => a.bordereauId! > b.bordereauId! ? 1 : -1);
       }
     )
+    
   }
 
   retrieveArchives(){
@@ -73,32 +78,81 @@ export class BordereauComponent {
   }
 
   // open update dialog
-  editNew(bordereau : Bordereau){
-    this.updateDialog = true;
-    this.currentBordereau = bordereau;
-  }
+  // editNew(bordereau : Bordereau){
+  //   this.archiveDialog = true;
+  //   this.currentBordereau = bordereau;
+  // }
 
   //close update dialog
   hideDialog1(){
-    this.updateDialog = false;
+    this.archiveDialog = false;
     this.submitted = false;
   }
 
   //update operation 'archive bordereau'
-  updateBordereau(){
-    console.log("this.currentBordereau : ",this.currentBordereau);
+  // updateBordereau(){
     
-    this.bordereauService.updateBordereau(this.currentBordereau).subscribe(
+  //   //console.log("this.currentBordereau : ",this.currentBordereau);
+  //   console.log("*****this.selectedBordereau! ", this.selectedBordereau!);
+  //   for(let i=0;i<this.selectedBordereau?.length!;i++){
+  //     console.log("/*/*/*/*/*/*",this.selectedBordereau![i]);
       
-      data =>{
-        console.log("update : ",data);
-        
-      }
-    )
-    this.updateDialog = false;
+  //     this.bordereauService.updateBordereau(this.selectedBordereau![i]).subscribe(
+      
+  //       data =>{
+  //         this.selectedBordereau![i] = data
+  //         console.log("this.selectedBordereau! ", this.selectedBordereau![i]);
+          
+  //         console.log("update : ",data);
+          
+  //       }
+  //     )
+  //   }
+    
+  //   this.archiveDialog = false;
+  //   this.newBordereau = {}
+  // }
+
+  updateBordereau(){
+    
+    //console.log("this.currentBordereau : ",this.currentBordereau);
+    console.log("*****this.selectedBordereau! ", this.selectedBordereau!);
+    for(let i=0;i<this.selectedBordereau?.length!;i++){
+      console.log("/*/*/*/*/*/*",this.selectedBordereau![i]);
+      this.selectedBordereau![i].archive = this.currentArchive;
+    }
+      this.bordereauService.archiveBordereaux(this.selectedBordereau!).subscribe(
+      
+        data =>{
+          // this.selectedBordereau![i] = data
+          console.log("this.selectedBordereau! ", this.selectedBordereau!);
+          
+          console.log("update : ",data);
+          
+        }
+      )
+    
+    
+    this.archiveDialog = false;
     this.newBordereau = {}
+    this.selectedBordereau=[];
   }
 
+  // openSend(bordereau : Bordereau){
+  //   this.archiveDialog = true;
+  //   this.currentBordereau = bordereau
+  // }
 
+  openDialogArchive(){
+    this.archiveDialog = true;
+  }
+
+  buttonSendCondition(){
+    this.checkButton = true;
+    if(this.selectedBordereau?.length!=0){
+      this.checkButton = false;
+    }
+    return this.checkButton
+  }
   
 }

@@ -1,3 +1,5 @@
+import { Archive } from "./archive";
+
 export class Point {
     pointId ?: number;
     holeId ?: string;
@@ -14,4 +16,5 @@ export class Point {
     exportGis ?: boolean;
     niveauPizometrique ?: string;
     pointType ?: string;
+    archive ?:Archive
 }

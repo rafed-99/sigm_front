@@ -35,5 +35,9 @@ export class EchantillonService {
     return this._http.get<Echantillon[]>(apiURl+"/echantillon/showechantillonsbypoint/"+idPoint)
   }
 
-  
+  envoyerEchantillonList(idbordereau:number , listEchantillon:Echantillon[]):Observable<Blob>{
+
+    // return this.http.post(API_URL+'/echantillons/bordereau/report',listEchantillon,{responseType:'blob'});
+    return this._http.post(apiURl+'/echantillon/bordereau/'+idbordereau+'/report',listEchantillon,{responseType:'blob'});
+  }
 }

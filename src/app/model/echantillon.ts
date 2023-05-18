@@ -16,6 +16,7 @@ export class Echantillon{
     etatEchantillons ?: string;
     analyseGranulometrique ?: string;
     notesMineralogique ?: string;
+    puissanceReelle ?: number;
     geologie ?: Geologie;
     bordereau ?: Bordereau;
 }

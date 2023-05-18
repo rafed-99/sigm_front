@@ -8,6 +8,9 @@ import { Table } from 'primeng/table';
 import { AnalyseService } from 'src/app/services/analyse.service';
 import { Analyse } from 'src/app/model/analyse';
 import { Observable, forkJoin } from 'rxjs';
+import { BordereauService } from 'src/app/services/bordereau.service';
+import { Bordereau } from 'src/app/model/bordereau';
+import {saveAs} from 'file-saver';
 class AnalyseResult{
   echantillon?:Echantillon;
   analyseList?:Analyse[];
@@ -19,7 +22,7 @@ class AnalyseResult{
 })
 export class EchantillonComponent {
 
-  constructor(private echantillonService : EchantillonService, @Inject(DetailPointComponent) private detailPointComponent : DetailPointComponent, private geologieService : GeologieService, private analyseService: AnalyseService){}
+  constructor(private echantillonService : EchantillonService, @Inject(DetailPointComponent) private detailPointComponent : DetailPointComponent, private geologieService : GeologieService, private analyseService: AnalyseService , private bordereauService : BordereauService){}
 
   @ViewChild('filter') filter!: ElementRef;
   newEchantillon :Echantillon = new Echantillon();
@@ -27,6 +30,7 @@ export class EchantillonComponent {
   addDialog !: boolean;
   editDialog !:boolean;
   deleteDialog !: boolean;
+  sendDialog !: boolean;
   currentEchantillon : Echantillon = new Echantillon();
   etatEchantillons ?: any [];
   geologies ?: Geologie[] = [];
@@ -41,9 +45,12 @@ export class EchantillonComponent {
   selectedEchantillon : Echantillon = new Echantillon();
   geologyFilter : Geologie[]=[];
   elementList : any[]=[]
-
-  
-
+  selectedechantillons ?: AnalyseResult[] = [];
+  selectedAnalyses: string[] = [];
+  bordereau = new Bordereau();
+  selectedUrgency ?:string;
+  checkSelectedEchantillon ?: boolean;
+  echantillonsToSend : Echantillon[] = []
 
   ngOnInit() : void{
     console.log('NG ONINIT');
@@ -325,4 +332,82 @@ retrieveAnalyses2(){
     this.selectedEchantillon = echantillon;
   }
 
+  openSend(){
+    this.sendDialog = true;
+    this.submitted = false;
+  }
+
+  hideSend(){
+    this.sendDialog = false;
+    this.submitted = false;
+  }
+
+  buttonSendCondition(){
+  this.checkSelectedEchantillon = true;
+    if(this.selectedechantillons?.length!=0){
+      this.checkSelectedEchantillon = false;
+    }
+    return this.checkSelectedEchantillon;
+  }
+
+  sendBordereau(){
+    //console.log("/*/*/*/*/*/",this.resultatAnalysesList.length)
+    console.log("/*/*/*/*",this.selectedechantillons?.length);
+    for(let j:number=0 ; j<this.selectedechantillons?.length!;j++){
+      console.log("/*/*/*/*",this.selectedechantillons![j].echantillon!);
+
+      this.echantillonsToSend.push(this.selectedechantillons![j].echantillon!);
+      
+    }
+    console.log("#####", this.echantillonsToSend);
+    let ch:string =this.selectedAnalyses[0];
+    for(let i=1; i<this.selectedAnalyses.length ; i++){
+      ch=ch+", "+this.selectedAnalyses[i];
+    }
+    this.bordereau.analyseDemande = ch;
+    this.bordereau.urgences = this.selectedUrgency;
+    this.bordereauService.addBordereau(this.bordereau).subscribe(data =>
+      {
+        this.bordereau = data;
+        this.echantillonService.envoyerEchantillonList(this.bordereau.bordereauId!,this.echantillonsToSend!).subscribe(
+          {next:          response => {
+            const blob = new Blob([response], { type: 'application/pdf' });
+           
+            // let fileName='RAfedBord';
+            // console.warn(fileName);
+            // const file=new File([blob],fileName, { type: 'application/pdf' })
+            // saveAs(file);
+
+            let newVariable: any = window.navigator;
+          if (newVariable && newVariable.msSaveOrOpenBlob) {
+            
+            newVariable.msSaveOrOpenBlob(blob);
+            return;
+          }
+          const data = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = data;
+          link.target = '_blank'
+          console.warn(link);
+
+          link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+          },
+          error:(e)=>{
+            console.warn(e , '\n Error Service Bordereau');
+            
+          },complete:()=>{
+            this.echantillonsToSend=[];
+            this.selectedechantillons=[];
+            this.bordereau = new Bordereau();
+          }
+        }
+        )
+      }
+    )
+
+      this.sendDialog = false;
+      
+    console.log(this.bordereau);
+    
+  }
 }

@@ -19,7 +19,9 @@ import {TabViewModule} from 'primeng/tabview';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DetailEchantillonComponent } from '../echantillon/detail-echantillon/detail-echantillon.component';
 import { AnalyseComponent } from '../analyse/analyse.component';
-
+import {CardModule} from 'primeng/card';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {RadioButtonModule} from 'primeng/radiobutton';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,10 @@ import { AnalyseComponent } from '../analyse/analyse.component';
     InputSwitchModule,
     ToastModule,
     TabViewModule,
-    CheckboxModule
+    CheckboxModule,
+    CardModule,
+    InputTextareaModule,
+    RadioButtonModule
   ],
   providers:[
     // ConfirmationService,

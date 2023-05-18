@@ -22,4 +22,12 @@ export class BordereauService {
   updateBordereau(bordereau : Bordereau):Observable<Bordereau>{
     return this._http.put<Bordereau>(apiURl+"/bordereau/updatebordereau",bordereau)
   }
+
+  addBordereau(bordereau : Bordereau):Observable<Bordereau>{
+    return this._http.post<Bordereau>(apiURl+"/bordereau/addbordereau",bordereau);
+  }
+
+  archiveBordereaux(bordereaux : Bordereau[]):Observable<any>{
+    return this._http.put<any>(apiURl+"/bordereau/updatebord",bordereaux)
+  }
 }

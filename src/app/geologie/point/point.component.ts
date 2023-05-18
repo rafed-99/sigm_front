@@ -2,8 +2,10 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { Archive } from 'src/app/model/archive';
 import { Gisement } from 'src/app/model/gisement';
 import { Point } from 'src/app/model/point';
+import { ArchiveService } from 'src/app/services/archive.service';
 import { GisementService } from 'src/app/services/gisement.service';
 import { PointService } from 'src/app/services/point.service';
 
@@ -14,7 +16,7 @@ import { PointService } from 'src/app/services/point.service';
 })
 export class PointComponent {
 
-  constructor(private pointService : PointService , private gisementService : GisementService, private route : ActivatedRoute,private router:Router, private messageService : MessageService){}
+  constructor(private pointService : PointService , private archiveService : ArchiveService, private route : ActivatedRoute,private router:Router, private messageService : MessageService){}
   @ViewChild('filter') filter!: ElementRef;
   points : Point[]=[];
   newPoint = new Point();
@@ -33,7 +35,11 @@ export class PointComponent {
   
   detailPointON=false;
   selectedPoint:Point=new Point();
-  
+  selectedPoints : Point[] = []
+  buttonCheck ?: boolean;
+  openArchiveModal ?: boolean
+  archives ?: Archive[]
+  currentArchive ?: Archive;
   
 
   ngOnInit() :void {
@@ -55,6 +61,8 @@ export class PointComponent {
       {label: 'PUIT', value: 'Puit'},
       {label: 'SOIGNE', value: 'Soigne'},
     ]
+
+    this.getArchives();
   }
 
   // getPoints(){
@@ -63,6 +71,17 @@ export class PointComponent {
   //     console.log(data);
   //   })
   // }
+
+  getArchives(){
+    this.archiveService.retrieveArchives().subscribe(
+      data =>{
+        this.archives = data;
+        console.log("data ",data);
+        
+      }
+      )
+  }
+
 
   getPointsByGisement(idGisement : string){
     this.pointService.retrievePointsByGisement(parseInt(idGisement)).subscribe(data => {
@@ -157,5 +176,38 @@ export class PointComponent {
   showPointById(point:Point){
     this.detailPointON=true;
     this.selectedPoint=point;
+  }
+
+  openArchivePoint(){
+    this.openArchiveModal = true
+  }
+
+  buttonCondition(){
+    this.buttonCheck = true;
+    if(this.selectedPoints.length!=0){
+      this.buttonCheck = false;
+    }
+    return this.buttonCheck;
+  }
+
+  hideDialogArchive(){
+    this.openArchiveModal = false
+    this.submitted = false
+  }
+
+  archivePoint(){
+    for(let i=0; i<this.selectedPoints.length;i++){
+      this.selectedPoints[i].archive = this.currentArchive;
+
+      console.log("this.selectedPoints[i] ",this.selectedPoints[i]);
+      this.pointService.updatePoint(this.selectedPoints[i]).subscribe(
+        data =>{
+        
+        console.log("data ", data)
+        
+      })
+    }
+    this.openArchiveModal = false;
+    this.selectedPoints = []
   }
 }
