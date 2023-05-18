@@ -21,6 +21,7 @@ export class BordereauComponent {
   newBordereau = new Bordereau();
   archiveDialog ?: boolean;
   archives ?: Archive[] = []
+  filterArchives ?: Archive[] = []
   selectedBordereau ?: Bordereau[] = []
   a = new Bordereau()
   checkButton ?: boolean
@@ -43,13 +44,21 @@ export class BordereauComponent {
   }
 
   retrieveArchives(){
-    return this.archiveService.retrieveArchives().subscribe(
-      data=>{
-        this.archives = data;
-        console.log("/////// : ",data)
-
-      }
-    )
+    if(sessionStorage.getItem('profile')=='centre'){
+       this.archiveService.retrieveArchives().subscribe(
+        data=>{
+          this.archives = data;
+          for(let i=0;i<this.archives.length;i++){
+            if(this.archives[i].archiveType=="Bordereau"){
+              this.filterArchives?.push(this.archives[i])
+            }
+          }
+          console.log("/////// : ",this.filterArchives)
+  
+        }
+      )
+    }
+    
   }
 
   //open delete dialog

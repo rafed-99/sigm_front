@@ -39,6 +39,7 @@ export class PointComponent {
   buttonCheck ?: boolean;
   openArchiveModal ?: boolean
   archives ?: Archive[]
+  filterArchives ?: Archive[] = []
   currentArchive ?: Archive;
   
 
@@ -73,13 +74,20 @@ export class PointComponent {
   // }
 
   getArchives(){
-    this.archiveService.retrieveArchives().subscribe(
-      data =>{
-        this.archives = data;
-        console.log("data ",data);
-        
-      }
-      )
+    if(sessionStorage.getItem('profile')=='geologie'){
+      this.archiveService.retrieveArchives().subscribe(
+       data=>{
+         this.archives = data;
+         for(let i=0;i<this.archives.length;i++){
+           if(this.archives[i].archiveType=="Point"){
+             this.filterArchives?.push(this.archives[i])
+           }
+         }
+         console.log("/////// : ",this.filterArchives)
+ 
+       }
+     )
+   }
   }
 
 
