@@ -81,7 +81,7 @@
                 <small class="p-error" *ngIf="submitted && !newArchive.archiveDate">Date is required.</small>
             </div>
     
-            <div class="field">
+            <!-- <div class="field">
                 <label for="libelle">Type</label>
                 <p-dropdown [(ngModel)]="newArchive.archiveType" inputId="archiveType" [options]="types!" placeholder="Select">
                     <ng-template let-option pTemplate="item">
@@ -89,7 +89,7 @@
                     </ng-template>
                 </p-dropdown>
                 <small class="p-error" *ngIf="submitted && !newArchive.archiveType">Type is required.</small>
-            </div>  
+            </div>   -->
         </ng-template>
         <ng-template pTemplate="footer">
             <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
@@ -112,7 +112,7 @@
                 <small class="p-error" *ngIf="submitted && !currentArchive.archiveDate">Date is required.</small>
             </div>
     
-            <div class="field">
+            <!-- <div class="field">
                 <label for="archiveType">Type</label>
                 <p-dropdown [(ngModel)]="currentArchive.archiveType" inputId="archiveType" [options]="types!" placeholder="Select">
                     <ng-template let-option pTemplate="item">
@@ -120,7 +120,7 @@
                     </ng-template>
                 </p-dropdown>
                 
-            </div>  
+            </div>   -->
         </ng-template>
         <ng-template pTemplate="footer">
             <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog1()"></button>

@@ -26,10 +26,10 @@ export class ArchiveComponent {
 
   ngOnInit() :void{
     this.getArchives();
-    this.types = [
-      {label: 'POINT', value: 'Point'},
-      {label: 'BORDEREAU', value: 'Bordereau'},
-    ]
+    // this.types = [
+    //   {label: 'POINT', value: 'Point'},
+    //   {label: 'BORDEREAU', value: 'Bordereau'},
+    // ]
   }
 
   getArchives(){
@@ -58,7 +58,12 @@ export class ArchiveComponent {
   }
   
   saveArchive(){
-
+    if(sessionStorage.getItem('profile')=='geologie'){
+      this.newArchive.archiveType = "Point"
+    }
+    else{
+      this.newArchive.archiveType = "Bordereau"
+    }
     this.archiveService.saveArchive(this.newArchive).subscribe(
       archive => {
         console.log(archive);

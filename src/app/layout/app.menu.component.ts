@@ -42,7 +42,7 @@ export class AppMenuComponent implements OnInit {
                     items: [
                         { label: 'Bordereaux', icon: 'pi pi-fw pi-id-card', routerLink: ['/centre/bordereau'] },
                         { label: 'Elements', icon: 'pi pi-fw pi-id-card', routerLink: ['/centre/element'] },
-                               
+                        { label: 'Archive', icon: 'pi pi-fw pi-id-card', routerLink: ['/geologie/archive'] },          
                     ]
                 },
             ]
