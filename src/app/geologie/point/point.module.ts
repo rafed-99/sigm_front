@@ -52,6 +52,14 @@ import {RadioButtonModule} from 'primeng/radiobutton';
   providers:[
     // ConfirmationService,
     MessageService
+  ],
+  exports:[
+    PointComponent,
+    DetailPointComponent,
+    GeologiesComponent,
+    EchantillonComponent,
+    DetailEchantillonComponent,
+    AnalyseComponent
   ]
 })
 export class PointModule { }

@@ -2,7 +2,10 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Archive } from 'src/app/model/archive';
+import { Point } from 'src/app/model/point';
 import { ArchiveService } from 'src/app/services/archive.service';
+import { PointService } from 'src/app/services/point.service';
+import { PointModule } from '../point/point.module';
 
 @Component({
   selector: 'app-archive',
@@ -12,7 +15,7 @@ import { ArchiveService } from 'src/app/services/archive.service';
 })
 export class ArchiveComponent {
 
-  constructor(private archiveService : ArchiveService, private messageService : MessageService){}
+  constructor(private archiveService : ArchiveService, private messageService : MessageService,private pointService:PointService, private pointModule:PointModule){}
 
   @ViewChild('filter') filter!: ElementRef;
   archives : Archive[]=[];
@@ -24,7 +27,16 @@ export class ArchiveComponent {
   types ?: any[];
   currentArchive = new Archive();
   filterArchive : Archive[] = [];
+  detailON=false;
+  detailBordereauArchiveOn=false
+  archiveDetailButton ?: boolean = false;
+  selectedArchive =new Archive();
+  filterPoint : Point[] = []
 
+  archiveId?:number;
+
+  
+  archive?:Archive;
   ngOnInit() :void{
     // this.getArchives();
     // this.types = [
@@ -32,6 +44,7 @@ export class ArchiveComponent {
     //   {label: 'BORDEREAU', value: 'Bordereau'},
     // ]
     this.getArchivesFilter();
+    // this.showArchiveById(this.archive!)
   }
 
   getArchives(){
@@ -152,4 +165,24 @@ export class ArchiveComponent {
      this.newArchive = {}
   }
 
+  showArchiveById(archive:Archive){
+    if(archive.archiveType=='Point')
+    { 
+      this.detailON=true;
+    }
+    else{
+      this.detailBordereauArchiveOn=true
+    }
+
+    this.archiveId=archive.archiveId
+       
+  }
+
+  closepoint(isopen : boolean){
+    this.detailON = !isopen;
+  }
+
+  closebordereau(isopen : boolean){
+    this.detailBordereauArchiveOn = !isopen
+  }
 }

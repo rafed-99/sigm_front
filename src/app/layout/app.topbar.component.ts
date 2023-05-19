@@ -17,7 +17,14 @@ export class AppTopBarComponent {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
+    profile :string = ""
+
     constructor(public layoutService: LayoutService , private router:Router) { }
+
+    ngOnInit() : void{
+        
+        this.profile = sessionStorage.getItem("profile")!;
+    }
 
     Logout(){
         sessionStorage.clear();

@@ -51,10 +51,11 @@ export class EchantillonComponent {
   selectedUrgency ?:string;
   checkSelectedEchantillon ?: boolean;
   echantillonsToSend : Echantillon[] = []
+  modeArchive = false;
 
   ngOnInit() : void{
     console.log('NG ONINIT');
-    
+    this.modeArchive=this.detailPointComponent.modeArchive;
     
     this.etatEchantillons = [
       {label: 'NOUVEAU', value: 'Nouveau'},

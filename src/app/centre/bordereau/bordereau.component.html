@@ -1,3 +1,4 @@
+<p-button label="Retour To Archives" icon="pi pi-arrow-left" iconPos="left" (click)="retourToArchive()"></p-button>
 <div class="card">
     <h5>Receipt Management</h5>
     <p-table #dt1 [value]="bordereaux" [(selection)]="selectedBordereau" dataKey="bordereauId" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['archiveLibelle','archiveDate','archiveType']" responsiveLayout="scroll">
@@ -5,7 +6,7 @@
         <ng-template pTemplate="caption" >
             <div class="flex justify-content-between flex-column sm:flex-row">
                 
-                    <button pButton label="Send to Archive" class="p-button-outlined mb-2" icon="pi pi-save" (click)="openDialogArchive()" [disabled]="buttonSendCondition()"></button>
+                    <button pButton label="Send to Archive" class="p-button-outlined mb-2" icon="pi pi-save" (click)="openDialogArchive()" [disabled]="buttonSendCondition()" *ngIf="!modeArchive"></button>
                 
                 
                 <span class="p-input-icon-left mb-2">
@@ -18,7 +19,7 @@
         <ng-template pTemplate="header" >
             
             <tr>
-                <th style="width: 4rem">
+                <th style="width: 4rem" *ngIf="!modeArchive">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
                 <th style="min-width: 8rem">
@@ -56,11 +57,7 @@
                         Reception Date
                     </div>
                 </th>
-                <th style="min-width: 8rem">
-                    <div class="flex justify-content-between align-items-center">
-                        Archive
-                    </div>
-                </th>
+                
                 
                
             </tr>
@@ -68,7 +65,7 @@
         <ng-template pTemplate="body" let-bordereau>
             
             <tr>
-                <td>
+                <td *ngIf="!modeArchive">
                     <p-tableCheckbox [value]="bordereau" ></p-tableCheckbox>
                     </td>
                 <td>
@@ -92,14 +89,9 @@
                 <td>
                     {{bordereau.dateReception | date : 'dd/MM/yyyy'}}
                 </td>
+                
                 <td>
-                    <div *ngIf="bordereau.archive">
-                        {{bordereau.archive.archiveLibelle}}
-                    </div>
-                    
-                </td>
-                <td>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteNew(bordereau)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteNew(bordereau)" *ngIf="!modeArchive"></button>
                 </td>
                 
                 

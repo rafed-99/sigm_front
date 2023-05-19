@@ -39,4 +39,7 @@ export class PointService {
     return this._http.get<Point[]>(apiURl+"/point/showpoint/"+id)
   }
 
+  retrievePointByArchive(idArchive : number):Observable<Point[]>{
+    return this._http.get<Point[]>(apiURl+"/point/showpointbyarchive/"+idArchive)
+  }
 }

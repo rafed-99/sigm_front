@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ArchiveComponent } from 'src/app/geologie/archive/archive.component';
 import { Archive } from 'src/app/model/archive';
 import { Bordereau } from 'src/app/model/bordereau';
 import { ArchiveService } from 'src/app/services/archive.service';
 import { BordereauService } from 'src/app/services/bordereau.service';
+
 
 @Component({
   selector: 'app-bordereau',
@@ -12,6 +14,13 @@ import { BordereauService } from 'src/app/services/bordereau.service';
 export class BordereauComponent {
 
   constructor(private bordereauService : BordereauService, private archiveService : ArchiveService){}
+
+  @Input()
+  archiveId ?:number;
+
+  @Output()
+  fermer : EventEmitter<boolean>  = new EventEmitter()
+
 
   bordereaux : Bordereau[] = [];
   deleteDialog ?: boolean;
@@ -26,10 +35,19 @@ export class BordereauComponent {
   a = new Bordereau()
   checkButton ?: boolean
   currentArchive ?:Archive;
-
+  modeArchive : boolean = false;
   ngOnInit() : void{
-    this.retrieveBordereaux();
-    this.retrieveArchives();
+
+    if(this.archiveId){
+      this.modeArchive=true;
+    }
+    if(!this.modeArchive){
+      this.retrieveBordereaux();
+      this.retrieveArchives();
+    }else{
+      this.filterBordereauByArchive()
+    }
+    
   }
 
   retrieveBordereaux(){
@@ -137,7 +155,7 @@ export class BordereauComponent {
           console.log("this.selectedBordereau! ", this.selectedBordereau!);
           
           console.log("update : ",data);
-          
+          // this.bordereaux.splice(this.bordereaux.indexOf(this.selectedPoints[i]),1);
         }
       )
     
@@ -162,6 +180,21 @@ export class BordereauComponent {
       this.checkButton = false;
     }
     return this.checkButton
+  }
+
+  filterBordereauByArchive(){
+    if(sessionStorage.getItem("profile")=="centre"){
+    this.bordereauService.retrieveBordereauxByArchive(this.archiveId!).subscribe(
+      data=>{
+        this.bordereaux=data
+        
+      }
+    )
+    }
+  }
+
+  retourToArchive(){
+    this.fermer.emit(true)
   }
   
 }

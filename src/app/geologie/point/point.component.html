@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-
+<p-button label="Retour To Archives" icon="pi pi-arrow-left" iconPos="left" (click)="retourToArchive()" *ngIf="modeArchive"></p-button>
 <app-detail-point *ngIf="detailPointON===true" [point]="selectedPoint" class="d-flex"></app-detail-point>
 
 <!-- table -->
@@ -10,8 +10,8 @@
             
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
-                    <button pButton label="Add" class="p-button-outlined mb-2" icon="pi pi-plus" (click)="openNew()" ></button>
-                    <button pButton label="Send to Archive" class="p-button-outlined mb-2" icon="pi pi-save" (click)="openArchivePoint()" [disabled]="buttonCondition()"></button>
+                    <button pButton label="Add" class="p-button-outlined mb-2" icon="pi pi-plus" (click)="openNew()" *ngIf="!modeArchive"></button>
+                    <button pButton label="Send to Archive" class="p-button-outlined mb-2" icon="pi pi-save" (click)="openArchivePoint()" [disabled]="buttonCondition()" ></button>
                     <span class="p-input-icon-left mb-2">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword" class="w-full"/>
@@ -21,7 +21,7 @@
             
             <ng-template pTemplate="header">
                 <tr>
-                    <th style="width: 4rem">
+                    <th style="width: 4rem" *ngIf="!modeArchive">
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
                     <th style="min-width: 12rem">
@@ -29,7 +29,7 @@
                             Hole Id
                         </div>
                     </th>
-                    <!-- <th style="min-width: 12rem">
+                    <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                             X
                         </div>
@@ -43,7 +43,7 @@
                         <div class="flex justify-content-between align-items-center">
                             Z
                         </div>
-                    </th> -->
+                    </th>
                     <th style="min-width: 10rem">
                         <div class="flex justify-content-between align-items-center">
                             Take on consideration
@@ -53,13 +53,13 @@
             </ng-template>
             <ng-template pTemplate="body" let-point>
                 <tr>
-                    <td>
+                    <td *ngIf="!modeArchive">
                         <p-tableCheckbox [value]="point" ></p-tableCheckbox>
                         </td>
                     <td>
                         {{point.holeId}}
                     </td>
-                    <!-- <td>
+                    <td>
                         {{point.x}}
                     </td>
                     <td>
@@ -67,13 +67,13 @@
                     </td>
                     <td>
                         {{point.z}}
-                    </td> -->
+                    </td>
                     <td>
                         <p-checkbox [(ngModel)]="point.exportGis" [binary]="true" inputId="binary" [disabled]="true"></p-checkbox>
                     </td>
                     <td>
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editPoint(point)"></button> 
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletePoint(point)"></button>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editPoint(point)" *ngIf="!modeArchive"></button> 
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletePoint(point)" *ngIf="!modeArchive"></button>
                         <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info" (click)="showPointById(point)"></button>
                     </td>
                     

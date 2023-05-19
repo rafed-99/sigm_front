@@ -3,10 +3,10 @@
         
         <ng-template pTemplate="caption">
             <div class="flex justify-content-between flex-column sm:flex-row">
-                <button pButton label="Add" class="p-button-outlined mb-2" icon="pi pi-plus" (click)="openNew()"  ></button>
+                <button pButton label="Add" class="p-button-outlined mb-2" icon="pi pi-plus" (click)="openNew()" *ngIf="!modeArchive" ></button>
                 <span class="p-input-icon-left mb-2">
                     <i class="pi pi-search"></i>
-                    <input pInputText type="text" #filter  placeholder="Search Keyword" class="w-full"/>
+                    <input pInputText type="text" #filter  placeholder="Search Keyword" class="w-full" />
                 </span>
             </div>
         </ng-template>
@@ -67,9 +67,9 @@
                     {{geologie.descriptionLithologique}}
                 </td>
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editGeologie(geologie)"></button> 
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteGeologie(geologie)"></button>
-                    <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-info" (click)="needGeologie(geologie)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editGeologie(geologie)" *ngIf="!modeArchive"></button> 
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteGeologie(geologie)" *ngIf="!modeArchive"></button>
+                    <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-info" (click)="needGeologie(geologie)" *ngIf="!modeArchive"></button>
                 </td>
             </tr>
         </ng-template>

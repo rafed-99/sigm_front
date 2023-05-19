@@ -24,6 +24,9 @@ import { DropdownModule } from 'primeng/dropdown';
     DialogModule,
     FormsModule,
     DropdownModule,
+  ],
+  exports:[
+    BordereauComponent
   ]
 })
 export class BordereauModule { }

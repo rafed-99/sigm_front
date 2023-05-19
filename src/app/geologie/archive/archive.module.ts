@@ -11,11 +11,13 @@ import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { PointModule } from '../point/point.module';
+import { BordereauModule } from 'src/app/centre/bordereau/bordereau.module';
 
 
 @NgModule({
   declarations: [
-    ArchiveComponent
+    ArchiveComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +29,8 @@ import { MessageService } from 'primeng/api';
     FormsModule,
     DropdownModule,
     ToastModule,
+    PointModule,
+    BordereauModule
   ],
   providers: [
     MessageService

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, Input, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -8,15 +8,25 @@ import { Point } from 'src/app/model/point';
 import { ArchiveService } from 'src/app/services/archive.service';
 import { GisementService } from 'src/app/services/gisement.service';
 import { PointService } from 'src/app/services/point.service';
+import { ArchiveComponent } from '../archive/archive.component';
+
 
 @Component({
   selector: 'app-point',
   templateUrl: './point.component.html',
   styleUrls: ['./point.component.scss']
 })
+
 export class PointComponent {
 
   constructor(private pointService : PointService , private archiveService : ArchiveService, private route : ActivatedRoute,private router:Router, private messageService : MessageService){}
+ 
+  @Input()
+  archiveId ?:number;
+
+  @Output()
+  fermer_points: EventEmitter<boolean> = new EventEmitter();
+
   @ViewChild('filter') filter!: ElementRef;
   points : Point[]=[];
   newPoint = new Point();
@@ -33,37 +43,50 @@ export class PointComponent {
   exportGis?: boolean ;
   idGisement="0";
   
+  modeArchive : boolean = false;
   detailPointON=false;
   selectedPoint:Point=new Point();
+  
   selectedPoints : Point[] = []
   buttonCheck ?: boolean;
   openArchiveModal ?: boolean
   archives ?: Archive[]
   filterArchives ?: Archive[] = []
   currentArchive ?: Archive;
+
+  filterPointByArchive ?:Point[] = []
   
 
   ngOnInit() :void {
-
-    // this.getPoints();
-    this.idGisement=this.router.url.split('/')[this.router.url.split('/').length-1];
+    if(this.archiveId){
+      this.modeArchive=true;
+    }
+if(!this.modeArchive){
+  this.idGisement=this.router.url.split('/')[this.router.url.split('/').length-1];
     
-    console.log('idGisement :', this.idGisement);
-    
-    this.getPointsByGisement(this.idGisement);
-    this.systemeCordonnees=[
-      {label: 'UTM', value: 'UTM'},
-      {label: 'GEOGRAPHIQUE', value: 'Geographique'},
-      {label: 'PLANES', value: 'Planes'},
-    ];
-    this.typePoint=[
-      {label: 'SONDAGE', value: 'Sondage'},
-      {label: 'TRANCHE', value: 'Tranche'},
-      {label: 'PUIT', value: 'Puit'},
-      {label: 'SOIGNE', value: 'Soigne'},
-    ]
+  console.log('idGisement :', this.idGisement);
+  
+  this.getPointsByGisement(this.idGisement);
+  this.systemeCordonnees=[
+    {label: 'UTM', value: 'UTM'},
+    {label: 'GEOGRAPHIQUE', value: 'Geographique'},
+    {label: 'PLANES', value: 'Planes'},
+  ];
+  this.typePoint=[
+    {label: 'SONDAGE', value: 'Sondage'},
+    {label: 'TRANCHE', value: 'Tranche'},
+    {label: 'PUIT', value: 'Puit'},
+    {label: 'SOIGNE', value: 'Soigne'},
+  ]
 
-    this.getArchives();
+  this.getArchives();
+}
+// Mode Archive
+else{
+  this.GetPointsByArchive();
+
+}
+
   }
 
   // getPoints(){
@@ -95,7 +118,10 @@ export class PointComponent {
     this.pointService.retrievePointsByGisement(parseInt(idGisement)).subscribe(data => {
       this.points = data;
       this.points.sort((a, b) => a.pointId! > b.pointId! ? 1 : -1);
-
+      this.points=this.points.filter(point=>{
+        return (!point.archive);
+      })
+      
       console.log(data);
     })
   }
@@ -212,10 +238,26 @@ export class PointComponent {
         data =>{
         
         console.log("data ", data)
-        
+        this.points.splice(this.points.indexOf(this.selectedPoints[i]),1);
       })
     }
     this.openArchiveModal = false;
     this.selectedPoints = []
+  }
+
+  GetPointsByArchive(){
+    if(sessionStorage.getItem("profile")=="geologie"){
+      this.pointService.retrievePointByArchive(this.archiveId!).subscribe(
+        data=>{
+          this.points=data
+          console.log(data);
+          
+        }
+      )
+    }
+  }
+
+  retourToArchive(){
+    this.fermer_points.emit(true)
   }
 }

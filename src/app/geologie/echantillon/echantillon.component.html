@@ -5,11 +5,11 @@
         
         <ng-template pTemplate="caption">
             <div class="flex justify-content-between flex-column sm:flex-row">
-                <button pButton label="Add" class="p-button-outlined mb-2" icon="pi pi-plus" (click)="openNew()"  ></button>
+                <button pButton label="Add" class="p-button-outlined mb-2" icon="pi pi-plus" (click)="openNew()" *ngIf="!modeArchive" ></button>
                 <!-- <a href="C:\ReportSigm\bordereau1.pdf" target="_blank">
                     <button>Send To Receipt Management</button>
                 </a> -->
-                <button pButton label="Send" class="p-button-outlined mb-2" icon="pi pi-send" (click)="openSend()" [disabled]="buttonSendCondition()"></button>
+                <button pButton label="Send" class="p-button-outlined mb-2" icon="pi pi-send" (click)="openSend()" [disabled]="buttonSendCondition()" *ngIf="!modeArchive"></button>
                 <span class="p-input-icon-left mb-2">
                     
                     <i class="pi pi-search"></i>
@@ -21,7 +21,7 @@
         
         <ng-template pTemplate="header">
             <tr>
-                <th style="width: 4rem">
+                <th style="width: 4rem" *ngIf="!modeArchive">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
                 <th style="min-width: 4rem">
@@ -70,7 +70,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-resultatAnalyses>
             <tr>
-                <td>
+                <td *ngIf="!modeArchive">
                 <p-tableCheckbox [value]="resultatAnalyses" ></p-tableCheckbox>
                 </td>
                 <td>
@@ -113,8 +113,8 @@
                     {{col.valeurAnalyse}}
                 </td> -->
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editEchantillon(resultatAnalyses.echantillon)"></button> 
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteEchantillon(resultatAnalyses.echantillon)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editEchantillon(resultatAnalyses.echantillon)" *ngIf="!modeArchive"></button> 
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteEchantillon(resultatAnalyses.echantillon)" *ngIf="!modeArchive"></button>
                     <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info" (click)="echantillonDetails(resultatAnalyses.echantillon)"></button>
                 </td>
             </tr>

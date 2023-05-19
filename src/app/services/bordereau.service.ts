@@ -30,4 +30,8 @@ export class BordereauService {
   archiveBordereaux(bordereaux : Bordereau[]):Observable<any>{
     return this._http.put<any>(apiURl+"/bordereau/updatebord",bordereaux)
   }
+
+  retrieveBordereauxByArchive(idArchive : number):Observable<Bordereau[]>{
+    return this._http.get<Bordereau[]>(apiURl+"/bordereau/getbordereaubyarchive/"+idArchive)
+  }
 }

@@ -34,13 +34,13 @@ export class GeologiesComponent {
   echantillons : Echantillon[] = []
   @Input()
   geologies : Geologie[]=[]
-  
+  modeArchive = false;
   
 
   ngOnInit() : void{
     this.idPoint = this.detailPointComponent.point?.pointId?.toString()!;
     // this.idPoint = this.router.url.split("/")[this.router.url.split("/").length-1]
-
+    this.modeArchive = this.detailPointComponent.modeArchive;
     
       
     

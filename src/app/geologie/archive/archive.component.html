@@ -1,5 +1,9 @@
 <p-toast></p-toast>
-<div class="col-12">
+<!-- <app-detail-archive *ngIf="archiveDetailButton===true" [archive]="selectedArchive" class="d-flex"></app-detail-archive> -->
+<app-point *ngIf="detailON===true" [archiveId]="archiveId" (fermer_points)="closepoint($event)"></app-point>
+<app-bordereau *ngIf="detailBordereauArchiveOn===true" [archiveId]="archiveId" (fermer)="closebordereau($event)"></app-bordereau>
+<!-- <div class="col-12" *ngIf="archiveDetailButton===false"> -->
+<div class="col-12" *ngIf="detailON===false && detailBordereauArchiveOn===false">
     <div class="card">
         <h5>Archives Management</h5>
         <p-table #dt1 [value]="filterArchive!" dataKey="id" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['archiveLibelle','archiveDate','archiveType']" responsiveLayout="scroll">
@@ -49,6 +53,7 @@
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editNew(archive)" ></button> 
                          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteNew(archive)"></button>
+                         <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info" (click)="showArchiveById(archive)"></button>
                     </td>
                     
                     

@@ -27,11 +27,13 @@ export class DetailPointComponent implements OnInit{
   geologiee: Geologie[] = [];
   echantillones : Echantillon[] = [];
   Tabindex:number=0;
+  modeArchive = false;
   constructor( @Inject (PointComponent) private pointComponent:PointComponent, private pointService : PointService, private geologieService : GeologieService){
    
   }
   
   ngOnInit(): void {
+    this.modeArchive = this.pointComponent.modeArchive;
     this.points.push(this.point!);
     console.log(this.point!);
     
