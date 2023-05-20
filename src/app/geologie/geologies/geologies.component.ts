@@ -1,5 +1,4 @@
 import { Component, Inject, Input } from '@angular/core';
-import { Router } from '@angular/router';
 import { Geologie } from 'src/app/model/geologie';
 import { GeologieService } from 'src/app/services/geologie.service';
 import { DetailPointComponent } from '../point/detail-point/detail-point.component';
@@ -7,6 +6,7 @@ import { CoucheService } from 'src/app/services/couche.service';
 import { Couche } from 'src/app/model/couche';
 import { EchantillonService } from 'src/app/services/echantillon.service';
 import { Echantillon } from 'src/app/model/echantillon';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-geologies',
@@ -15,7 +15,7 @@ import { Echantillon } from 'src/app/model/echantillon';
 })
 export class GeologiesComponent {
   
-  constructor(private router : Router , private geologieService : GeologieService, @Inject (DetailPointComponent) private detailPointComponent:DetailPointComponent , private coucheService : CoucheService, private echantillonService : EchantillonService ,){}
+  constructor(private geologieService : GeologieService, @Inject (DetailPointComponent) private detailPointComponent:DetailPointComponent , private coucheService : CoucheService, private echantillonService : EchantillonService ,private messageService : MessageService){}
 
   idPoint:string = "";
   addDialog !: boolean;
@@ -107,7 +107,7 @@ export class GeologiesComponent {
       geo=>{
         console.log(geo);
         this.geologies.push(geo)
-        
+        this.messageService.add({severity:'success', summary:'Geology', detail:'Added with success' , life:3000})
       }
     )
     this.addDialog = false;
@@ -140,7 +140,8 @@ export class GeologiesComponent {
           data => {
             console.warn("echantillons : *** ",this.echantillons);
             console.log("data : ", data );
-            this.echantillons.push(data);
+            this.echantillons.push(this.newEchantillon);
+            this.messageService.add({severity:'success', summary:'Sample', detail:'Added with success' , life:3000})
             console.log("this.echantillons.push(data) " , this.echantillons.push(data))
           }
         )
@@ -192,8 +193,8 @@ export class GeologiesComponent {
 
   updateGeologie(geologie : Geologie){
     this.geologieService.updateGeologie(geologie).subscribe(
-      {
-
+      ()=>{
+        this.messageService.add({severity:'info', summary:'Geology '+geologie.geologieId, detail:'Updated with success' , life:3000})
       }
     )
     this.editDialog = false;
@@ -214,6 +215,7 @@ export class GeologiesComponent {
     this.geologieService.deleteGeologie(this.currentGeologie.geologieId!).subscribe(
       () =>
       {
+        this.messageService.add({severity:'error', summary:'Geology'+this.currentGeologie.geologieId, detail:'Deleted with success' , life:3000})
         this.geologies.forEach((element,index)=>{
           if(element.geologieId==this.currentGeologie.geologieId!) this.geologies.splice(index,1);
        });

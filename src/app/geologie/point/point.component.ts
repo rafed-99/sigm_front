@@ -6,10 +6,7 @@ import { Archive } from 'src/app/model/archive';
 import { Gisement } from 'src/app/model/gisement';
 import { Point } from 'src/app/model/point';
 import { ArchiveService } from 'src/app/services/archive.service';
-import { GisementService } from 'src/app/services/gisement.service';
 import { PointService } from 'src/app/services/point.service';
-import { ArchiveComponent } from '../archive/archive.component';
-
 
 @Component({
   selector: 'app-point',

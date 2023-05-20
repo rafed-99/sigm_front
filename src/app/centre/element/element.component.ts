@@ -88,7 +88,7 @@ export class ElementComponent {
     this.elementService.deleteElement(this.currentElement.elementId!).subscribe(
       ()=>{
         this.messageService.add({severity:'error', summary:'Element '+this.currentElement.elementCode, detail:'Deleted with success' , life:3000});
-      this.elements.forEach((a,index)=>{
+        this.elements.forEach((a,index)=>{
         if(a.elementId==this.currentElement.elementId!) this.elements.splice(index,1);
      });
   })

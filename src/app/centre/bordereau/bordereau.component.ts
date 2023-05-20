@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { ArchiveComponent } from 'src/app/geologie/archive/archive.component';
 import { Archive } from 'src/app/model/archive';
 import { Bordereau } from 'src/app/model/bordereau';
@@ -13,7 +14,7 @@ import { BordereauService } from 'src/app/services/bordereau.service';
 })
 export class BordereauComponent {
 
-  constructor(private bordereauService : BordereauService, private archiveService : ArchiveService){}
+  constructor(private bordereauService : BordereauService, private archiveService : ArchiveService, private messageService: MessageService){}
 
   @Input()
   archiveId ?:number;
@@ -95,6 +96,7 @@ export class BordereauComponent {
   deleteBordereau(){
     this.bordereauService.deleteBordereau(this.currentBordereau.bordereauId!).subscribe(
       ()=>{
+        this.messageService.add({severity:'error', summary:'Receipt '+this.currentBordereau.bordereauCode, detail:'Deleted with success' , life:3000});
         this.bordereaux.forEach((a,index)=>{
         if(a.bordereauId == this.currentBordereau.bordereauId!) this.bordereaux.splice(index,1);
      });
@@ -187,7 +189,6 @@ export class BordereauComponent {
     this.bordereauService.retrieveBordereauxByArchive(this.archiveId!).subscribe(
       data=>{
         this.bordereaux=data
-        
       }
     )
     }

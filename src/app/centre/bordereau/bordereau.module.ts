@@ -9,6 +9,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 
 @NgModule({
@@ -24,9 +26,13 @@ import { DropdownModule } from 'primeng/dropdown';
     DialogModule,
     FormsModule,
     DropdownModule,
+    ToastModule
   ],
   exports:[
     BordereauComponent
+  ],
+  providers:[
+    MessageService
   ]
 })
 export class BordereauModule { }

@@ -11,6 +11,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { BordereauService } from 'src/app/services/bordereau.service';
 import { Bordereau } from 'src/app/model/bordereau';
 import {saveAs} from 'file-saver';
+import { MessageService } from 'primeng/api';
 class AnalyseResult{
   echantillon?:Echantillon;
   analyseList?:Analyse[];
@@ -22,7 +23,7 @@ class AnalyseResult{
 })
 export class EchantillonComponent {
 
-  constructor(private echantillonService : EchantillonService, @Inject(DetailPointComponent) private detailPointComponent : DetailPointComponent, private geologieService : GeologieService, private analyseService: AnalyseService , private bordereauService : BordereauService){}
+  constructor(private echantillonService : EchantillonService, @Inject(DetailPointComponent) private detailPointComponent : DetailPointComponent, private geologieService : GeologieService, private analyseService: AnalyseService , private bordereauService : BordereauService, private messageService : MessageService){}
 
   @ViewChild('filter') filter!: ElementRef;
   newEchantillon :Echantillon = new Echantillon();
@@ -272,6 +273,7 @@ retrieveAnalyses2(){
         let analyseResult = new AnalyseResult()
         analyseResult.echantillon = echantillon;
         this.resultatAnalysesList.push(analyseResult);
+        this.messageService.add({severity :"success", summary:"Sample", detail:"Added with success", life : 3000})
       }
     )
     this.addDialog = false;
@@ -290,7 +292,11 @@ retrieveAnalyses2(){
   }
 
   updateEchantillon(echantillon : Echantillon){
-    this.echantillonService.updateEchantillon(echantillon).subscribe()
+    this.echantillonService.updateEchantillon(echantillon).subscribe(
+      ()=>{
+        this.messageService.add({severity :"info", summary:"Sample "+echantillon.echantillonId, detail:"Updated with success", life : 3000})
+      }
+    )
     this.editDialog = false;
     this.newEchantillon = {}
   }
@@ -308,6 +314,7 @@ retrieveAnalyses2(){
   eraseEchantillon(){
     this.echantillonService.deleteEchantillon(this.currentEchantillon.echantillonId!).subscribe(
       () => {
+        this.messageService.add({severity :"error", summary:"Sample "+this.currentEchantillon.echantillonId, detail:"Deleted with success", life : 3000})
         this.resultatAnalysesList.forEach((element,index)=>{
           if(element.echantillon!.echantillonId==this.currentEchantillon.echantillonId!) this.resultatAnalysesList.splice(index,1);
        });
@@ -372,6 +379,7 @@ retrieveAnalyses2(){
         this.bordereau = data;
         this.echantillonService.envoyerEchantillonList(this.bordereau.bordereauId!,this.echantillonsToSend!).subscribe(
           {next:          response => {
+            this.messageService.add({severity :"success", summary:"Receipt "+this.bordereau.bordereauCode, detail:"Added with success", life : 3000})
             const blob = new Blob([response], { type: 'application/pdf' });
            
             // let fileName='RAfedBord';

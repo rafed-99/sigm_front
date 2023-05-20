@@ -4,8 +4,6 @@ import { Table } from 'primeng/table';
 import { Archive } from 'src/app/model/archive';
 import { Point } from 'src/app/model/point';
 import { ArchiveService } from 'src/app/services/archive.service';
-import { PointService } from 'src/app/services/point.service';
-import { PointModule } from '../point/point.module';
 
 @Component({
   selector: 'app-archive',
@@ -15,7 +13,7 @@ import { PointModule } from '../point/point.module';
 })
 export class ArchiveComponent {
 
-  constructor(private archiveService : ArchiveService, private messageService : MessageService,private pointService:PointService, private pointModule:PointModule){}
+  constructor(private archiveService : ArchiveService, private messageService : MessageService){}
 
   @ViewChild('filter') filter!: ElementRef;
   archives : Archive[]=[];
