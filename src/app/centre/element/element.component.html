@@ -1,8 +1,8 @@
+<p-toast></p-toast>
 <div class="col-12">
     <div class="card">
-        <h5>Archives Management</h5>
+        <h5>Element Management</h5>
         <p-table #dt1 [value]="elements" dataKey="id" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['archiveLibelle','archiveDate','archiveType']" responsiveLayout="scroll">
-            
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Add" class="p-button-outlined mb-2" icon="pi pi-plus" (click)="openNew()" ></button>
@@ -25,8 +25,6 @@
                             Element Libelle
                         </div>
                     </th>
-                    
-                   
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-element>
@@ -42,8 +40,6 @@
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editNew(element)" ></button> 
                          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteNew(element)"></button>
                     </td>
-                    
-                    
                 </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">

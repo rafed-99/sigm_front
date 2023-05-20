@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { Elementt } from 'src/app/model/elementt';
 import { ElementService } from 'src/app/services/element.service';
 
@@ -10,7 +11,7 @@ import { ElementService } from 'src/app/services/element.service';
 })
 export class ElementComponent {
 
-  constructor(private elementService : ElementService){}
+  constructor(private elementService : ElementService, private messageService : MessageService){}
 
   elements : Elementt[] = []
   newElement = new Elementt();
@@ -67,13 +68,18 @@ export class ElementComponent {
   addElement(){
     this.elementService.addElement(this.newElement).subscribe(element =>{
       this.elements.push(element);
+      this.messageService.add({severity:'success', summary:'Element', detail:'Added with success' , life:3000});
     });
     this.addDialog = false;
     this.newElement = {};
   }
 
   updateElement(){
-    this.elementService.updateElement(this.currentElement).subscribe()
+    this.elementService.updateElement(this.currentElement).subscribe(
+      ()=>{
+        this.messageService.add({severity:'info', summary:'Element', detail:'Updated with success' , life:3000});
+      }
+    )
     this.editDialog = false;
     this.newElement = {};
   }
@@ -81,6 +87,7 @@ export class ElementComponent {
   confirmDeleteElement(){
     this.elementService.deleteElement(this.currentElement.elementId!).subscribe(
       ()=>{
+        this.messageService.add({severity:'error', summary:'Element '+this.currentElement.elementCode, detail:'Deleted with success' , life:3000});
       this.elements.forEach((a,index)=>{
         if(a.elementId==this.currentElement.elementId!) this.elements.splice(index,1);
      });

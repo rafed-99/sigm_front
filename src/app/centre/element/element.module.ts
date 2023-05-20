@@ -8,6 +8,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { ElementComponent } from './element.component';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 
 @NgModule({
@@ -22,6 +24,10 @@ import { ElementComponent } from './element.component';
     InputTextModule,
     DialogModule,
     FormsModule,
+    ToastModule,
+  ],
+  providers:[
+    MessageService
   ]
 })
 export class ElementModule { }
