@@ -39,7 +39,7 @@ import { AppLayoutComponent } from "./app.layout.component";
         InputSwitchModule,
         RippleModule,
         RouterModule,
-        AppConfigModule
+        AppConfigModule,
     ],
     exports: [AppLayoutComponent]
 })

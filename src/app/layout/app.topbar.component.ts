@@ -23,7 +23,10 @@ export class AppTopBarComponent {
 
     ngOnInit() : void{
         
+        
         this.profile = sessionStorage.getItem("profile")!;
+        console.log(this.profile);
+        
     }
 
     Logout(){
