@@ -40,9 +40,9 @@ export class AppMenuComponent implements OnInit {
                 {
                     label: 'Centre',
                     items: [
-                        { label: 'Bordereaux', icon: 'pi pi-fw pi-id-card', routerLink: ['/centre/bordereau'] },
-                        { label: 'Elements', icon: 'pi pi-fw pi-id-card', routerLink: ['/centre/element'] },
-                        { label: 'Archive', icon: 'pi pi-fw pi-id-card', routerLink: ['/geologie/archive'] },          
+                        { label: 'Bordereaux', icon: 'pi pi-fw pi-ticket', routerLink: ['/centre/bordereau'] },
+                        { label: 'Elements', icon: 'pi pi-fw pi-book', routerLink: ['/centre/element'] },
+                        { label: 'Archive', icon: 'pi pi-fw pi-save', routerLink: ['/geologie/archive'] },          
                     ]
                 },
             ]
@@ -80,10 +80,10 @@ export class AppMenuComponent implements OnInit {
                 {
                     label: 'Geologie',
                     items: [
-                        { label: 'gisement', icon: 'pi pi-fw pi-id-card', routerLink: ['/geologie/gisement'] },
-                        { label: 'archive', icon: 'pi pi-fw pi-id-card', routerLink: ['/geologie/archive'] },
-                        { label: 'couche', icon: 'pi pi-fw pi-id-card', routerLink: ['/geologie/couche'] },
-                        { label: 'point', icon: 'pi pi-fw pi-id-card', items : 
+                        { label: 'gisement', icon: 'pi pi-fw pi-map', routerLink: ['/geologie/gisement'] },
+                        { label: 'archive', icon: 'pi pi-fw pi-save', routerLink: ['/geologie/archive'] },
+                        { label: 'couche', icon: 'pi pi-fw pi-align-justify', routerLink: ['/geologie/couche'] },
+                        { label: 'point', icon: 'pi pi-fw pi-map-marker', items : 
                             // {
                             //     label : 'metlaoui', items : [ 
                             //         {
