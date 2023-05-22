@@ -28,7 +28,7 @@ export class GisementService {
   }
 
   getGisementByID(gisementId : number): Observable<Gisement>{
-    return this._http.get<Gisement>(apiURl+"/gisement/showgisements/"+gisementId)
+    return this._http.get<Gisement>(apiURl+"/gisement/showgisement/"+gisementId)
   }
 
   deleteGisement(gisementId : number):Observable<Gisement>{

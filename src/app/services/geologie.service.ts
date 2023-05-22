@@ -34,4 +34,7 @@ export class GeologieService {
   deleteGeologie(idGeologie: number):Observable<Geologie>{
     return this._http.delete<Geologie>(apiURl+"/geologie/deletegeologie/"+idGeologie)
   }
+  exportExcel(id : number):Observable<Blob>{
+    return this._http.get(apiURl+"/geologie/exportexcelgeologie/"+id,{responseType:'blob'})
+  }
 }

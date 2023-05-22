@@ -35,11 +35,15 @@ export class PointService {
     return this._http.post<Point>(apiURl+"/point/addaffect/"+idGisement,point);
   }
 
-  retrievePointsById(id : number) : Observable<Point[]>{
-    return this._http.get<Point[]>(apiURl+"/point/showpoint/"+id)
+  retrievePointsById(id : number) : Observable<Point>{
+    return this._http.get<Point>(apiURl+"/point/showpoint/"+id)
   }
 
   retrievePointByArchive(idArchive : number):Observable<Point[]>{
     return this._http.get<Point[]>(apiURl+"/point/showpointbyarchive/"+idArchive)
+  }
+
+  exportExcel(id : number):Observable<Blob>{
+    return this._http.get(apiURl+"/point/exportexcelpoint/"+id,{responseType:'blob'})
   }
 }

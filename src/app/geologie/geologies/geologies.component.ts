@@ -7,6 +7,9 @@ import { Couche } from 'src/app/model/couche';
 import { EchantillonService } from 'src/app/services/echantillon.service';
 import { Echantillon } from 'src/app/model/echantillon';
 import { MessageService } from 'primeng/api';
+import { PointService } from 'src/app/services/point.service';
+import { Point } from 'src/app/model/point';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-geologies',
@@ -15,7 +18,7 @@ import { MessageService } from 'primeng/api';
 })
 export class GeologiesComponent {
   
-  constructor(private geologieService : GeologieService, @Inject (DetailPointComponent) private detailPointComponent:DetailPointComponent , private coucheService : CoucheService, private echantillonService : EchantillonService ,private messageService : MessageService){}
+  constructor(private geologieService : GeologieService, @Inject (DetailPointComponent) private detailPointComponent:DetailPointComponent , private coucheService : CoucheService, private echantillonService : EchantillonService ,private messageService : MessageService, private pointService : PointService){}
 
   idPoint:string = "";
   addDialog !: boolean;
@@ -35,6 +38,7 @@ export class GeologiesComponent {
   @Input()
   geologies : Geologie[]=[]
   modeArchive = false;
+  point = new Point();
   
 
   ngOnInit() : void{
@@ -240,4 +244,35 @@ export class GeologiesComponent {
     this.selectedGeologie = geologie;
   }
 
+  exportExcel(){
+    this.geologieService.exportExcel(parseInt(this.idPoint)).subscribe(
+      response => {
+        this.pointService.retrievePointsById(parseInt(this.idPoint)).subscribe(
+          data =>{
+            this.point = data;
+            console.warn(data);
+            
+            const blob = new Blob([response]);
+            FileSaver.saveAs(blob, "geologies "+this.point.holeId+".xls");
+          }
+        )
+
+        
+          //   let newVariable: any = window.navigator;
+          // if (newVariable && newVariable.msSaveOrOpenBlob) {
+            
+          //   newVariable.msSaveOrOpenBlob(blob);
+          //   return;
+          // }
+          // const data = window.URL.createObjectURL(blob);
+          // const link = document.createElement('a');
+          // link.href = data;
+          // link.target = '_blank'
+          // link.download = "pointsExcel"
+          // console.warn(link);
+
+          // link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+      }
+    )
+  }
 }

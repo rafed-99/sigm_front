@@ -1,11 +1,13 @@
 import { Component, ElementRef, EventEmitter, Inject, Input, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as FileSaver from 'file-saver';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Archive } from 'src/app/model/archive';
 import { Gisement } from 'src/app/model/gisement';
 import { Point } from 'src/app/model/point';
 import { ArchiveService } from 'src/app/services/archive.service';
+import { GisementService } from 'src/app/services/gisement.service';
 import { PointService } from 'src/app/services/point.service';
 
 @Component({
@@ -16,7 +18,7 @@ import { PointService } from 'src/app/services/point.service';
 
 export class PointComponent {
 
-  constructor(private pointService : PointService , private archiveService : ArchiveService, private route : ActivatedRoute,private router:Router, private messageService : MessageService){}
+  constructor(private pointService : PointService , private archiveService : ArchiveService, private route : ActivatedRoute,private router:Router, private messageService : MessageService, private gisementService : GisementService){}
  
   @Input()
   archiveId ?:number;
@@ -39,7 +41,7 @@ export class PointComponent {
   typePoint : any[]=[];
   exportGis?: boolean ;
   idGisement="0";
-  
+  gisement = new Gisement()
   modeArchive : boolean = false;
   detailPointON=false;
   selectedPoint:Point=new Point();
@@ -256,5 +258,37 @@ else{
 
   retourToArchive(){
     this.fermer_points.emit(true)
+  }
+
+  exportExcel(){
+    this.pointService.exportExcel(parseInt(this.idGisement)).subscribe(
+      response => {
+        this.gisementService.getGisementByID(parseInt(this.idGisement)).subscribe(
+          data =>{
+            this.gisement = data;
+            console.warn(data);
+            
+            const blob = new Blob([response]);
+            FileSaver.saveAs(blob, "points "+this.gisement.gisementLibelle+".xls");
+          }
+        )
+
+        
+          //   let newVariable: any = window.navigator;
+          // if (newVariable && newVariable.msSaveOrOpenBlob) {
+            
+          //   newVariable.msSaveOrOpenBlob(blob);
+          //   return;
+          // }
+          // const data = window.URL.createObjectURL(blob);
+          // const link = document.createElement('a');
+          // link.href = data;
+          // link.target = '_blank'
+          // link.download = "pointsExcel"
+          // console.warn(link);
+
+          // link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+      }
+    )
   }
 }
