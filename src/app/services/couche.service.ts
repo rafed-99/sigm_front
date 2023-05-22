@@ -27,5 +27,8 @@ export class CoucheService {
     return this._http.delete<Couche>(apiURl+"/couche/deletecouche/"+coucheId)
   }
 
+  exportExcel():Observable<Blob>{
+    return this._http.get(apiURl+"/couche/exportexcelcouche",{responseType:'blob'})
+  }
   // retrieveCoucheById()
 }

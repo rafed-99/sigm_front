@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import * as FileSaver from 'file-saver';
 import { MessageService } from 'primeng/api';
 import { Elementt } from 'src/app/model/elementt';
 import { ElementService } from 'src/app/services/element.service';
@@ -94,5 +95,15 @@ export class ElementComponent {
   })
     this.deleteDialog = false;
     this.newElement = {};
+  }
+
+  exportExcel(){
+    this.elementService.exportExcel().subscribe(
+      response => {
+        
+            const blob = new Blob([response]);
+            FileSaver.saveAs(blob, "elements.xls");
+          }
+        )
   }
 }

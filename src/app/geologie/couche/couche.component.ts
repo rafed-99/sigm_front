@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import * as FileSaver from 'file-saver';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Couche } from 'src/app/model/couche';
@@ -115,5 +116,30 @@ export class CoucheComponent {
     this.newCouche ={};
   }
 
+  exportExcel(){
+    this.coucheService.exportExcel().subscribe(
+      response => {
+        
+            const blob = new Blob([response]);
+            FileSaver.saveAs(blob, "layers.xls");
+          }
+        )
 
+        
+          //   let newVariable: any = window.navigator;
+          // if (newVariable && newVariable.msSaveOrOpenBlob) {
+            
+          //   newVariable.msSaveOrOpenBlob(blob);
+          //   return;
+          // }
+          // const data = window.URL.createObjectURL(blob);
+          // const link = document.createElement('a');
+          // link.href = data;
+          // link.target = '_blank'
+          // link.download = "pointsExcel"
+          // console.warn(link);
+
+          // link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+      }
+      
 }

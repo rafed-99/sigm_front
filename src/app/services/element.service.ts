@@ -27,4 +27,7 @@ export class ElementService {
   updateElement(element : Elementt):Observable<Elementt>{
     return this._http.put<Elementt>(apiURl + "/element/updateelement", element);
   }
+  exportExcel():Observable<Blob>{
+    return this._http.get(apiURl+"/element/exportexcelelement",{responseType:'blob'})
+  }
 }
