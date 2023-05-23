@@ -21,6 +21,11 @@
             <tr>
                 <th style="min-width: 12rem">
                     <div class="flex justify-content-between align-items-center">
+                        Id
+                    </div>
+                </th>
+                <th style="min-width: 12rem">
+                    <div class="flex justify-content-between align-items-center">
                         Layer
                     </div>
                 </th>
@@ -54,6 +59,9 @@
         </ng-template>
         <ng-template pTemplate="body" let-geologie>
             <tr>
+                <td>
+                    {{geologie.geologieId}}
+                </td>
                 <td>
                     {{geologie.couche.coucheCode}}
                 </td>

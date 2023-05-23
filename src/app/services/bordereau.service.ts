@@ -34,4 +34,8 @@ export class BordereauService {
   retrieveBordereauxByArchive(idArchive : number):Observable<Bordereau[]>{
     return this._http.get<Bordereau[]>(apiURl+"/bordereau/getbordereaubyarchive/"+idArchive)
   }
+
+  exportExcel():Observable<Blob>{
+    return this._http.get(apiURl+"/bordereau/exportexcelbordereau",{responseType:'blob'})
+  }
 }

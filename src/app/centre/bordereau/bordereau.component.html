@@ -6,14 +6,16 @@
         
         <ng-template pTemplate="caption" >
             <div class="flex justify-content-between flex-column sm:flex-row">
-                
+                    <div class="flex gap-2">
                     <button pButton label="Send to Archive" class="p-button-outlined mb-2" icon="pi pi-save" (click)="openDialogArchive()" [disabled]="buttonSendCondition()" *ngIf="!modeArchive"></button>
-                
-                
+                    <button pButton label="Export" class="p-button-outlined mb-2" icon="pi pi-file-excel" (click)="exportExcel()" ></button>
+                    </div>
+                    <div>
                 <span class="p-input-icon-left mb-2">
                     <i class="pi pi-search"></i> 
                     <input pInputText type="text" #filter  placeholder="Search Keyword" class="w-full"/> 
                 </span>
+            </div>
             </div>
         </ng-template> 
         

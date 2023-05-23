@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import * as FileSaver from 'file-saver';
 import { MessageService } from 'primeng/api';
 import { ArchiveComponent } from 'src/app/geologie/archive/archive.component';
 import { Archive } from 'src/app/model/archive';
@@ -196,6 +197,16 @@ export class BordereauComponent {
 
   retourToArchive(){
     this.fermer.emit(true)
+  }
+
+  exportExcel(){
+    this.bordereauService.exportExcel().subscribe(
+      response => {
+        
+            const blob = new Blob([response]);
+            FileSaver.saveAs(blob, "receipts.xls");
+          }
+        )
   }
   
 }
