@@ -40,4 +40,8 @@ export class EchantillonService {
     // return this.http.post(API_URL+'/echantillons/bordereau/report',listEchantillon,{responseType:'blob'});
     return this._http.post(apiURl+'/echantillon/bordereau/'+idbordereau+'/report',listEchantillon,{responseType:'blob'});
   }
+
+  exportExcel(id :number):Observable<Blob>{
+    return this._http.get(apiURl+"/echantillon/exportexcelechantillon/"+id,{responseType:'blob'})
+  }
 }

@@ -12,6 +12,7 @@ import { BordereauService } from 'src/app/services/bordereau.service';
 import { Bordereau } from 'src/app/model/bordereau';
 import {saveAs} from 'file-saver';
 import { MessageService } from 'primeng/api';
+import * as FileSaver from 'file-saver';
 class AnalyseResult{
   echantillon?:Echantillon;
   analyseList?:Analyse[];
@@ -418,5 +419,15 @@ retrieveAnalyses2(){
       
     console.log(this.bordereau);
     
+  }
+
+  exportExcel(){
+    this.echantillonService.exportExcel(parseInt(this.idPoint!)).subscribe(
+      response => {
+        
+            const blob = new Blob([response]);
+            FileSaver.saveAs(blob, "samples.xls");
+          }
+        )
   }
 }
