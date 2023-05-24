@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { EchantillonModule } from 'src/app/geologie/echantillon/echantillon.module';
+import { PointModule } from 'src/app/geologie/point/point.module';
 
 
 @NgModule({
@@ -26,7 +28,8 @@ import { ToastModule } from 'primeng/toast';
     DialogModule,
     FormsModule,
     DropdownModule,
-    ToastModule
+    ToastModule,
+    PointModule
   ],
   exports:[
     BordereauComponent

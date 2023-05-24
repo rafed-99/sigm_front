@@ -55,6 +55,8 @@ export class EchantillonComponent {
   echantillonsToSend : Echantillon[] = []
   modeArchive = false;
 
+  
+
   ngOnInit() : void{
     console.log('NG ONINIT');
     this.modeArchive=this.detailPointComponent.modeArchive;
@@ -430,4 +432,6 @@ retrieveAnalyses2(){
           }
         )
   }
+
+  
 }

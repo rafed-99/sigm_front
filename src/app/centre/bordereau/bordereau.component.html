@@ -72,7 +72,7 @@
                     <p-tableCheckbox [value]="bordereau" ></p-tableCheckbox>
                     </td>
                 <td>
-                    {{bordereau.bordereauCode}}
+                    <button pButton label="{{bordereau.bordereauCode}}" class="p-button-outlined mb-2" icon="pi pi-file-pdf" (click)="exportExistBordereau(bordereau)" ></button>
                 </td>
                 <td>
                     {{bordereau.dateEnvoi | date : 'dd/MM/yyyy'}}

@@ -38,4 +38,10 @@ export class BordereauService {
   exportExcel():Observable<Blob>{
     return this._http.get(apiURl+"/bordereau/exportexcelbordereau",{responseType:'blob'})
   }
+
+  retrieveEchantillonListFromBordereau(idbordereau:number):Observable<Blob>{
+
+    // return this.http.post(API_URL+'/echantillons/bordereau/report',listEchantillon,{responseType:'blob'});
+    return this._http.get(apiURl+'/echantillon/bordereau/report/'+idbordereau,{responseType:'blob'});
+  }
 }

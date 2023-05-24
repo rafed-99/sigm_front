@@ -208,5 +208,35 @@ export class BordereauComponent {
           }
         )
   }
+
+  exportExistBordereau(bordereauHtml :Bordereau){
+    console.log(this.currentBordereau.bordereauId!);
+    this.currentBordereau = bordereauHtml
+    
+    this.bordereauService.retrieveEchantillonListFromBordereau(this.currentBordereau.bordereauId!).subscribe(
+      response =>{
+        const blob = new Blob([response], { type: 'application/pdf' });
+           
+            // let fileName='RAfedBord';
+            // console.warn(fileName);
+            // const file=new File([blob],fileName, { type: 'application/pdf' })
+            // saveAs(file);
+
+            let newVariable: any = window.navigator;
+          if (newVariable && newVariable.msSaveOrOpenBlob) {
+            
+            newVariable.msSaveOrOpenBlob(blob);
+            return;
+          }
+          const data = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = data;
+          link.target = '_blank'
+          console.warn(link);
+
+          link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+      }
+    )
+  }
   
 }

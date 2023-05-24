@@ -11,6 +11,6 @@ import { EchantillonRoutingModule } from './echantillon-routing.module';
   imports: [
     CommonModule,
     EchantillonRoutingModule
-  ]
+  ],
 })
 export class EchantillonModule { }

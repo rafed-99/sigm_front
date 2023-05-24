@@ -44,4 +44,10 @@ export class EchantillonService {
   exportExcel(id :number):Observable<Blob>{
     return this._http.get(apiURl+"/echantillon/exportexcelechantillon/"+id,{responseType:'blob'})
   }
+
+  retrieveEchantillonByBordereau(id : number):Observable<Echantillon[]>{
+    return this._http.get<Echantillon[]>(apiURl+"/echantillon/showechantillonbybordereau/"+id)
+  }
+
+  
 }
