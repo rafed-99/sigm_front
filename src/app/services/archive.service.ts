@@ -27,4 +27,12 @@ export class ArchiveService {
   deleteArchive(archiveId : number):Observable<Archive>{
     return this._http.delete<Archive>(apiURl+"/archive/deletearchive/"+archiveId)
   }
+
+  exportArchiveByPoint():Observable<Blob>{
+    return this._http.get(apiURl+"/archive/exportexcelarchivepoint",{responseType:'blob'})
+  }
+
+  exportArchiveByBordereau():Observable<Blob>{
+    return this._http.get(apiURl+"/archive/exportexcelarchivebordereau",{responseType:'blob'})
+  }
 }

@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import * as FileSaver from 'file-saver';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Archive } from 'src/app/model/archive';
@@ -182,5 +183,26 @@ export class ArchiveComponent {
 
   closebordereau(isopen : boolean){
     this.detailBordereauArchiveOn = !isopen
+  }
+
+  exportExcel(){
+    if(sessionStorage.getItem("profile")=="geologie"){
+      this.archiveService.exportArchiveByPoint().subscribe(
+        response => {
+        
+          const blob = new Blob([response]);
+          FileSaver.saveAs(blob, "archivePoints.xls");
+        }
+      )
+    }
+    else{
+      this.archiveService.exportArchiveByBordereau().subscribe(
+        response => {
+        
+          const blob = new Blob([response]);
+          FileSaver.saveAs(blob, "archiveReceipts.xls");
+        }
+      )
+    }
   }
 }
