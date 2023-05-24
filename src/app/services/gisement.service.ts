@@ -34,4 +34,8 @@ export class GisementService {
   deleteGisement(gisementId : number):Observable<Gisement>{
     return this._http.delete<Gisement>(apiURl+"/gisement/deletegisement/"+gisementId)
   }
+
+  exportExcel():Observable<Blob>{
+    return this._http.get(apiURl+"/gisement/exportexcelgisements",{responseType:'blob'})
+  }
 }

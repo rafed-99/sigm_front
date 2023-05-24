@@ -4,6 +4,7 @@ import { Gisement } from 'src/app/model/gisement';
 import { GisementService } from 'src/app/services/gisement.service';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import * as FileSaver from 'file-saver';
 
 
 @Component({
@@ -138,6 +139,16 @@ confirmDeleteGisement(){
   
   this.deleteDialog = false;
   this.newGisement = {}
+}
+
+exportExcel(){
+  this.gisementService.exportExcel().subscribe(
+    response => {
+      
+          const blob = new Blob([response]);
+          FileSaver.saveAs(blob, "fields.xls");
+        }
+      )
 }
 
 }
