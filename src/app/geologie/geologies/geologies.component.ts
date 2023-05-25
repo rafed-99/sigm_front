@@ -152,7 +152,7 @@ export class GeologiesComponent {
 
       this.needDialog = false;
 
-      this.newEchantillon = {}
+      this.newEchantillon = new Echantillon()
       // console.warn( this.detailPointComponent.Tabindex);
 
       this.detailPointComponent.Tabindex=2;

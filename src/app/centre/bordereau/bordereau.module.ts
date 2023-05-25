@@ -13,11 +13,13 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { EchantillonModule } from 'src/app/geologie/echantillon/echantillon.module';
 import { PointModule } from 'src/app/geologie/point/point.module';
+import { DetailBordereauComponent } from './detail-bordereau/detail-bordereau.component';
 
 
 @NgModule({
   declarations: [
-    BordereauComponent
+    BordereauComponent,
+    DetailBordereauComponent
   ],
   imports: [
     CommonModule,

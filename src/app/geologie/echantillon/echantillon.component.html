@@ -171,16 +171,17 @@
 
 <p-dialog [(visible)]="editDialog" [style]="{width: '450px'}" header="Gisement Detail" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content" let-echantillon>
+        
         <div class="field">
             <label for="libelle">Geology / Layer</label>
-            <p-dropdown [(ngModel)]="currentEchantillon.geologie" inputId="geologie" [options]="geologies!" placeholder="Select" optionLabel="couche.coucheCode">
+            <p-dropdown [(ngModel)]="currentEchantillon.geologie" inputId="geologie" [options]="geologies!" placeholder="Select" optionLabel="couche.coucheCode" >
                
             </p-dropdown>
             <!-- <small class="p-error" *ngIf="submitted && !newEchantillon.etatEchantillon">Type is required.</small> -->
         </div>
         <div class="field">
             <label for="code">Depth From</label>
-            <input type="text" pInputText id="code" [(ngModel)]="currentEchantillon.depthFrom" required autofocus />
+            <input type="text" pInputText id="code" [(ngModel)]="currentEchantillon.depthFrom" required  />
             <small class="p-error" *ngIf="submitted && !currentEchantillon.depthFrom">Code is required.</small>
         </div>
         <div class="field">

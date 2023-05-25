@@ -13,7 +13,6 @@ export class Echantillon{
     notesGeologie ?: string;
     notesCentreRecherche ?: string;
     etatEchantillon ?: string;
-    etatEchantillons ?: string;
     analyseGranulometrique ?: string;
     notesMineralogique ?: string;
     puissanceReelle ?: number;

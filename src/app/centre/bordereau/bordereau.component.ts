@@ -4,8 +4,10 @@ import { MessageService } from 'primeng/api';
 import { ArchiveComponent } from 'src/app/geologie/archive/archive.component';
 import { Archive } from 'src/app/model/archive';
 import { Bordereau } from 'src/app/model/bordereau';
+import { Echantillon } from 'src/app/model/echantillon';
 import { ArchiveService } from 'src/app/services/archive.service';
 import { BordereauService } from 'src/app/services/bordereau.service';
+import { EchantillonService } from 'src/app/services/echantillon.service';
 
 
 @Component({
@@ -15,7 +17,7 @@ import { BordereauService } from 'src/app/services/bordereau.service';
 })
 export class BordereauComponent {
 
-  constructor(private bordereauService : BordereauService, private archiveService : ArchiveService, private messageService: MessageService){}
+  constructor(private bordereauService : BordereauService, private archiveService : ArchiveService, private messageService: MessageService , private echantillonService : EchantillonService){}
 
   @Input()
   archiveId ?:number;
@@ -38,6 +40,13 @@ export class BordereauComponent {
   checkButton ?: boolean
   currentArchive ?:Archive;
   modeArchive : boolean = false;
+
+  selectedBordereauDetail : Bordereau = new Bordereau();
+  detailBordereauON :boolean =false
+
+  echantillons : Echantillon[] = [];
+  checkStatus = true;
+
   ngOnInit() : void{
 
     if(this.archiveId){
@@ -50,6 +59,7 @@ export class BordereauComponent {
       this.filterBordereauByArchive()
     }
     
+    
   }
 
   retrieveBordereaux(){
@@ -58,6 +68,7 @@ export class BordereauComponent {
         this.bordereaux = data;
         console.log("bordereaux : ", this.bordereaux);
         this.bordereaux.sort((a, b) => a.bordereauId! > b.bordereauId! ? 1 : -1);
+        this.changeReceiptStatusToInProgress();
       }
     )
     
@@ -107,11 +118,7 @@ export class BordereauComponent {
 
   }
 
-  // open update dialog
-  // editNew(bordereau : Bordereau){
-  //   this.archiveDialog = true;
-  //   this.currentBordereau = bordereau;
-  // }
+
 
   //close update dialog
   hideDialog1(){
@@ -119,29 +126,7 @@ export class BordereauComponent {
     this.submitted = false;
   }
 
-  //update operation 'archive bordereau'
-  // updateBordereau(){
-    
-  //   //console.log("this.currentBordereau : ",this.currentBordereau);
-  //   console.log("*****this.selectedBordereau! ", this.selectedBordereau!);
-  //   for(let i=0;i<this.selectedBordereau?.length!;i++){
-  //     console.log("/*/*/*/*/*/*",this.selectedBordereau![i]);
-      
-  //     this.bordereauService.updateBordereau(this.selectedBordereau![i]).subscribe(
-      
-  //       data =>{
-  //         this.selectedBordereau![i] = data
-  //         console.log("this.selectedBordereau! ", this.selectedBordereau![i]);
-          
-  //         console.log("update : ",data);
-          
-  //       }
-  //     )
-  //   }
-    
-  //   this.archiveDialog = false;
-  //   this.newBordereau = {}
-  // }
+ 
 
   updateBordereau(){
     
@@ -168,10 +153,7 @@ export class BordereauComponent {
     this.selectedBordereau=[];
   }
 
-  // openSend(bordereau : Bordereau){
-  //   this.archiveDialog = true;
-  //   this.currentBordereau = bordereau
-  // }
+
 
   openDialogArchive(){
     this.archiveDialog = true;
@@ -238,5 +220,35 @@ export class BordereauComponent {
       }
     )
   }
+
+  detailBordereau(bordereauHtml:Bordereau){
+    this.detailBordereauON=true;
+    this.selectedBordereauDetail=bordereauHtml;
+  }
   
+  changeReceiptStatusToInProgress(){
+    for(let index = 0; index<this.bordereaux.length;index++){
+      this.echantillonService.retrieveEchantillonByBordereau(this.bordereaux[index].bordereauId!).subscribe(
+        data =>{
+          this.echantillons = data;
+          console.warn("this.echantillons ",this.echantillons);
+          
+          let receivedechList=this.echantillons.filter(echantillon=>{
+            return echantillon.etatEchantillon=="Received";
+          })
+          console.log(receivedechList);
+          
+          if(this.echantillons.length==receivedechList.length){
+            this.bordereauService.changeStatusToInProgress(this.bordereaux[index]).subscribe(()=>{
+              console.log(this.bordereaux)
+            }
+              
+            )
+          }
+        }
+      )
+    }
+    
+    
+  }
 }

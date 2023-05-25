@@ -1,6 +1,9 @@
 <p-toast></p-toast>
-<p-button label="Retour To Archives" icon="pi pi-arrow-left" iconPos="left" (click)="retourToArchive()"></p-button>
-<div class="card">
+
+<app-detail-bordereau [bordereau]="selectedBordereauDetail" *ngIf="detailBordereauON===true" ></app-detail-bordereau>
+
+<div class="card" *ngIf="detailBordereauON===false"  >
+    <p-button label="Retour To Archives" icon="pi pi-arrow-left" iconPos="left" (click)="retourToArchive()" *ngIf="modeArchive"></p-button>
     <h5>Receipt Management</h5>
     <p-table #dt1 [value]="bordereaux" [(selection)]="selectedBordereau" dataKey="bordereauId" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['archiveLibelle','archiveDate','archiveType']" responsiveLayout="scroll">
         
@@ -95,6 +98,7 @@
                 
                 <td>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteNew(bordereau)" *ngIf="!modeArchive"></button>
+                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info" (click)="detailBordereau(bordereau)" ></button>
                 </td>
                 
                 
@@ -102,7 +106,7 @@
         </ng-template>
         <ng-template pTemplate="emptymessage">
             <tr>
-                <td colspan="8">No Element/s found.</td>
+                <td colspan="8">No Receipt/s found.</td>
             </tr>
         </ng-template>
     </p-table>
@@ -112,7 +116,7 @@
 <p-dialog [(visible)]="deleteDialog" [style]="{width: '450px'}" header="Archive Details" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content" let-gisement>
        <div>
-        Are u sure want to delete this archive
+        Do you want to delete this Receipt?
        </div>
         
     </ng-template>

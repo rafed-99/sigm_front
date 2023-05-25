@@ -49,5 +49,8 @@ export class EchantillonService {
     return this._http.get<Echantillon[]>(apiURl+"/echantillon/showechantillonbybordereau/"+id)
   }
 
+  receiveSample(echantillon : Echantillon):Observable<Echantillon>{
+    return this._http.put<Echantillon>(apiURl+"/echantillon/recevoirechantillon",echantillon)
+  }
   
 }

@@ -270,6 +270,8 @@ retrieveAnalyses2(){
     console.log("selected geology : ",this.selectedGeology);
     
     this.newEchantillon.geologie = this.selectedGeology;
+    console.log(this.newEchantillon);
+    
     this.echantillonService.addEchantillon(this.newEchantillon).subscribe(
       echantillon => {
         console.log(echantillon);
@@ -280,13 +282,13 @@ retrieveAnalyses2(){
       }
     )
     this.addDialog = false;
-    this.newEchantillon = {}
+    this.newEchantillon =new Echantillon()
   }
 
   openNew(){
     this.addDialog = true;
     this.submitted = false;
-    this.newEchantillon = {}
+    this.newEchantillon = new Echantillon()
   }
 
   hideDialog1(){
@@ -301,7 +303,7 @@ retrieveAnalyses2(){
       }
     )
     this.editDialog = false;
-    this.newEchantillon = {}
+    this.newEchantillon = new Echantillon()
   }
 
   editEchantillon(echantillonHtml : Echantillon){
@@ -324,7 +326,7 @@ retrieveAnalyses2(){
       }
     )
     this.deleteDialog = false;
-    this.newEchantillon = {}
+    this.newEchantillon = new Echantillon()
   }
 
   deleteEchantillon(echantillonHtml : Echantillon){
@@ -410,14 +412,15 @@ retrieveAnalyses2(){
           },complete:()=>{
             this.echantillonsToSend=[];
             this.selectedechantillons=[];
-            this.bordereau = new Bordereau();
+            this.newEchantillon = new Echantillon();
           }
         }
         )
       }
     )
 
-      this.sendDialog = false;
+    this.bordereau = new Bordereau();
+    this.sendDialog = false;  
       
     console.log(this.bordereau);
     

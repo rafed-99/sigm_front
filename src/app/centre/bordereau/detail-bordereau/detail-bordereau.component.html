@@ -1,0 +1,182 @@
+<p-button label="Return" icon="pi pi-arrow-left" iconPos="left" (click)="return()" ></p-button>
+
+
+<!-- list echantillons in that receipt -->
+<p-table #dt1 [value]="echantillons" [(selection)]="selectedechantillons" dataKey="echantillon.echantillonId" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines"  [globalFilterFields]="['geologie.couche.coucheCode']" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 4rem" >
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th style="min-width: 4rem">
+                <div class="flex justify-content-between align-items-center">
+                    Id
+                </div>
+            </th>
+            <th style="min-width: 8rem">
+                <div class="flex justify-content-between align-items-center">
+                    Geology / Layer
+                </div>
+            </th>
+            <th style="min-width: 4rem">
+                <div class="flex justify-content-between align-items-center">
+                    Depth From
+                </div>
+            </th>
+            <th style="min-width: 4rem">
+                <div class="flex justify-content-between align-items-center">
+                    Depth To
+                </div>
+            </th>
+            <th style="min-width: 4rem">
+                <div class="flex justify-content-between align-items-center">
+                    Real Volume
+                </div>
+            </th>
+            <th style="min-width: 8rem">
+                <div class="flex justify-content-between align-items-center">
+                    Observation
+                </div>
+            </th>
+            <th style="min-width: 8rem">
+                <div class="flex justify-content-between align-items-center">
+                    Sample Status
+                </div>
+            </th>
+            
+            
+           
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-echantillon>
+        <tr>
+            <td>
+            <p-tableCheckbox [value]="selectedechantillons" ></p-tableCheckbox>
+            </td>
+            <td>
+                {{echantillon.echantillonId}}
+                <!-- {{echantillon.geologie.couche.coucheCode}} -->
+            </td>
+            <td>
+                {{echantillon.geologie.couche.coucheCode}}
+                <!-- {{echantillon.geologie.couche.coucheCode}} -->
+            </td>
+            <td>
+                {{echantillon.depthFrom}}
+                <!-- {{echantillon.depthFrom}} -->
+            </td>
+            <td>
+                {{echantillon.depthTo}}
+                <!-- {{echantillon.depthTo}} -->
+            </td>
+            <td>
+                <!-- {{echantillon.observation}} -->
+                {{echantillon.puissanceReelle}}
+            </td>
+            <td>
+                <!-- {{echantillon.observation}} -->
+                {{echantillon.observation}}
+            </td>
+
+            <td>
+                <!-- {{echantillon.etatEchantillon}} -->
+                {{echantillon.etatEchantillon}}
+            </td>
+            
+            <!-- <td *ngFor="let col of .analyseList">
+                {{col.valeurAnalyse}}
+            </td> -->
+            <td>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" ></button> 
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" ></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-success p-mr-2" (click)="modalReceiveSample(echantillon)"></button>
+            </td>
+        </tr>
+    </ng-template>
+    
+</p-table>
+
+
+<p-dialog [(visible)]="receiveSampleDialog" [style]="{width: '450px'}" header="Sample Reception" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content" let-gisement>
+       <div>
+        Do you want to receive this sample
+       </div>
+        
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideModalReceiveSample()"></button>
+        <button pButton pRipple label="Receive" icon="pi pi-check" class="p-button-text" (click)="receiveSample()"></button>
+    </ng-template>
+</p-dialog>
+
+
+<!-- detail receipt -->
+<!-- <p-table #dt1 [value]="bordereaux"  [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines"  [globalFilterFields]="['archiveLibelle','archiveDate','archiveType']" responsiveLayout="scroll"> 
+    <ng-template pTemplate="header" >
+        <tr>
+            <th style="min-width: 8rem">
+                <div class="flex justify-content-between align-items-center">
+                    Receipt Code
+                </div>
+            </th>
+            <th style="min-width: 8rem">
+                <div class="flex justify-content-between align-items-center">
+                    Sending Date
+                </div>
+            </th>
+            <th style="min-width: 12rem">
+                <div class="flex justify-content-between align-items-center">
+                    Asked Analysis
+                </div>
+            </th>
+            <th style="min-width: 12rem">
+                <div class="flex justify-content-between align-items-center">
+                    Requirements
+                </div>
+            </th>
+            <th style="min-width: 8rem">
+                <div class="flex justify-content-between align-items-center">
+                    Urgency
+                </div>
+            </th>
+            <th style="min-width: 8rem">
+                <div class="flex justify-content-between align-items-center">
+                    Receipt Status
+                </div>
+            </th>
+            <th style="min-width: 8rem">
+                <div class="flex justify-content-between align-items-center">
+                    Reception Date
+                </div>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-bordereau>  
+        <tr>
+            <td>
+                <button pButton label="{{bordereau.bordereauCode}}" class="p-button-outlined mb-2" icon="pi pi-file-pdf"  ></button>
+            </td>
+            <td>
+                {{bordereau.dateEnvoi | date : 'dd/MM/yyyy'}}
+            </td>
+            <td>
+                {{bordereau.analyseDemande}}
+            </td>
+            <td>
+                {{bordereau.exigences}}
+            </td>
+            <td>
+                {{bordereau.urgences}}
+            </td>
+            <td>
+                {{bordereau.etatsBordereaux}}
+            </td>
+            <td>
+                {{bordereau.dateReception | date : 'dd/MM/yyyy'}}
+            </td>
+            
+        </tr>
+    </ng-template>
+</p-table> -->
