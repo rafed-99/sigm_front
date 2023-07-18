@@ -7,6 +7,24 @@ export const environment = {
 };
 
 export const apiURl = "http://localhost:8099/api";
+export const echantillonStatus={
+  New:{
+    name:"New",
+    color:"info"
+  },
+  Sent:{
+    name:"Sent",
+    color:"primary"
+  },
+  Received:{
+    name:"Received",
+    color:"success"
+  },
+  ToVerifiy:{
+    name:"To Verify",
+    color:"warning"
+  }
+}
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

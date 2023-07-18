@@ -22,6 +22,11 @@ database.users = [
         "username" : 963852,
         "password" : 963852,
         "profile" : "geologie"
+    },
+    {
+        "username" : 4070,
+        "password" : 4070,
+        "profile" : "admin"
     }
 ];
 

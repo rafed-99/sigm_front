@@ -68,7 +68,8 @@ export class BordereauComponent {
         this.bordereaux = data;
         console.log("bordereaux : ", this.bordereaux);
         this.bordereaux.sort((a, b) => a.bordereauId! > b.bordereauId! ? 1 : -1);
-        this.changeReceiptStatusToInProgress();
+        this.changeStatus();
+        
       }
     )
     
@@ -226,29 +227,45 @@ export class BordereauComponent {
     this.selectedBordereauDetail=bordereauHtml;
   }
   
-  changeReceiptStatusToInProgress(){
+ 
+
+  changeStatus(){
     for(let index = 0; index<this.bordereaux.length;index++){
+      let status="On Hold"
       this.echantillonService.retrieveEchantillonByBordereau(this.bordereaux[index].bordereauId!).subscribe(
         data =>{
           this.echantillons = data;
-          console.warn("this.echantillons ",this.echantillons);
-          
-          let receivedechList=this.echantillons.filter(echantillon=>{
-            return echantillon.etatEchantillon=="Received";
-          })
-          console.log(receivedechList);
-          
-          if(this.echantillons.length==receivedechList.length){
-            this.bordereauService.changeStatusToInProgress(this.bordereaux[index]).subscribe(()=>{
-              console.log(this.bordereaux)
+          for(let i=0;i<this.echantillons.length;i++){
+            let test : boolean = this.echantillons[i].etatEchantillon == "To Verify";
+            console.log("test ",test);
+
+            let receiveEch = this.echantillons.filter(ech =>{
+              return ech.etatEchantillon == "Received"
+            })
+            let analyseEch = this.echantillons.filter(ech =>{
+              return ech.etatEchantillon == "Analysed"
+            })
+
+            if(this.echantillons[i].etatEchantillon=="To Verify"){
+              {status = "To Verify"}     
             }
-              
-            )
+            if((this.echantillons[i].etatEchantillon=="Received")&&(receiveEch.length==this.echantillons.length)){
+              {status = "In progress"}
+            }
+            if(this.echantillons[i].etatEchantillon=="Analysed"){
+              status = "In progress"
+            }
+            if((this.echantillons[i].etatEchantillon=="Analysed")&&(analyseEch.length==this.echantillons.length)){
+              {status = "Analysed"}
+            }
           }
-        }
-      )
+          this.bordereaux[index].etatsBordereaux=status
+            this.bordereauService.updateBordereau(this.bordereaux[index]).subscribe(()=>{
+              console.warn("this.bordereaux ",this.bordereaux[index])
+              })
+        })
+        
+        
     }
-    
-    
   }
 }

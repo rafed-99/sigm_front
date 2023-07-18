@@ -12,23 +12,23 @@ export class CoucheService {
   constructor(private _http : HttpClient) { }
 
   retieveCouches():Observable<Couche[]>{
-    return this._http.get<Couche[]>(apiURl+"/couche/showcouches");
+    return this._http.get<Couche[]>(apiURl+"/geologie/couche/showcouches");
   }
 
   addCouche(couche : Couche):Observable<Couche>{
-    return this._http.post(apiURl+"/couche/addcouche",couche);
+    return this._http.post(apiURl+"/geologie/couche/addcouche",couche);
   }
 
   updateCouche(couche : Couche):Observable<Couche>{
-    return this._http.put<Couche>(apiURl+"/couche/updatecouche",couche);
+    return this._http.put<Couche>(apiURl+"/geologie/couche/updatecouche",couche);
   }
 
   deleteCouche(coucheId : number):Observable<Couche>{
-    return this._http.delete<Couche>(apiURl+"/couche/deletecouche/"+coucheId)
+    return this._http.delete<Couche>(apiURl+"/geologie/couche/deletecouche/"+coucheId)
   }
 
   exportExcel():Observable<Blob>{
-    return this._http.get(apiURl+"/couche/exportexcelcouche",{responseType:'blob'})
+    return this._http.get(apiURl+"/geologie/couche/exportexcelcouche",{responseType:'blob'})
   }
   // retrieveCoucheById()
 }

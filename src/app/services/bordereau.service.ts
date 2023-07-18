@@ -45,7 +45,8 @@ export class BordereauService {
     return this._http.get(apiURl+'/echantillon/bordereau/report/'+idbordereau,{responseType:'blob'});
   }
 
-  changeStatusToInProgress(bordereau : Bordereau):Observable<Bordereau>{
-    return this._http.put<Bordereau>(apiURl+"/bordereau/updateinprogress",bordereau)
+  retrieveBordereauByEchantillon(idEchantillon : number):Observable<Bordereau>{
+    return this._http.get<Bordereau>(apiURl+'/bordereau/retrieveBordereauByEchantillon'+idEchantillon)
   }
+
 }

@@ -23,6 +23,9 @@ export class AppMenuComponent implements OnInit {
         else if(sessionStorage.getItem('profile')=='centre'){
             this.generate_centre_routes();
         }
+        else{
+            this.generate_admin_routes();
+        }
        
     }
 
@@ -123,6 +126,35 @@ export class AppMenuComponent implements OnInit {
         //     }
         // );
        
+        
+    }
+
+    generate_admin_routes(){
+        console.warn("this.generate_admin_routes");
+        
+        let routes:any;
+        
+            
+            this.model = [
+                {
+                    label: 'Home',
+                    items: [
+                        { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }
+                    ]
+                },
+                {
+                    label: 'User',
+                    items: [
+                        { label: 'User Management', icon: 'pi pi-fw pi-ticket', routerLink: ['/admin/users'] },         
+                    ]
+                },
+                {
+                    label: 'point',
+                    items: [
+                        { label: 'User Management', icon: 'pi pi-fw pi-ticket', routerLink: ['/geologie/gisement'] },         
+                    ]
+                },
+            ]
         
     }
 }

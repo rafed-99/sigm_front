@@ -6,7 +6,7 @@ export class Echantillon{
     depthFrom ?: number;
     depthTo ?: number;
     dateEnvoi ?: string;
-    dateReception ?: string;
+    dateReception ?: Date;
     dateAnalyse ?: string;
     observation ?: string;
     urlDocs ?: string;
@@ -18,4 +18,5 @@ export class Echantillon{
     puissanceReelle ?: number;
     geologie ?: Geologie;
     bordereau ?: Bordereau;
+    
 }

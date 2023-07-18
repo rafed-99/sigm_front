@@ -204,7 +204,7 @@ retrieveAnalyses2(){
        // Create Element List headers
        this.analyses.forEach(analyse =>{
         let name = analyse.element?.elementCode;
-        console.warn(this.elementList);
+        console.warn("this.elementList ",this.elementList);
         if(!this.elementList.some(e => e === name)){
           this.elementList.push(name);
         }  

@@ -2,6 +2,8 @@
 
 <app-detail-bordereau [bordereau]="selectedBordereauDetail" *ngIf="detailBordereauON===true" ></app-detail-bordereau>
 
+
+
 <div class="card" *ngIf="detailBordereauON===false"  >
     <p-button label="Retour To Archives" icon="pi pi-arrow-left" iconPos="left" (click)="retourToArchive()" *ngIf="modeArchive"></p-button>
     <h5>Receipt Management</h5>

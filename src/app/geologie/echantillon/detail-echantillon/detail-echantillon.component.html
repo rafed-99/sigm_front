@@ -69,6 +69,9 @@
                                         <td>
                                             {{echantillon.echantillonId}}
                                         </td>
+                                        <td>
+                                            {{echantillon.bordereau.bordereauId}}
+                                        </td>
                                         </tr>
                                         </ng-template>
                                         </p-table>
@@ -79,6 +82,64 @@
                     <p-tabPanel header="Analyses">
                         <app-analyse [analyses]="analysess"></app-analyse>
                     </p-tabPanel>
+                    <p-tabPanel header="Sample Flow">
+
+                        <p-card>
+                            <p-table #dt1 [value]="echantillons" dataKey="id" responsiveLayout="scroll">
+                                <ng-template pTemplate="body" let-echantillon>
+                                    <tr>
+                                        <td>Sample ID:</td>
+                                        <td>{{echantillon.echantillonId}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Receipt:</td>
+                                        <td><button pButton label="{{echantillon.bordereau.bordereauCode}}" class="p-button-outlined mb-2" icon="pi pi-file-pdf" (click)="exportExistBordereau()" ></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sended Date:</td>
+                                        <td>{{echantillon.bordereau.dateEnvoi| date : 'dd/MM/yyyy'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Received Date:</td>
+                                        <td>{{echantillon.dateReception| date : 'dd/MM/yyyy'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Analysed Date:</td>
+                                        <td>{{echantillon.dateAnalyse| date : 'dd/MM/yyyy'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Notes Geology:</td>
+                                        <td>
+                                            <span class="p-float-label">
+                                            <textarea id="float-input" rows="5" cols="30" pInputTextarea [(ngModel)]="echantillon.notesGeologie"></textarea>
+                                            
+                                            </span>
+                                            <button pButton label="Geology Notes" class="p-button-outlined mb-2" icon="pi pi-pencil" (click)="updateNoteGeologie()"></button>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                            <ng-template pTemplate="footer">
+                            </ng-template>
+                        </p-card>
+                    </p-tabPanel>
                 </p-tabView>
              
+                
             </div>
+
+            <!-- <p-dialog [(visible)]="updateNoteGeo" [style]="{width: '450px'}" header="Gisement Detail" [modal]="true" styleClass="p-fluid">
+                <ng-template pTemplate="content" let-echantillon>
+                    <div class="field">
+                        <label for="libelle">Notes Research Center</label>
+                        <textarea pInputTextarea [(ngModel)]="echantillon.notesGeologie" [rows]="5" [cols]="30" required ></textarea>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideModalUpdateNoteGeologie()"></button>
+                    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateNoteGeologie()"></button>
+                </ng-template> -->
+            <!-- </p-dialog> -->
+
+            

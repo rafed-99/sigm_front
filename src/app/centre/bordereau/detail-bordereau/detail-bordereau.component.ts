@@ -4,6 +4,7 @@ import { BordereauComponent } from '../bordereau.component';
 import { BordereauService } from 'src/app/services/bordereau.service';
 import { EchantillonService } from 'src/app/services/echantillon.service';
 import { Echantillon } from 'src/app/model/echantillon';
+import { echantillonStatus } from 'src/environments/environment'
 
 @Component({
   selector: 'app-detail-bordereau',
@@ -20,11 +21,16 @@ export class DetailBordereauComponent {
   bordereaux : Bordereau[] = [];
   echantillons : Echantillon[] =[]
   selectedechantillons : Echantillon[] =[]
-
   receiveSampleDialog =false;
+  verifySampleDialog=false;
   currentEchantillon : Echantillon = new Echantillon();
   submitted ?: boolean;
   checkStatus = true;
+  newEchantillon =new Echantillon()
+  _echantillon :Echantillon = new Echantillon();
+  severityString:string[]=[];
+  butonAnalyseOn:boolean =false;
+  selectedEchantillon = new Echantillon();
 
 
   ngOnInit() :void {
@@ -70,13 +76,30 @@ export class DetailBordereauComponent {
   //   }
   // }
 
+  updateSeverity(){
+    this.severityString=[];
+    this.echantillons.forEach(ech=>{
+      if(ech.etatEchantillon==echantillonStatus.New.name){
+        this.severityString.push(echantillonStatus.New.color)
+      }
+      if(ech.etatEchantillon==echantillonStatus.Sent.name){
+        this.severityString.push(echantillonStatus.Sent.color)
+      }
+      if(ech.etatEchantillon==echantillonStatus.Received.name){
+        this.severityString.push(echantillonStatus.Received.color)
+      }
+      if(ech.etatEchantillon==echantillonStatus.ToVerifiy.name){
+        this.severityString.push(echantillonStatus.ToVerifiy.color)
+      }
+    })
+  }
   retrieveEchantillonsByBordereau(){
     this.echantillonService.retrieveEchantillonByBordereau(this.bordereau?.bordereauId!).subscribe(
       data =>{
         this.echantillons = data;
+        this.updateSeverity();
         console.log("////////",this.echantillons);
-        
-      }
+              }
     )
   }
 
@@ -91,22 +114,56 @@ export class DetailBordereauComponent {
   }
 
   receiveSample(){
-    this.echantillonService.receiveSample(this.currentEchantillon).subscribe();
-    this.receiveSampleDialog = false;
-  }
-
-  changeReceiptStatusToInProgress(){
-    let i = 0; 
-    do{
-      if(this.echantillons[i].etatEchantillon==="Received"){
-        i++
-      }else{
-        this.checkStatus = false;
+    let date = new Date().toISOString();
+    console.log(date);
+    this.currentEchantillon.dateReception = new Date(date);
+    console.log(this.currentEchantillon.dateReception);
+    
+    this.currentEchantillon.etatEchantillon = echantillonStatus.Received.name;
+    this.echantillonService.updateEchantillon(this.currentEchantillon).subscribe(
+      data=>{
+        console.log(this.currentEchantillon);
+        this.bordereauComponent.changeStatus();
+        this.updateSeverity();
       }
-    }while((i>this.echantillons.length)||(this.checkStatus==false))
-
-    if(this.checkStatus){
-      this.bordereauService.changeStatusToInProgress(this.bordereau!).subscribe();
-    }
+    );
+    this.receiveSampleDialog = false;
+    
   }
+
+  modalVerifySample(echantillonHtml : Echantillon){
+    this.verifySampleDialog = true;
+    this.currentEchantillon = echantillonHtml;
+  }
+
+  hideModalVerifySample(){
+    this.verifySampleDialog = false;
+    this.submitted = false
+  }
+
+  verifySample(echantillon : Echantillon){
+    if(echantillon.etatEchantillon != "Received"){
+      echantillon.etatEchantillon = "To Verify"
+    }
+      this.echantillonService.updateEchantillon(echantillon).subscribe(
+        ()=>{
+          console.log("echantillon :",echantillon);
+          this.bordereauComponent.changeStatus();
+          this.updateSeverity();
+        }
+      )
+    
+    this.verifySampleDialog = false;
+    this.newEchantillon = new Echantillon()
+  }
+
+  detailEchantillon(echantillon : Echantillon){
+    
+      this.butonAnalyseOn=true;
+      this.selectedEchantillon = echantillon;
+    
+  }
+
+  
+
 }

@@ -1,7 +1,11 @@
-<p-button label="Return" icon="pi pi-arrow-left" iconPos="left" (click)="return()" ></p-button>
 
 
+<app-analyse-centre [echantillon]="selectedEchantillon" *ngIf="butonAnalyseOn===true"></app-analyse-centre>
+
+
+<div class="card" *ngIf="butonAnalyseOn===false"  >
 <!-- list echantillons in that receipt -->
+<p-button label="Return" icon="pi pi-arrow-left" iconPos="left" (click)="return()" ></p-button>
 <p-table #dt1 [value]="echantillons" [(selection)]="selectedechantillons" dataKey="echantillon.echantillonId" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines"  [globalFilterFields]="['geologie.couche.coucheCode']" responsiveLayout="scroll">
     <ng-template pTemplate="header">
         <tr>
@@ -43,12 +47,17 @@
                     Sample Status
                 </div>
             </th>
+            <th style="min-width: 8rem">
+                <div class="flex justify-content-between align-items-center">
+                    Received Date
+                </div>
+            </th>
             
             
            
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-echantillon>
+    <ng-template pTemplate="body" let-echantillon >
         <tr>
             <td>
             <p-tableCheckbox [value]="selectedechantillons" ></p-tableCheckbox>
@@ -78,24 +87,35 @@
                 {{echantillon.observation}}
             </td>
 
-            <td>
-                <!-- {{echantillon.etatEchantillon}} -->
-                {{echantillon.etatEchantillon}}
-            </td>
             
+
+            <td>
+                <p-badge [value]="echantillon.etatEchantillon"  [severity]="severityString[echantillons.indexOf(echantillon)]" >
+                    <span>
+                        
+                    </span>
+                </p-badge>
+                <!-- {{echantillon.etatEchantillon}} -->
+                
+            </td>
+            <td>
+                <!-- {{echantillon.observation}} -->
+                {{echantillon.dateReception}}
+            </td>
             <!-- <td *ngFor="let col of .analyseList">
                 {{col.valeurAnalyse}}
             </td> -->
             <td>
-                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" ></button> 
-                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" ></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-success p-mr-2" (click)="modalReceiveSample(echantillon)"></button>
+                <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info p-mr-2" (click)="detailEchantillon(echantillon)" ></button> 
+                <button pButton pRipple icon="pi pi-history" class="p-button-rounded p-button-warning" (click)="modalVerifySample(echantillon)"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-success p-mr-2" 
+                (click)="modalReceiveSample(echantillon)" [disabled]="echantillon.etatEchantillon==='Received'" ></button>
             </td>
         </tr>
     </ng-template>
     
 </p-table>
-
+</div>
 
 <p-dialog [(visible)]="receiveSampleDialog" [style]="{width: '450px'}" header="Sample Reception" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content" let-gisement>
@@ -108,6 +128,19 @@
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideModalReceiveSample()"></button>
         <button pButton pRipple label="Receive" icon="pi pi-check" class="p-button-text" (click)="receiveSample()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="verifySampleDialog" [style]="{width: '450px'}" header="Gisement Detail" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content" let-echantillon>
+        <div class="field">
+            <label for="libelle">Notes Research Center</label>
+            <textarea pInputTextarea [(ngModel)]="currentEchantillon.notesCentreRecherche" [rows]="5" [cols]="30" required ></textarea>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideModalVerifySample()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="verifySample(currentEchantillon)"></button>
     </ng-template>
 </p-dialog>
 

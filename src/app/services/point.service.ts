@@ -12,38 +12,38 @@ export class PointService {
   constructor(private _http : HttpClient) { }
 
   retrievePoints():Observable<Point[]>{
-    return this._http.get<Point[]>(apiURl+"/point/showpoints");
+    return this._http.get<Point[]>(apiURl+"/geologie/point/showpoints");
   }
 
   addPoint(point : Point):Observable<Point>{
-    return this._http.post<Point>(apiURl+"/point/addpoint",point);
+    return this._http.post<Point>(apiURl+"/geologie/point/addpoint",point);
   }
 
   updatePoint(point : Point):Observable<Point>{
-    return this._http.put<Point>(apiURl+"/point/updatepoint",point);
+    return this._http.put<Point>(apiURl+"/geologie/point/updatepoint",point);
   }
 
   deletePoint(pointId : number):Observable<Point>{
-    return this._http.delete<Point>(apiURl+"/point/deletepoint/"+pointId);
+    return this._http.delete<Point>(apiURl+"/geologie/point/deletepoint/"+pointId);
   }
 
   retrievePointsByGisement(id : number) : Observable<Point[]>{
-    return this._http.get<Point[]>(apiURl+"/point/showpointsbygisement/"+id)
+    return this._http.get<Point[]>(apiURl+"/geologie/point/showpointsbygisement/"+id)
   }
 
   addPointWithAffectation(point : Point, idGisement : number):Observable<Point>{
-    return this._http.post<Point>(apiURl+"/point/addaffect/"+idGisement,point);
+    return this._http.post<Point>(apiURl+"/geologie/point/addaffect/"+idGisement,point);
   }
 
   retrievePointsById(id : number) : Observable<Point>{
-    return this._http.get<Point>(apiURl+"/point/showpoint/"+id)
+    return this._http.get<Point>(apiURl+"/geologie/point/showpoint/"+id)
   }
 
   retrievePointByArchive(idArchive : number):Observable<Point[]>{
-    return this._http.get<Point[]>(apiURl+"/point/showpointbyarchive/"+idArchive)
+    return this._http.get<Point[]>(apiURl+"/geologie/point/showpointbyarchive/"+idArchive)
   }
 
   exportExcel(id : number):Observable<Blob>{
-    return this._http.get(apiURl+"/point/exportexcelpoint/"+id,{responseType:'blob'})
+    return this._http.get(apiURl+"/geologie/point/exportexcelpoint/"+id,{responseType:'blob'})
   }
 }

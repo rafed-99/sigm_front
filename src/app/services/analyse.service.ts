@@ -27,4 +27,8 @@ export class AnalyseService {
   getAnalyses():Observable<Analyse[]>{
     return this._http.get<Analyse[]>(apiURl+"/analyse/showanalyses")
   }
+
+  addAnalyse(analyse : Analyse):Observable<Analyse>{
+    return this._http.post<Analyse>(apiURl+"/analyse/addanalyse",analyse)
+  }
 }

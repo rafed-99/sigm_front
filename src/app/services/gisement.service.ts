@@ -16,26 +16,26 @@ export class GisementService {
 
   retrieveGisements():Observable<Gisement[]>
   {
-    return this._http.get<Gisement[]>(apiURl+"/gisement/showgisements")
+    return this._http.get<Gisement[]>(apiURl+"/geologie/gisement/showgisements")
   }
 
   addGisement(gisement : Gisement):Observable<Gisement>{
-    return this._http.post<Gisement>(apiURl+"/gisement/addgisement",gisement)
+    return this._http.post<Gisement>(apiURl+"/geologie/gisement/addgisement",gisement)
   }
 
   updateGisement(gisement : Gisement):Observable<Gisement>{
-    return this._http.put<Gisement>(apiURl+"/gisement/updategisement",gisement)
+    return this._http.put<Gisement>(apiURl+"/geologie/gisement/updategisement",gisement)
   }
 
   getGisementByID(gisementId : number): Observable<Gisement>{
-    return this._http.get<Gisement>(apiURl+"/gisement/showgisement/"+gisementId)
+    return this._http.get<Gisement>(apiURl+"/geologie/gisement/showgisement/"+gisementId)
   }
 
   deleteGisement(gisementId : number):Observable<Gisement>{
-    return this._http.delete<Gisement>(apiURl+"/gisement/deletegisement/"+gisementId)
+    return this._http.delete<Gisement>(apiURl+"/geologie/gisement/deletegisement/"+gisementId)
   }
 
   exportExcel():Observable<Blob>{
-    return this._http.get(apiURl+"/gisement/exportexcelgisements",{responseType:'blob'})
+    return this._http.get(apiURl+"/geologie/gisement/exportexcelgisements",{responseType:'blob'})
   }
 }

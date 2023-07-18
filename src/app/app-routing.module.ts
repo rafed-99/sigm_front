@@ -16,7 +16,8 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
                     { path: 'blocks', loadChildren: () => import('./demo/components/primeblocks/primeblocks.module').then(m => m.PrimeBlocksModule) },
                     { path: 'pages', loadChildren: () => import('./demo/components/pages/pages.module').then(m => m.PagesModule) },
                     { path: 'geologie', loadChildren: () => import('../app/geologie/geologie.module').then(m => m.GeologieModule) },
-                    { path: 'centre', loadChildren: () => import('../app/centre/centre.module').then(m => m.CentreModule) }
+                    { path: 'centre', loadChildren: () => import('../app/centre/centre.module').then(m => m.CentreModule) },
+                    { path: 'admin', loadChildren: () => import('../app/admin/admin.module').then(m => m.AdminModule) }
                 ]
             },
             { path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module').then(m => m.AuthModule) },

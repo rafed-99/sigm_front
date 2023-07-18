@@ -14,12 +14,14 @@ import { ToastModule } from 'primeng/toast';
 import { EchantillonModule } from 'src/app/geologie/echantillon/echantillon.module';
 import { PointModule } from 'src/app/geologie/point/point.module';
 import { DetailBordereauComponent } from './detail-bordereau/detail-bordereau.component';
-
-
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {BadgeModule} from 'primeng/badge';
+import { AnalyseCentreComponent } from './analyse-centre/analyse-centre.component';
 @NgModule({
   declarations: [
     BordereauComponent,
-    DetailBordereauComponent
+    DetailBordereauComponent,
+    AnalyseCentreComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +33,9 @@ import { DetailBordereauComponent } from './detail-bordereau/detail-bordereau.co
     FormsModule,
     DropdownModule,
     ToastModule,
-    PointModule
+    PointModule,
+    InputTextareaModule,
+    BadgeModule
   ],
   exports:[
     BordereauComponent
