@@ -23,12 +23,12 @@ export class DetailEchantillonComponent {
   bordereau : Bordereau = new Bordereau()
   updateNoteGeo :boolean = false;
   submitted ?:boolean;
-  
+  role : string = ""
 
   ngOnInit() : void {
     this.echantillons.push(this.echantillon!);
     console.log("-*-*-*-*-*-*-*-*",this.echantillon);
-    
+    this.role = sessionStorage.getItem('role')!
   }
 
   retour(){

@@ -39,13 +39,13 @@ export class GeologiesComponent {
   geologies : Geologie[]=[]
   modeArchive = false;
   point = new Point();
-  
+  role : string =""
 
   ngOnInit() : void{
     this.idPoint = this.detailPointComponent.point?.pointId?.toString()!;
     // this.idPoint = this.router.url.split("/")[this.router.url.split("/").length-1]
     this.modeArchive = this.detailPointComponent.modeArchive;
-    
+    this.role = sessionStorage.getItem('role')!
       
     
     

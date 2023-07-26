@@ -12,6 +12,6 @@ export class CoupureService {
   constructor(private _http : HttpClient) { }
 
   retrieveCoupures():Observable<Coupure[]>{
-    return this._http.get<Coupure[]>(apiURl+"/coupure/showcoupures")
+    return this._http.get<Coupure[]>(apiURl+"/centre/coupure/showcoupures")
   }
 }

@@ -13,9 +13,13 @@
 
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
          
-        <p-badge  [value]="'Profile : '+profile" size="xlarge" severity="info">
+        <p-badge  [value]="'Profile : '+profile" size="xlarge" severity="info" styleClass="mr-2">
             
-        </p-badge>  
+        </p-badge>
+        
+        <p-badge  [value]="'Role : '+role" size="xlarge" severity="success" styleClass="mr-2">
+            
+        </p-badge>
            
         <button class="p-link layout-topbar-button" (click)="Logout()">
             <i class="pi pi-sign-out"></i>

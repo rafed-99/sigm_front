@@ -31,9 +31,9 @@ export class ArchiveComponent {
   archiveDetailButton ?: boolean = false;
   selectedArchive =new Archive();
   filterPoint : Point[] = []
-
+  role ?: string =""
   archiveId?:number;
-
+  profile ?: string =""
   
   archive?:Archive;
   ngOnInit() :void{
@@ -44,6 +44,8 @@ export class ArchiveComponent {
     // ]
     this.getArchivesFilter();
     // this.showArchiveById(this.archive!)
+    this.role = sessionStorage.getItem('role')!;
+    this.profile =sessionStorage.getItem('profile')!;
   }
 
   getArchives(){
@@ -57,7 +59,7 @@ export class ArchiveComponent {
   }
 
   getArchivesFilter(){
-    if(sessionStorage.getItem('profile')=='geologie'){
+    if(sessionStorage.getItem('profile')=='GEOLOGIE'){
       this.archiveService.retrieveArchives().subscribe(
         data => {
           this.archives = data;

@@ -46,9 +46,10 @@ export class BordereauComponent {
 
   echantillons : Echantillon[] = [];
   checkStatus = true;
+  role : string = ""
 
   ngOnInit() : void{
-
+    this.role = sessionStorage.getItem('role')!;
     if(this.archiveId){
       this.modeArchive=true;
     }
@@ -76,7 +77,7 @@ export class BordereauComponent {
   }
 
   retrieveArchives(){
-    if(sessionStorage.getItem('profile')=='centre'){
+    if(sessionStorage.getItem('profile')=='CENTRE'){
        this.archiveService.retrieveArchives().subscribe(
         data=>{
           this.archives = data;
@@ -169,7 +170,7 @@ export class BordereauComponent {
   }
 
   filterBordereauByArchive(){
-    if(sessionStorage.getItem("profile")=="centre"){
+    if(sessionStorage.getItem("profile")=="CENTRE"){
     this.bordereauService.retrieveBordereauxByArchive(this.archiveId!).subscribe(
       data=>{
         this.bordereaux=data

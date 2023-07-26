@@ -19,6 +19,8 @@ export class AppTopBarComponent {
 
     profile :string = ""
 
+    role :string = ""
+
     darkMode ?:boolean =false;
 
     constructor(public layoutService: LayoutService , private router:Router) { }
@@ -28,7 +30,13 @@ export class AppTopBarComponent {
         
         
         this.profile = sessionStorage.getItem("profile")!;
-        console.log(this.profile);
+
+        console.log("profile : ",this.profile);
+
+        this.role = sessionStorage.getItem("role")!;
+
+        console.log("role : ",this.role);
+        
         
     }
 

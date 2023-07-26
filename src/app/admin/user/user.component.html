@@ -1,3 +1,4 @@
+<div *ngIf="role1 === 'ADMIN'">
 <p-table #dt1 [value]="users"  [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true"  responsiveLayout="scroll">
         
     <ng-template pTemplate="caption" >
@@ -65,8 +66,8 @@
             </td>
             
             <td>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-info" (click)="updateUserRoleModal(user)" ></button>
                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteUserModal(user)" ></button>
-                <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info" (click)="updateUserRoleModal(user)" ></button>
             </td>
             
             
@@ -78,8 +79,10 @@
         </tr>
     </ng-template>
 </p-table>
+</div>
 
 
+<div *ngIf="role1 === 'ADMIN'">
 <p-dialog [(visible)]="updateDialog" [style]="{width: '450px'}" header="Modify Role" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content" let-user>
         
@@ -97,7 +100,9 @@
         <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateUserRole(currentUser)"></button>
     </ng-template>
 </p-dialog>
+</div>
 
+<div *ngIf="role1 === 'ADMIN'">
 <p-dialog [(visible)]="deleteDialog" [style]="{width: '450px'}" header="Delete User" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content" let-user>
        <div>
@@ -111,3 +116,4 @@
         <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="deleteUser()"></button>
     </ng-template>
 </p-dialog>
+</div>

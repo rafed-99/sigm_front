@@ -13,17 +13,19 @@ export class AppMenuComponent implements OnInit {
     model: any[] = [];
     Points_routes:any[]=[];
     gisements :Gisement[]=[];
+
+
     constructor(public layoutService: LayoutService, private gisementService : GisementService) { }
 
     ngOnInit() {
-        if(sessionStorage.getItem('profile')=='geologie'){
+        if(sessionStorage.getItem('profile')==='GEOLOGIE'){
             this.generate_points_routes();
         }
         
-        else if(sessionStorage.getItem('profile')=='centre'){
+        else if(sessionStorage.getItem('profile')=='CENTRE'){
             this.generate_centre_routes();
         }
-        else{
+        else if(sessionStorage.getItem('profile')=='ADMIN'){
             this.generate_admin_routes();
         }
        
@@ -54,22 +56,43 @@ export class AppMenuComponent implements OnInit {
     
     generate_points_routes(){
         let routes:any;
+        let secteurList:string[]=[]
         this.gisementService.retrieveGisements().subscribe(data => {
             this.gisements=data;
-            
-            
-            for( let gis of this.gisements){
-                
-             routes =  {
-                            label : gis.secteur, items : [ 
-                                {
-                                    label : gis.gisementLibelle, routerLink:['/geologie/point/'+gis.gisementId]
-                                }
-                            ]
-                        } 
-                        this.Points_routes.push(routes);
-                    
+            this.gisements.forEach(gisement=>{
+                let name = gisement.secteur;
+                if(!secteurList.some(e => e === name)){
+                    secteurList.push(name!);
             }
+         })
+         console.warn('secteurList',  secteurList);
+         
+            secteurList.forEach(secteur=>{
+
+                let gisListSecteur=[];
+                let items=[]
+                gisListSecteur =this.gisements.filter(gis=>{
+                    return gis.secteur==secteur;
+                })
+                console.log('gisListSecteur', gisListSecteur);
+                
+                for( let gis of gisListSecteur){
+                    console.log(gis.gisementId);
+                    
+                items.push({
+                    label : gis.gisementLibelle, routerLink:['/geologie/point/'+gis.gisementId]
+                })
+                    
+                    
+                           
+                   }
+                   routes =  {
+                    label : secteur, items 
+                    
+                } 
+                this.Points_routes.push(routes);
+            })
+            
             
             console.log(this.Points_routes);
             
@@ -146,12 +169,6 @@ export class AppMenuComponent implements OnInit {
                     label: 'User',
                     items: [
                         { label: 'User Management', icon: 'pi pi-fw pi-ticket', routerLink: ['/admin/users'] },         
-                    ]
-                },
-                {
-                    label: 'point',
-                    items: [
-                        { label: 'User Management', icon: 'pi pi-fw pi-ticket', routerLink: ['/geologie/gisement'] },         
                     ]
                 },
             ]

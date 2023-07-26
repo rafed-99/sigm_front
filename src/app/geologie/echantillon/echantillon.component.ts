@@ -54,13 +54,13 @@ export class EchantillonComponent {
   checkSelectedEchantillon ?: boolean;
   echantillonsToSend : Echantillon[] = []
   modeArchive = false;
-
+  role : string = ""
   
 
   ngOnInit() : void{
     console.log('NG ONINIT');
     this.modeArchive=this.detailPointComponent.modeArchive;
-    
+    this.role = sessionStorage.getItem('role')!
     this.etatEchantillons = [
       {label: 'NOUVEAU', value: 'Nouveau'},
       {label: 'A VERIFIER', value: 'A_Verifier'},

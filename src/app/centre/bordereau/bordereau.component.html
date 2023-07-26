@@ -1,10 +1,10 @@
 <p-toast></p-toast>
 
-<app-detail-bordereau [bordereau]="selectedBordereauDetail" *ngIf="detailBordereauON===true" ></app-detail-bordereau>
+<app-detail-bordereau [bordereau]="selectedBordereauDetail" *ngIf="detailBordereauON===true && (role === 'ADMIN' ||role === 'CONFIRM' || role === 'USER' )" ></app-detail-bordereau>
 
 
 
-<div class="card" *ngIf="detailBordereauON===false"  >
+<div class="card" *ngIf="detailBordereauON===false && (role === 'ADMIN' ||role === 'CONFIRM' || role === 'USER' )"  >
     <p-button label="Retour To Archives" icon="pi pi-arrow-left" iconPos="left" (click)="retourToArchive()" *ngIf="modeArchive"></p-button>
     <h5>Receipt Management</h5>
     <p-table #dt1 [value]="bordereaux" [(selection)]="selectedBordereau" dataKey="bordereauId" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['archiveLibelle','archiveDate','archiveType']" responsiveLayout="scroll">
@@ -12,7 +12,7 @@
         <ng-template pTemplate="caption" >
             <div class="flex justify-content-between flex-column sm:flex-row">
                     <div class="flex gap-2">
-                    <button pButton label="Send to Archive" class="p-button-outlined mb-2" icon="pi pi-save" (click)="openDialogArchive()" [disabled]="buttonSendCondition()" *ngIf="!modeArchive"></button>
+                    <button pButton label="Send to Archive" class="p-button-outlined mb-2" icon="pi pi-save" (click)="openDialogArchive()" [disabled]="buttonSendCondition()" *ngIf="!modeArchive && (role === 'ADMIN' ||role === 'CONFIRM' || role === 'USER' )"></button>
                     <button pButton label="Export" class="p-button-outlined mb-2" icon="pi pi-file-excel" (click)="exportExcel()" ></button>
                     </div>
                     <div>
@@ -99,8 +99,8 @@
                 </td>
                 
                 <td>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteNew(bordereau)" *ngIf="!modeArchive"></button>
-                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info" (click)="detailBordereau(bordereau)" ></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteNew(bordereau)" *ngIf="!modeArchive && (role === 'ADMIN' ||role === 'CONFIRM' || role === 'USER' )"></button>
+                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info" (click)="detailBordereau(bordereau) " *ngIf="(role === 'ADMIN' ||role === 'CONFIRM' || role === 'USER' )" ></button>
                 </td>
                 
                 

@@ -23,9 +23,11 @@ export class CoucheComponent {
   currentCouche = new Couche();
   updateDialog ?:boolean;
   deleteDialog ?:boolean
+  role ?: string =""
 
   ngOnInit(): void { 
     this.getCouches();
+    this.role = sessionStorage.getItem('role')!;
   }
 
   getCouches(){

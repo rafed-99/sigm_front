@@ -1,12 +1,12 @@
 <p-toast></p-toast>
 <div class="col-12">
-    <div class="card">
+    <div class="card" *ngIf="role === 'CONSULT' || role === 'USER' || role === 'ADMIN' ">
         <h5>Couches Management</h5>
         <p-table #dt1 [value]="couches" dataKey="id" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['coucheCode','coucheLibelle','coucheOrdre']" responsiveLayout="scroll"> 
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <div class="flex gap-2">
-                        <button pButton label="Add" class="p-button-outlined mb-2" icon="pi pi-plus" (click)="openNew()" ></button>
+                        <button pButton label="Add" class="p-button-outlined mb-2" icon="pi pi-plus" (click)="openNew()" *ngIf="role === 'USER' || role === 'ADMIN' "></button>
                         <button pButton label="Export" class="p-button-outlined mb-2" icon="pi pi-file-excel" (click)="exportExcel()" ></button>
                     </div>
                     <div>
@@ -48,8 +48,8 @@
                         {{couche.coucheOrdre}}
                     </td>
                     <td>
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editNew(couche)" ></button> 
-                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteNew(couche)"></button>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editNew(couche)" *ngIf="role === 'USER' || role === 'ADMIN' "></button> 
+                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteNew(couche)" *ngIf=" role === 'ADMIN' "></button>
                     </td>
                 </tr>
             </ng-template>

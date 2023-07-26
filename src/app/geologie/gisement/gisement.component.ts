@@ -27,8 +27,11 @@ export class GisementComponent implements OnInit{
   newGisement = new Gisement();
   currentGisement = new Gisement();
   secteur ?: any[];
+  role : string = "";
   
   ngOnInit(): void {
+  //   console.log(this.getGisements());
+    
    this.getGisements();
    this.secteur = [
     {label: 'REDEYEF', value: 'Redeyef'},
@@ -36,6 +39,9 @@ export class GisementComponent implements OnInit{
     {label: 'METLAOUI', value: 'Metlaoui'},
     {label: 'MDHILLA', value: 'Mdhilla'},
   ]
+  this.role = sessionStorage.getItem("role")!
+  console.log(this.role);
+  
   }
   getGisements(){
     this.gisementService.retrieveGisements().subscribe(

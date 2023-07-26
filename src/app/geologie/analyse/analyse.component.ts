@@ -37,8 +37,9 @@ export class AnalyseComponent {
   deleteDialog ?: boolean;
   currentAnalyse = new Analyse();
   elementList: any[] = []
+  role : string = ""
   ngOnInit() : void {
-    
+    this.role = sessionStorage.getItem('role')!
     this.idEchantillon =this.detailEchantillonComponent.echantillon?.echantillonId?.toString()!;
     
     

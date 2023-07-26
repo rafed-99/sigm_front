@@ -48,7 +48,7 @@ export class AnalyseCentreComponent {
   modalTerminer ?: boolean;
   analysesResult ?: AnalysesResultes[]
   elementList : any[] = []
-  
+  role : string =""
 
   ngOnInit() :void{
     this.echantillons.push(this.echantillon!);
@@ -56,6 +56,7 @@ export class AnalyseCentreComponent {
     this.retrieveElements();
     // this.retrieveAnalyses();
     this.retrieveAnalyses2();
+    this.role = sessionStorage.getItem('role')!
   }
 
 

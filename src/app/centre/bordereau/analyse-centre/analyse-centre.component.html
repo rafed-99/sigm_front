@@ -143,8 +143,8 @@
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" [disabled]="echantillon?.etatEchantillon ==='Analysed'" (click)="modalUpdatePopup(analyse)"></button> 
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" [disabled]="echantillon?.etatEchantillon ==='Analysed'" (click)="modalDeleteAnalysePopup(analyse)"></button>
-                    <button pButton pRipple icon="pi pi-thumbs-up-fill" class="p-button-rounded p-button-info p-mr-2" [disabled]="echantillon?.etatEchantillon ==='Analysed'" (click)="modalConfirmerAnalysePopup(analyse)"></button>
-                    <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-help p-mr-2" [disabled]="echantillon?.etatEchantillon ==='Analysed'" (click)="modalValiderAnalysePopup(analyse)"></button>
+                    <button pButton pRipple icon="pi pi-thumbs-up-fill" class="p-button-rounded p-button-info p-mr-2" [disabled]="echantillon?.etatEchantillon ==='Analysed'" (click)="modalConfirmerAnalysePopup(analyse)" *ngIf="role === 'CONFIRM'"></button>
+                    <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-help p-mr-2" [disabled]="echantillon?.etatEchantillon ==='Analysed'" (click)="modalValiderAnalysePopup(analyse)" *ngIf="role === 'ADMIN'"></button>
                 </td>
                 <!-- <td *ngFor="let col of .analyseList">
                     {{col.valeurAnalyse}}

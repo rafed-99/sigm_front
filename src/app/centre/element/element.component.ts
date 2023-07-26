@@ -21,9 +21,11 @@ export class ElementComponent {
   editDialog ?: boolean;
   deleteDialog ?: boolean;
   currentElement = new Elementt();
+  role : string ="";
 
   ngOnInit() :void{
     this.showELements();
+    this.role = sessionStorage.getItem('role')!
   }
 
   showELements(){

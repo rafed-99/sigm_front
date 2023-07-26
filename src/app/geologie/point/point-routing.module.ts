@@ -8,17 +8,18 @@ const routes: Routes = [
   {path : '',
   children:[
     {
-      path:'1',component : PointComponent
-    },
-    {
-      path:'2',component : PointComponent
-    },
-    {
-      path:'3',component : PointComponent
-    },
-    {
-      path:'4',component : PointComponent
-    },
+      path:':id',component : PointComponent
+    }
+    // },
+    // {
+    //   path:'2',component : PointComponent
+    // },
+    // {
+    //   path:'3',component : PointComponent
+    // },
+    // {
+    //   path:'4',component : PointComponent
+    // },
   ]
   },
   

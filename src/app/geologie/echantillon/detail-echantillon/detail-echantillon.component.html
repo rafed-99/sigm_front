@@ -93,7 +93,7 @@
                                     </tr>
                                     <tr>
                                         <td>Receipt:</td>
-                                        <td><button pButton label="{{echantillon.bordereau.bordereauCode}}" class="p-button-outlined mb-2" icon="pi pi-file-pdf" (click)="exportExistBordereau()" ></button></td>
+                                        <td><button pButton label="{{echantillon.bordereau.bordereauCode}}" class="p-button-outlined mb-2" icon="pi pi-file-pdf" (click)="exportExistBordereau()" *ngIf="role === 'CONSULT' ||role === 'ADMIN' || role === 'USER' " ></button></td>
                                     </tr>
                                     <tr>
                                         <td>Sended Date:</td>
@@ -111,10 +111,10 @@
                                         <td>Notes Geology:</td>
                                         <td>
                                             <span class="p-float-label">
-                                            <textarea id="float-input" rows="5" cols="30" pInputTextarea [(ngModel)]="echantillon.notesGeologie"></textarea>
+                                            <textarea id="float-input" rows="5" cols="30" pInputTextarea [(ngModel)]="echantillon.notesGeologie" [disabled]="role === 'CONSULT'"></textarea>
                                             
                                             </span>
-                                            <button pButton label="Geology Notes" class="p-button-outlined mb-2" icon="pi pi-pencil" (click)="updateNoteGeologie()"></button>
+                                            <button pButton label="Geology Notes" class="p-button-outlined mb-2" icon="pi pi-pencil" (click)="updateNoteGeologie()" *ngIf="role === 'ADMIN' || role === 'USER' "></button>
                                         </td>
                                         <td></td>
                                     </tr>

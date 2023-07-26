@@ -54,12 +54,23 @@ export class PointComponent {
   currentArchive ?: Archive;
 
   filterPointByArchive ?:Point[] = []
+
+  role : string = ""
+  profile : string = ""
   
 
   ngOnInit() :void {
+    console.log('refreshhhhhhhhh');
+    
+    this.role = sessionStorage.getItem('role')!
+    this.profile = sessionStorage.getItem('profile')!
+
     if(this.archiveId){
       this.modeArchive=true;
     }
+
+    console.log(this.modeArchive);
+    
 if(!this.modeArchive){
   this.idGisement=this.router.url.split('/')[this.router.url.split('/').length-1];
     
@@ -96,7 +107,7 @@ else{
   // }
 
   getArchives(){
-    if(sessionStorage.getItem('profile')=='geologie'){
+    if(sessionStorage.getItem('profile')=='GEOLOGIE'){
       this.archiveService.retrieveArchives().subscribe(
        data=>{
          this.archives = data;
@@ -245,7 +256,7 @@ else{
   }
 
   GetPointsByArchive(){
-    if(sessionStorage.getItem("profile")=="geologie"){
+    if(sessionStorage.getItem("profile")=="GEOLOGIE"){
       this.pointService.retrievePointByArchive(this.archiveId!).subscribe(
         data=>{
           this.points=data

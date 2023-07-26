@@ -16,7 +16,7 @@ export class AdminService {
   }
 
   deleteUser(id : number):Observable<User[]>{
-    return this._http.delete<User[]>(apiURl + "/admin/user/deleteuser" + id)
+    return this._http.delete<User[]>(apiURl + "/admin/user/deleteuser/" + id)
   }
 
   updateUser(user : User):Observable<User>{

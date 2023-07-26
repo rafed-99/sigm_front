@@ -13,21 +13,21 @@ export class ElementService {
 
   retrieveElements():Observable<Elementt[]>
   {
-    return this._http.get<Elementt[]>(apiURl+"/element/showelements")
+    return this._http.get<Elementt[]>(apiURl+"/centre/element/showelements")
   }
 
   addElement(element : Elementt):Observable<Elementt>{
-    return this._http.post<Elementt>(apiURl+"/element/addelement",element)
+    return this._http.post<Elementt>(apiURl+"/centre/element/addelement",element)
   }
 
   deleteElement(idElement : number):Observable<Elementt>{
-    return this._http.delete<Elementt>(apiURl+"/element/deleteelement/"+idElement)
+    return this._http.delete<Elementt>(apiURl+"/centre/element/deleteelement/"+idElement)
   }
 
   updateElement(element : Elementt):Observable<Elementt>{
-    return this._http.put<Elementt>(apiURl + "/element/updateelement", element);
+    return this._http.put<Elementt>(apiURl + "/centre/element/updateelement", element);
   }
   exportExcel():Observable<Blob>{
-    return this._http.get(apiURl+"/element/exportexcelelement",{responseType:'blob'})
+    return this._http.get(apiURl+"/centre/element/exportexcelelement",{responseType:'blob'})
   }
 }

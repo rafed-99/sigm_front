@@ -1,9 +1,9 @@
 <p-toast></p-toast>
-<p-button label="Retour To Archives" icon="pi pi-arrow-left" iconPos="left" (click)="retourToArchive()" *ngIf="modeArchive"></p-button>
+<p-button label="Retour To Archives" icon="pi pi-arrow-left" iconPos="left" (click)="retourToArchive()" *ngIf="modeArchive  && profile ==='GEOLOGIE' && (role === 'USER' || role === 'CONSULT' || role === 'ADMIN')"></p-button>
 <app-detail-point *ngIf="detailPointON===true" [point]="selectedPoint" class="d-flex"></app-detail-point>
 
 <!-- table -->
-<div class="col-12" *ngIf="detailPointON===false">
+<div class="col-12" *ngIf="detailPointON===false && (role === 'USER' || role === 'CONSULT' || role === 'ADMIN')">
     <div class="card">
         <h5>Points Management</h5>
         <p-table #dt1 [value]="points" dataKey="pointId" [(selection)]="selectedPoints" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['']" responsiveLayout="scroll">
@@ -11,7 +11,7 @@
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <div class=" d-flex gap-2" style="display: flex !important;" >
-                        <button pButton label="Add" class="p-button-outlined mb-2" icon="pi pi-plus" (click)="openNew()" *ngIf="!modeArchive"></button>
+                        <button pButton label="Add" class="p-button-outlined mb-2" icon="pi pi-plus" (click)="openNew()" *ngIf="!modeArchive && (role === 'USER' || role === 'ADMIN')"></button>
                         <button pButton label="Export" class="p-button-outlined mb-2" icon="pi pi-file-excel" (click)="exportExcel()" *ngIf="!modeArchive"></button>
 
                     </div>
@@ -88,8 +88,8 @@
                         <p-checkbox [(ngModel)]="point.exportGis" [binary]="true" inputId="binary" [disabled]="true"></p-checkbox>
                     </td>
                     <td>
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editPoint(point)" *ngIf="!modeArchive"></button> 
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletePoint(point)" *ngIf="!modeArchive"></button>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editPoint(point)" *ngIf="!modeArchive &&(role === 'USER'  || role === 'ADMIN')"></button> 
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletePoint(point)" *ngIf="!modeArchive && (role === 'ADMIN')"></button>
                         <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info" (click)="showPointById(point)"></button>
                     </td>
                     

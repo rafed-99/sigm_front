@@ -16,19 +16,23 @@ export class UserComponent {
   currentUser : User = new User();
   role ?: any[];
 
+  role1 : string =""
+
   ngOnInit() :void{
    this.retrieveUsers();
 
    this.role = [
-    {label: 'USER', value: 'User'},
-    {label: 'ADMIN', value: 'Admin'},
-    {label: 'GEOLOGIE ADMIN', value: 'Geologie Admin'},
-    {label: 'GEOLOGIE USER', value: 'Geologie User'},
-    {label: 'GEOLOGIE CONSULT', value: 'Geologie Consult'},
-    {label: 'CENTRE ADMIN', value: 'Centre Admin'},
-    {label: 'CENTRE USER', value: 'Centre User'},
-    {label: 'CENTRE CONFIRM', value: 'Centre Confirm'},
+    {label: 'USER', value: 'USER'},
+    {label: 'ADMIN', value: 'ADMIN'},
+    {label: 'GEOLOGIE ADMIN', value: 'GEOLOGIE_ADMIN'},
+    {label: 'GEOLOGIE USER', value: 'GEOLOGIE_USER'},
+    {label: 'GEOLOGIE CONSULT', value: 'GEOLOGIE_CONSULT'},
+    {label: 'CENTRE ADMIN', value: 'CENTRE_ADMIN'},
+    {label: 'CENTRE USER', value: 'CENTRE_USER'},
+    {label: 'CENTRE CONFIRM', value: 'CENTRE_CONFIRM'},
   ]
+
+  this.role1 = sessionStorage.getItem('role')!;
   }
 
   retrieveUsers(){
@@ -47,6 +51,8 @@ export class UserComponent {
   }
 
   updateUserRoleModal(userHtml :User){
+    console.log(userHtml.role);
+    
     this.currentUser = userHtml;
     this.updateDialog = true;
   }
@@ -62,10 +68,24 @@ export class UserComponent {
   }
 
   deleteUser(){
-
+    this.adminService.deleteUser(this.currentUser.id!).subscribe(
+      ()=>{
+        // this.messageService.add({severity:'error', summary:'Archive '+this.currentArchive.archiveLibelle, detail:'Deleted with success' , life:3000});
+        this.users.forEach((element,index)=>{
+          if(element.id==this.currentUser.id!) this.users.splice(index,1);
+       });
+      }
+     )
+     this.deleteDialog = false;
   }
 
   updateUserRole(user : User){
-
+    this.adminService.updateUser(user).subscribe(
+      data => {
+        console.log(data);
+        
+      }
+    )
+    this.updateDialog = false;
   }
 }
