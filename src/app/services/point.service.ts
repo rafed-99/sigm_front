@@ -46,4 +46,24 @@ export class PointService {
   exportExcel(id : number):Observable<Blob>{
     return this._http.get(apiURl+"/geologie/point/exportexcelpoint/"+id,{responseType:'blob'})
   }
+
+  countPoint():Observable<any>{
+    return this._http.get<Point>(apiURl+"/geologie/point/countpoint")
+  }
+
+  countPointRedeyef():Observable<any>{
+    return this._http.get<Point>(apiURl+"/geologie/point/countpointredeyef")
+  }
+
+  countPointMoulares():Observable<any>{
+    return this._http.get<Point>(apiURl+"/geologie/point/countpointmoulares")
+  }
+
+  countPointMetlaoui():Observable<any>{
+    return this._http.get<Point>(apiURl+"/geologie/point/countpointmetlaoui")
+  }
+
+  countPointMdhilla():Observable<any>{
+    return this._http.get<Point>(apiURl+"/geologie/point/countpointmdhilla")
+  }
 }

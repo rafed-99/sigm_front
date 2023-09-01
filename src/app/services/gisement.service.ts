@@ -38,4 +38,24 @@ export class GisementService {
   exportExcel():Observable<Blob>{
     return this._http.get(apiURl+"/geologie/gisement/exportexcelgisements",{responseType:'blob'})
   }
+
+  countGisementBySecteur():Observable<any>{
+    return this._http.get(apiURl+"/geologie/gisement/countgisement")
+  }
+
+  countGisementByRedeyef():Observable<any>{
+    return this._http.get(apiURl+"/geologie/gisement/countbyredeyef")
+  }
+
+  countGisementByMoulares():Observable<any>{
+    return this._http.get(apiURl+"/geologie/gisement/countbymoulares")
+  }
+
+  countGisementByMetlaoui():Observable<any>{
+    return this._http.get(apiURl+"/geologie/gisement/countbymetlaoui")
+  }
+
+  countGisementByMdhilla():Observable<any>{
+    return this._http.get(apiURl+"/geologie/gisement/countbymdhilla")
+  }
 }

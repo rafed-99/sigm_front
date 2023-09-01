@@ -5,6 +5,8 @@ import { ProductService } from '../../service/product.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { Router } from '@angular/router';
+import { GisementService } from 'src/app/services/gisement.service';
+import { PointService } from 'src/app/services/point.service';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -21,8 +23,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     subscription!: Subscription;
     loggedIn='';
+    profile='';
 
-    constructor(private productService: ProductService, public layoutService: LayoutService, private router:Router) {
+    pointCount !:number;
+    gisementCount !:number;
+    redeyefGisCount !:number;
+    moularesGisCount !:number;
+    metlaouiGisCount !:number;
+    mdhillaGisCount !:number;
+    redeyefPointCount !:number;
+    moularesPointCount !:number;
+    metlaouiPointCount !:number;
+    mdhillaPointCount !:number;
+ 
+    constructor(private productService: ProductService, public layoutService: LayoutService, private router:Router, private gisementService:GisementService, private pointService: PointService) {
         this.subscription = this.layoutService.configUpdate$.subscribe(() => {
             this.initChart();
         });
@@ -30,6 +44,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loggedIn=sessionStorage.getItem('LoggedIn')!;
+        this.profile=sessionStorage.getItem('profile')!;
         console.log(this.loggedIn);
         
         if(this.loggedIn!='true'){
@@ -42,6 +57,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
             { label: 'Add New', icon: 'pi pi-fw pi-plus' },
             { label: 'Remove', icon: 'pi pi-fw pi-minus' }
         ];
+        this.countPoint()
+        this.countGisementBySecteur()
+        this.countGisementBySecteurRedeyef()
+        this.countGisementBySecteurMoulares()
+        this.countGisementBySecteurMetlaoui()
+        this.countGisementBySecteurMdhilla()
+        this.countPointRedeyef()
+        this.countPointMoulares()
+        this.countPointMetlaoui()
+        this.countPointMdhilla()
     }
 
     initChart() {
@@ -107,5 +132,119 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
+    }
+
+    countGisementBySecteur(){
+        this.gisementService.countGisementBySecteur().subscribe(
+            data=>{
+                this.gisementCount = this.processData(data)
+                console.log("this.gisementCount :",this.gisementCount);
+                
+            }
+        )
+    }
+
+    countGisementBySecteurRedeyef(){
+        this.gisementService.countGisementByRedeyef().subscribe(
+            data=>{
+                this.redeyefGisCount = this.processData(data)
+                console.log("this.redeyefGisCount :",this.redeyefGisCount);
+                
+            }
+        )
+    }
+
+    countGisementBySecteurMoulares(){
+        this.gisementService.countGisementByMoulares().subscribe(
+            data=>{
+                this.moularesGisCount = this.processData(data)
+                console.log("this.moularesGisCount :",this.moularesGisCount);
+                
+            }
+        )
+    }
+
+    countGisementBySecteurMetlaoui(){
+        this.gisementService.countGisementByMetlaoui().subscribe(
+            data=>{
+                this.metlaouiGisCount = this.processData(data)
+                console.log("this.metlaouiGisCount :",this.metlaouiGisCount);
+                
+            }
+        )
+    }
+
+    countGisementBySecteurMdhilla(){
+        this.gisementService.countGisementByMdhilla().subscribe(
+            data=>{
+                this.mdhillaGisCount = this.processData(data)
+                console.log("this.mdhillaGisCount :",this.mdhillaGisCount);
+                
+            }
+        )
+    }
+
+    countPoint(){
+       this.pointService.countPoint().subscribe(
+            data=>{
+                this.countPoint = this.processData(data);
+                console.log(this.countPoint);
+                
+                console.log(data);
+            }
+        )
+        
+    }
+
+    countPointRedeyef(){
+        this.pointService.countPointRedeyef().subscribe(
+             data=>{
+                 this.redeyefPointCount = this.processData(data);
+                 console.log(this.redeyefPointCount);
+                 
+                 console.log(data);
+             }
+         )
+         
+     }
+
+     countPointMoulares(){
+        this.pointService.countPointMoulares().subscribe(
+             data=>{
+                 this.moularesPointCount = this.processData(data);
+                 console.log(this.moularesPointCount);
+                 
+                 console.log(data);
+             }
+         )
+         
+     }
+
+     countPointMetlaoui(){
+        this.pointService.countPointMetlaoui().subscribe(
+             data=>{
+                 this.metlaouiPointCount = this.processData(data);
+                 console.log(this.metlaouiPointCount);
+                 
+                 console.log(data);
+             }
+         )
+         
+     }
+
+     countPointMdhilla(){
+        this.pointService.countPointMdhilla().subscribe(
+             data=>{
+                 this.mdhillaPointCount = this.processData(data);
+                 console.log(this.mdhillaPointCount);
+                 
+                 console.log(data);
+             }
+         )
+         
+     }
+
+    processData(data :any){
+        return data
     }
 }
