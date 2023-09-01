@@ -49,4 +49,20 @@ export class EchantillonService {
     return this._http.get<Echantillon[]>(apiURl+"/echantillon/showechantillonbybordereau/"+id)
   }
 
+  countToVerify():Observable<any>{
+    return this._http.get<Echantillon>(apiURl+"/echantillon/counttoverify")
+  }
+
+  countReceive():Observable<any>{
+    return this._http.get<Echantillon>(apiURl+"/echantillon/countreceived")
+  }
+
+  countSent():Observable<any>{
+    return this._http.get<Echantillon>(apiURl+"/echantillon/countsent")
+  }
+
+  countAnalysed():Observable<any>{
+    return this._http.get<Echantillon>(apiURl+"/echantillon/countanalysed")
+  }
+
 }

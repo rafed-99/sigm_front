@@ -7,6 +7,7 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { Router } from '@angular/router';
 import { GisementService } from 'src/app/services/gisement.service';
 import { PointService } from 'src/app/services/point.service';
+import { EchantillonService } from 'src/app/services/echantillon.service';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -35,11 +36,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     moularesPointCount !:number;
     metlaouiPointCount !:number;
     mdhillaPointCount !:number;
+    countToVerifySample !:number;
+    countSentSample !:number;
+    countReceiveSample !:number;
+    countAnalysedSample !:number;
  
-    constructor(private productService: ProductService, public layoutService: LayoutService, private router:Router, private gisementService:GisementService, private pointService: PointService) {
-        this.subscription = this.layoutService.configUpdate$.subscribe(() => {
-            this.initChart();
-        });
+    constructor(private productService: ProductService, public layoutService: LayoutService, private router:Router, private gisementService:GisementService, private pointService: PointService, private echantillonService : EchantillonService) {
+        // this.subscription = this.layoutService.configUpdate$.subscribe(() => {
+        //     this.initChart();
+        // });
     }
 
     ngOnInit() {
@@ -50,13 +55,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if(this.loggedIn!='true'){
             this.router.navigate(['/auth/login']);
         }
-        this.initChart();
-        this.productService.getProductsSmall().then(data => this.products = data);
+        // this.initChart();
+        // this.productService.getProductsSmall().then(data => this.products = data);
 
-        this.items = [
-            { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-            { label: 'Remove', icon: 'pi pi-fw pi-minus' }
-        ];
+        // this.items = [
+        //     { label: 'Add New', icon: 'pi pi-fw pi-plus' },
+        //     { label: 'Remove', icon: 'pi pi-fw pi-minus' }
+        // ];
         this.countPoint()
         this.countGisementBySecteur()
         this.countGisementBySecteurRedeyef()
@@ -67,66 +72,70 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.countPointMoulares()
         this.countPointMetlaoui()
         this.countPointMdhilla()
+        this.countToverify()
+        this.countAnalysed()
+        this.countSent()
+        this.countReceived()
     }
 
-    initChart() {
-        const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--text-color');
-        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    // initChart() {
+    //     const documentStyle = getComputedStyle(document.documentElement);
+    //     const textColor = documentStyle.getPropertyValue('--text-color');
+    //     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    //     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-        this.chartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [
-                {
-                    label: 'First Dataset',
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    borderColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    tension: .4
-                },
-                {
-                    label: 'Second Dataset',
-                    data: [28, 48, 40, 19, 86, 27, 90],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--green-600'),
-                    borderColor: documentStyle.getPropertyValue('--green-600'),
-                    tension: .4
-                }
-            ]
-        };
+    //     this.chartData = {
+    //         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    //         datasets: [
+    //             {
+    //                 label: 'First Dataset',
+    //                 data: [65, 59, 80, 81, 56, 55, 40],
+    //                 fill: false,
+    //                 backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
+    //                 borderColor: documentStyle.getPropertyValue('--bluegray-700'),
+    //                 tension: .4
+    //             },
+    //             {
+    //                 label: 'Second Dataset',
+    //                 data: [28, 48, 40, 19, 86, 27, 90],
+    //                 fill: false,
+    //                 backgroundColor: documentStyle.getPropertyValue('--green-600'),
+    //                 borderColor: documentStyle.getPropertyValue('--green-600'),
+    //                 tension: .4
+    //             }
+    //         ]
+    //     };
 
-        this.chartOptions = {
-            plugins: {
-                legend: {
-                    labels: {
-                        color: textColor
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
-                },
-                y: {
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
-                }
-            }
-        };
-    }
+    //     this.chartOptions = {
+    //         plugins: {
+    //             legend: {
+    //                 labels: {
+    //                     color: textColor
+    //                 }
+    //             }
+    //         },
+    //         scales: {
+    //             x: {
+    //                 ticks: {
+    //                     color: textColorSecondary
+    //                 },
+    //                 grid: {
+    //                     color: surfaceBorder,
+    //                     drawBorder: false
+    //                 }
+    //             },
+    //             y: {
+    //                 ticks: {
+    //                     color: textColorSecondary
+    //                 },
+    //                 grid: {
+    //                     color: surfaceBorder,
+    //                     drawBorder: false
+    //                 }
+    //             }
+    //         }
+    //     };
+    // }
 
     ngOnDestroy() {
         if (this.subscription) {
@@ -237,6 +246,54 @@ export class DashboardComponent implements OnInit, OnDestroy {
              data=>{
                  this.mdhillaPointCount = this.processData(data);
                  console.log(this.mdhillaPointCount);
+                 
+                 console.log(data);
+             }
+         )
+         
+     }
+
+     countToverify(){
+        this.echantillonService.countToVerify().subscribe(
+             data=>{
+                 this.countToVerifySample = this.processData(data);
+                 console.log(this.countToVerifySample);
+                 
+                 console.log(data);
+             }
+         )
+         
+     }
+
+     countSent(){
+        this.echantillonService.countSent().subscribe(
+             data=>{
+                 this.countSentSample = this.processData(data);
+                 console.log(this.countSentSample);
+                 
+                 console.log(data);
+             }
+         )
+         
+     }
+
+     countReceived(){
+        this.echantillonService.countReceive().subscribe(
+             data=>{
+                 this.countReceiveSample = this.processData(data);
+                 console.log(this.countReceiveSample);
+                 
+                 console.log(data);
+             }
+         )
+         
+     }
+
+     countAnalysed(){
+        this.echantillonService.countAnalysed().subscribe(
+             data=>{
+                 this.countAnalysedSample = this.processData(data);
+                 console.log(this.countAnalysedSample);
                  
                  console.log(data);
              }
