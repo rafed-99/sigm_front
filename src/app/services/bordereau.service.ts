@@ -49,4 +49,20 @@ export class BordereauService {
     return this._http.get<Bordereau>(apiURl+'/bordereau/retrieveBordereauByEchantillon'+idEchantillon)
   }
 
+  countToVerify():Observable<any>{
+    return this._http.get(apiURl+"/bordereau/counttoverifyreceipt")
+  }
+
+  countOnHold():Observable<any>{
+    return this._http.get(apiURl+"/bordereau/countonholdreceipt")
+  }
+
+  countInProgress():Observable<any>{
+    return this._http.get(apiURl+"/bordereau/countinprogressreceipt")
+  }
+
+  countAnalysed():Observable<any>{
+    return this._http.get(apiURl+"/bordereau/countanalysedreceipt")
+  }
+
 }

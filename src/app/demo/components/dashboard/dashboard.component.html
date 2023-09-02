@@ -1,6 +1,6 @@
     <div class="grid" *ngIf="profile==='GEOLOGIE'">
         
-        <div class="col-12 lg:col-6 xl:col-3">
+        <!-- <div class="col-12 lg:col-6 xl:col-3">
             <div class="card mb-0">
                 <div class="flex justify-content-between mb-3">
                     <div>
@@ -13,7 +13,7 @@
                 </div>
                 <span class="text-green-500 font-medium">Added to the application </span>
             </div>
-        </div>
+        </div> -->
         <div class="col-12 lg:col-6 xl:col-3">
             <div class="card mb-0">
                 <div class="flex justify-content-between mb-3">
@@ -70,7 +70,7 @@
                 <span class="text-green-500 font-medium">Belong to Mdhilla Sector</span>
             </div>
         </div>
-        <div class="col-12 lg:col-6 xl:col-3">
+        <!-- <div class="col-12 lg:col-6 xl:col-3">
             <div class="card mb-0">
                 <div class="flex justify-content-between mb-3">
                     <div>
@@ -83,7 +83,7 @@
                 </div>
                 <span class="text-green-500 font-medium">Added to the application </span>
             </div>
-        </div>
+        </div> -->
         <div class="col-12 lg:col-6 xl:col-3">
             <div class="card mb-0">
                 <div class="flex justify-content-between mb-3">
@@ -196,21 +196,111 @@
                 <span class="text-green-500 font-medium">Analysed</span>
             </div>
         </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Comments</span>
-                        <div class="text-900 font-medium text-xl">152 Unread</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-comment text-purple-500 text-xl"></i>
-                    </div>
-                </div>
-                <span class="text-green-500 font-medium">85 </span>
-                <span class="text-500">responded</span>
-            </div>
-        </div>
+</div>
 
+
+
+<div class="grid" *ngIf="profile==='CENTRE'">
+        
+    
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Receipt</span>
+                    <div class="text-900 font-medium text-xl" >{{countVerifyReceipt}}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium">To Verify</span>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Receipt</span>
+                    <div class="text-900 font-medium text-xl" >{{countOnHoldReceipt}}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium">On Hold</span>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Receipt</span>
+                    <div class="text-900 font-medium text-xl" >{{countInProgressReceipt}}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium">In Progress</span>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Receipt</span>
+                    <div class="text-900 font-medium text-xl" >{{countAnalysedReceipt}}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium">Analysed</span>
+        </div>
+    </div>
+    
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Analysis</span>
+                    <div class="text-900 font-medium text-xl">{{countNewAnalyse}}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium">New</span>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Analysis</span>
+                    <div class="text-900 font-medium text-xl">{{countConfirmAnalyse}}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium">Confirmed</span>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Analysis</span>
+                    <div class="text-900 font-medium text-xl">{{countValidAnalyse}}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium">Valid</span>
+        </div>
+    </div>
 </div>
 

@@ -31,4 +31,16 @@ export class AnalyseService {
   addAnalyse(analyse : Analyse):Observable<Analyse>{
     return this._http.post<Analyse>(apiURl+"/analyse/addanalyse",analyse)
   }
+
+  countNewAnalyse():Observable<any>{
+    return this._http.get(apiURl+"/analyse/countnew")
+  }
+
+  countConfirmAnalyse():Observable<any>{
+    return this._http.get(apiURl+"/analyse/countconfirm")
+  }
+
+  countValidAnalyse():Observable<any>{
+    return this._http.get(apiURl+"/analyse/countvalid")
+  }
 }

@@ -1,18 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Product } from '../../api/product';
-import { ProductService } from '../../service/product.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { Router } from '@angular/router';
 import { GisementService } from 'src/app/services/gisement.service';
 import { PointService } from 'src/app/services/point.service';
 import { EchantillonService } from 'src/app/services/echantillon.service';
+import { AnalyseService } from 'src/app/services/analyse.service';
+import { BordereauService } from 'src/app/services/bordereau.service';
 
 @Component({
     templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent {
 
     items!: MenuItem[];
 
@@ -40,11 +41,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     countSentSample !:number;
     countReceiveSample !:number;
     countAnalysedSample !:number;
+    countNewAnalyse !:number;
+    countConfirmAnalyse !:number;
+    countValidAnalyse !:number;
+    countVerifyReceipt !:number;
+    countOnHoldReceipt !:number;
+    countInProgressReceipt !:number;
+    countAnalysedReceipt !:number;
  
-    constructor(private productService: ProductService, public layoutService: LayoutService, private router:Router, private gisementService:GisementService, private pointService: PointService, private echantillonService : EchantillonService) {
-        // this.subscription = this.layoutService.configUpdate$.subscribe(() => {
-        //     this.initChart();
-        // });
+    constructor(public layoutService: LayoutService, private router:Router, private gisementService:GisementService, private pointService: PointService, private echantillonService : EchantillonService,private analyseService: AnalyseService,private bordereauService:BordereauService) {
+       
     }
 
     ngOnInit() {
@@ -55,92 +61,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if(this.loggedIn!='true'){
             this.router.navigate(['/auth/login']);
         }
-        // this.initChart();
-        // this.productService.getProductsSmall().then(data => this.products = data);
 
-        // this.items = [
-        //     { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-        //     { label: 'Remove', icon: 'pi pi-fw pi-minus' }
-        // ];
-        this.countPoint()
-        this.countGisementBySecteur()
-        this.countGisementBySecteurRedeyef()
-        this.countGisementBySecteurMoulares()
-        this.countGisementBySecteurMetlaoui()
-        this.countGisementBySecteurMdhilla()
-        this.countPointRedeyef()
-        this.countPointMoulares()
-        this.countPointMetlaoui()
-        this.countPointMdhilla()
-        this.countToverify()
-        this.countAnalysed()
-        this.countSent()
-        this.countReceived()
-    }
-
-    // initChart() {
-    //     const documentStyle = getComputedStyle(document.documentElement);
-    //     const textColor = documentStyle.getPropertyValue('--text-color');
-    //     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-    //     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
-    //     this.chartData = {
-    //         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    //         datasets: [
-    //             {
-    //                 label: 'First Dataset',
-    //                 data: [65, 59, 80, 81, 56, 55, 40],
-    //                 fill: false,
-    //                 backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
-    //                 borderColor: documentStyle.getPropertyValue('--bluegray-700'),
-    //                 tension: .4
-    //             },
-    //             {
-    //                 label: 'Second Dataset',
-    //                 data: [28, 48, 40, 19, 86, 27, 90],
-    //                 fill: false,
-    //                 backgroundColor: documentStyle.getPropertyValue('--green-600'),
-    //                 borderColor: documentStyle.getPropertyValue('--green-600'),
-    //                 tension: .4
-    //             }
-    //         ]
-    //     };
-
-    //     this.chartOptions = {
-    //         plugins: {
-    //             legend: {
-    //                 labels: {
-    //                     color: textColor
-    //                 }
-    //             }
-    //         },
-    //         scales: {
-    //             x: {
-    //                 ticks: {
-    //                     color: textColorSecondary
-    //                 },
-    //                 grid: {
-    //                     color: surfaceBorder,
-    //                     drawBorder: false
-    //                 }
-    //             },
-    //             y: {
-    //                 ticks: {
-    //                     color: textColorSecondary
-    //                 },
-    //                 grid: {
-    //                     color: surfaceBorder,
-    //                     drawBorder: false
-    //                 }
-    //             }
-    //         }
-    //     };
-    // }
-
-    ngOnDestroy() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
+        this.geologystats()
+        this.centerStats()
     }
 
     countGisementBySecteur(){
@@ -299,6 +222,112 @@ export class DashboardComponent implements OnInit, OnDestroy {
              }
          )
          
+     }
+
+     geologystats(){
+        this.countPoint()
+        this.countGisementBySecteur()
+        this.countGisementBySecteurRedeyef()
+        this.countGisementBySecteurMoulares()
+        this.countGisementBySecteurMetlaoui()
+        this.countGisementBySecteurMdhilla()
+        this.countPointRedeyef()
+        this.countPointMoulares()
+        this.countPointMetlaoui()
+        this.countPointMdhilla()
+        this.countToverify()
+        this.countAnalysed()
+        this.countSent()
+        this.countReceived()
+     }
+
+     countNewAnalysis(){
+        this.analyseService.countNewAnalyse().subscribe(
+             data=>{
+                 this.countNewAnalyse = this.processData(data);
+                 console.log(this.countNewAnalyse);
+                 
+                 console.log(data);
+             }
+         )
+         
+     }
+
+     countConfirmAnalysis(){
+        this.analyseService.countConfirmAnalyse().subscribe(
+             data=>{
+                 this.countConfirmAnalyse = this.processData(data);
+                 console.log(this.countConfirmAnalyse);
+                 
+                 console.log(data);
+             }
+         )
+         
+     }
+
+     countValidAnalysis(){
+        this.analyseService.countValidAnalyse().subscribe(
+             data=>{
+                 this.countValidAnalyse = this.processData(data);
+                 console.log(this.countValidAnalyse);
+                 
+                 console.log(data);
+             }
+         )  
+     }
+
+     countToVerifyReceipt(){
+        this.bordereauService.countToVerify().subscribe(
+             data=>{
+                 this.countVerifyReceipt = this.processData(data);
+                 console.log(this.countVerifyReceipt);
+                 
+                 console.log(data);
+             }
+         )  
+     }
+
+     countHoldReceipt(){
+        this.bordereauService.countOnHold().subscribe(
+             data=>{
+                 this.countOnHoldReceipt = this.processData(data);
+                 console.log(this.countOnHoldReceipt);
+                 
+                 console.log(data);
+             }
+         )  
+     }
+
+     countProgressReceipt(){
+        this.bordereauService.countInProgress().subscribe(
+             data=>{
+                 this.countInProgressReceipt = this.processData(data);
+                 console.log(this.countInProgressReceipt);
+                 
+                 console.log(data);
+             }
+         )  
+     }
+
+     countAnalyseReceipt(){
+        this.bordereauService.countAnalysed().subscribe(
+             data=>{
+                 this.countAnalysedReceipt = this.processData(data);
+                 console.log(this.countAnalysedReceipt);
+                 
+                 console.log(data);
+             }
+         )  
+     }
+
+     centerStats(){
+        this.countAnalyseReceipt()
+        this.countHoldReceipt()
+        this.countProgressReceipt()
+        this.countToVerifyReceipt()
+        this.countConfirmAnalysis()
+        this.countNewAnalysis()
+        this.countValidAnalysis()
      }
 
     processData(data :any){
