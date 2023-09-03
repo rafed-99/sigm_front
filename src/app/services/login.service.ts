@@ -34,5 +34,5 @@ export class LoginService {
     console.warn(sessionStorage.getItem('access_token'))
     return sessionStorage.getItem('access_token')!;
   }
-
+  
 }

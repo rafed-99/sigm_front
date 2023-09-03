@@ -78,7 +78,7 @@
                 <button pButton pRipple icon="pi pi-plus"  class="p-button-outlined mb-2" label="Add Analysis" [disabled]="echantillon?.etatEchantillon ==='Analysed'" (click)="modalAddAnalyse()"></button>
             </td>
             <td>
-                <button pButton pRipple icon="pi pi-lock" class="p-button-outlined mb-2" label="End Analysis" (click)="modalTerminerAnalysePopup(echantillon)"></button>
+                <button pButton pRipple icon="pi pi-lock" class="p-button-outlined mb-2" label="End Analysis" [disabled]="echantillon?.etatEchantillon ==='Analysed'" (click)="modalTerminerAnalysePopup(echantillon)"></button>
             </td>
             <!-- <td *ngFor="let col of .analyseList">
                 {{col.valeurAnalyse}}
@@ -107,12 +107,15 @@
                         Status
                     </div>
                 </th>
-                <th style="min-width: 8rem" *ngFor="let col of elementList">
+                <th style="min-width: 4rem">
                     <div class="flex justify-content-between align-items-center">
-                        {{col}}
+                        Value
                     </div>
                 </th>
                 <th style="min-width: 4rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Element
+                    </div>
                 </th>
                 
             </tr>
@@ -130,16 +133,22 @@
                     {{analyse.etatAnalyse}}
                     <!-- {{echantillon.depthFrom}} -->
                 </td>
-                <td *ngFor="let col of elementList">
+                <td>
+                    {{analyse.valeurAnalyse}}
+                    <!-- {{echantillon.depthFrom}} -->
+                </td>
+                <td>
+                    {{analyse.element.elementCode}}
+                    <!-- {{echantillon.depthFrom}} -->
+                </td>
+                <!-- <td *ngFor="let col of elementList">
                     <div *ngFor="let row of analyses">
                     <div *ngIf="row.element!.elementCode === col" >
                         {{row.valeurAnalyse}}
                     </div>
                     </div>
-                </td>
-                <td>
-
-                </td>
+                </td> -->
+                
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" [disabled]="echantillon?.etatEchantillon ==='Analysed'" (click)="modalUpdatePopup(analyse)"></button> 
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" [disabled]="echantillon?.etatEchantillon ==='Analysed'" (click)="modalDeleteAnalysePopup(analyse)"></button>

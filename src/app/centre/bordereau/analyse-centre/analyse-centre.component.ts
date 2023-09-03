@@ -54,8 +54,8 @@ export class AnalyseCentreComponent {
     this.echantillons.push(this.echantillon!);
     this.retrieveCoupures();
     this.retrieveElements();
-    // this.retrieveAnalyses();
-    this.retrieveAnalyses2();
+    this.retrieveAnalyses();
+    // this.retrieveAnalyses2();
     this.role = sessionStorage.getItem('role')!
   }
 
@@ -121,39 +121,39 @@ export class AnalyseCentreComponent {
     this.newAnalyse = new Analyse()
   }
 
-  // retrieveAnalyses(){
-  //   this.analyseService.getAnalysesByEchantillon(this.echantillon?.echantillonId?.toString()!).subscribe(
-  //     data=>{
-  //       this.analyses = data
-  //       console.log("this.analyses ",this.analyses);
-  //     }
-  //   )
-  // }
-
-  retrieveAnalyses2(){
+  retrieveAnalyses(){
     this.analyseService.getAnalysesByEchantillon(this.echantillon?.echantillonId?.toString()!).subscribe(
       data=>{
         this.analyses = data
         console.log("this.analyses ",this.analyses);
-        this.elementHeaderList();
       }
     )
   }
 
-  elementHeaderList(){
-    console.log("this.analyses ", this.analyses);
+  // retrieveAnalyses2(){
+  //   this.analyseService.getAnalysesByEchantillon(this.echantillon?.echantillonId?.toString()!).subscribe(
+  //     data=>{
+  //       this.analyses = data
+  //       console.log("this.analyses ",this.analyses);
+  //       this.elementHeaderList();
+  //     }
+  //   )
+  // }
+
+  // elementHeaderList(){
+  //   console.log("this.analyses ", this.analyses);
     
-    this.analyses.forEach(analyse =>{
-      let name = analyse.element?.elementCode;
-      console.warn(this.elementList);
-      if(!this.elements.some(e => e === name)){
-        this.elementList!.push(name);
-      }  
-      console.warn("888888 ",this.elementList);
-    }
+  //   this.analyses.forEach(analyse =>{
+  //     let name = analyse.element?.elementCode;
+  //     console.warn(this.elementList);
+  //     if(!this.elements.some(e => e === name)){
+  //       this.elementList!.push(name);
+  //     }  
+  //     console.warn("888888 ",this.elementList);
+  //   }
     
-    )
-  }
+  //   )
+  // }
 
   modalUpdatePopup(analysesHtml : Analyse){
     this.currentAnalyse = analysesHtml;

@@ -9,6 +9,7 @@ import { PointService } from 'src/app/services/point.service';
 import { EchantillonService } from 'src/app/services/echantillon.service';
 import { AnalyseService } from 'src/app/services/analyse.service';
 import { BordereauService } from 'src/app/services/bordereau.service';
+import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -26,7 +27,7 @@ export class DashboardComponent {
     subscription!: Subscription;
     loggedIn='';
     profile='';
-
+    role='';
     pointCount !:number;
     gisementCount !:number;
     redeyefGisCount !:number;
@@ -48,22 +49,38 @@ export class DashboardComponent {
     countOnHoldReceipt !:number;
     countInProgressReceipt !:number;
     countAnalysedReceipt !:number;
+    countAdminn !:number;
+    countGeologieAdmin !:number;
+    countGeologieUser !:number;
+    countGeologieConsult !:number;
+    countCentreAdmin !:number;
+    countCentreUser !:number;
+    countCentreConfirm !:number;
  
-    constructor(public layoutService: LayoutService, private router:Router, private gisementService:GisementService, private pointService: PointService, private echantillonService : EchantillonService,private analyseService: AnalyseService,private bordereauService:BordereauService) {
+    constructor(public layoutService: LayoutService, private router:Router, private gisementService:GisementService, private pointService: PointService, private echantillonService : EchantillonService
+        ,private analyseService: AnalyseService,private bordereauService:BordereauService,private adminService:AdminService) {
        
     }
 
     ngOnInit() {
         this.loggedIn=sessionStorage.getItem('LoggedIn')!;
         this.profile=sessionStorage.getItem('profile')!;
+        this.role=sessionStorage.getItem('role')!;
         console.log(this.loggedIn);
         
         if(this.loggedIn!='true'){
             this.router.navigate(['/auth/login']);
         }
-
-        this.geologystats()
-        this.centerStats()
+        if(this.profile==="GEOLOGIE"){
+            this.geologystats()
+        }
+        else if(this.profile==="CENTRE"){
+            this.centerStats()
+        }
+        else{
+            this.adminStats()
+        }
+        
     }
 
     countGisementBySecteur(){
@@ -328,6 +345,93 @@ export class DashboardComponent {
         this.countConfirmAnalysis()
         this.countNewAnalysis()
         this.countValidAnalysis()
+     }
+
+     countAdmin(){
+        this.adminService.countAdmin().subscribe(
+             data=>{
+                 this.countAdminn = this.processData(data);
+                 console.log(this.countAdminn);
+                 
+                 console.log(data);
+             }
+         )  
+     }
+
+     countGeoAdmin(){
+        this.adminService.countGeoAdmin().subscribe(
+             data=>{
+                 this.countGeologieAdmin = this.processData(data);
+                 console.log(this.countGeologieAdmin);
+                 
+                 console.log(data);
+             }
+         )  
+     }
+
+     countGeoUser(){
+        this.adminService.countGeoUser().subscribe(
+             data=>{
+                 this.countGeologieUser = this.processData(data);
+                 console.log(this.countGeologieUser);
+                 
+                 console.log(data);
+             }
+         )  
+     }
+
+     countCenterAdmin(){
+        this.adminService.countCenterAdmin().subscribe(
+             data=>{
+                 this.countCentreAdmin = this.processData(data);
+                 console.log(this.countCentreAdmin);
+                 
+                 console.log(data);
+             }
+         )  
+     }
+
+     countCenterUser(){
+        this.adminService.countCenterUser().subscribe(
+             data=>{
+                 this.countCentreUser = this.processData(data);
+                 console.log(this.countCentreUser);
+                 
+                 console.log(data);
+             }
+         )  
+     }
+
+     countCenterConfirm(){
+        this.adminService.countCenterConfirm().subscribe(
+             data=>{
+                 this.countCentreConfirm = this.processData(data);
+                 console.log(this.countCentreConfirm);
+                 
+                 console.log(data);
+             }
+         )  
+     }
+
+     countGeoConsult(){
+        this.adminService.countGeoConsult().subscribe(
+             data=>{
+                 this.countGeologieConsult = this.processData(data);
+                 console.log(this.countGeologieConsult);
+                 
+                 console.log(data);
+             }
+         )  
+     }
+
+     adminStats(){
+        this.countAdmin();
+        this.countGeoAdmin();
+        this.countGeoUser();
+        this.countGeoConsult();
+        this.countCenterAdmin();
+        this.countCenterUser();
+        this.countCenterConfirm();
      }
 
     processData(data :any){
