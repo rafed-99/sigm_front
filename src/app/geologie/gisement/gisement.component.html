@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 <div class="col-12">
     <div class="card" *ngIf="role === 'CONSULT' || role === 'USER' || role === 'ADMIN' " >
-        <h5>Gisement Management</h5>
+        <h5>Field Management</h5>
         <p-table #dt1 [value]="gisements" dataKey="id" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['gisementCode','gisementLibelle','secteur']" responsiveLayout="scroll">
             
             <ng-template pTemplate="caption">
@@ -21,7 +21,7 @@
                 <tr>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Code
+                            Field Code
                         </div>
                     </th>
                     <th style="min-width: 12rem">
@@ -31,8 +31,7 @@
                     </th>
                     <th style="min-width: 14rem">
                         <div class="flex justify-content-between align-items-center">
-                            Secteur
-                           
+                            Sector
                         </div>
                     </th>
                    
@@ -59,21 +58,17 @@
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="8">No gisement/s found.</td>
+                    <td colspan="8">No field/s found.</td>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="loadingbody">
-                <tr>
-                    <td colspan="8">Loading customers data. Please wait.</td>
-                </tr>
-            </ng-template>
+            
         </p-table>
     </div>
     
-    <p-dialog [(visible)]="addDialog" [style]="{width: '450px'}" header="Gisement Detail" [modal]="true" styleClass="p-fluid">
+    <p-dialog [(visible)]="addDialog" [style]="{width: '450px'}" header="Field Detail" [modal]="true" styleClass="p-fluid">
         <ng-template pTemplate="content" let-gisement>
             <div class="field">
-                <label for="code">Code</label>
+                <label for="code">Field Code</label>
                 <input type="text" pInputText id="code" [(ngModel)]="newGisement.gisementCode" required autofocus />
                 <small class="p-error" *ngIf="submitted && !newGisement.gisementCode">Code is required.</small>
             </div>
@@ -84,7 +79,7 @@
             </div>
     
             <div class="field">
-                <label for="secteur">Secteur</label>
+                <label for="secteur">Sector</label>
                 <p-dropdown [(ngModel)]="newGisement.secteur" inputId="secteur" [options]="secteur!" placeholder="Select">
                     <ng-template let-option pTemplate="item">
                         <span [class]="option.value">{{option.label}}</span>
@@ -104,10 +99,10 @@
 
 <!-- edit dialog -->
     
-<p-dialog [(visible)]="updateDialog" [style]="{width: '450px'}" header="Gisement Details" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="updateDialog" [style]="{width: '450px'}" header="Field Details" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content" let-gisement>
         <div class="field">
-            <label for="code">Code</label>
+            <label for="code">Field Code</label>
             <input type="text" pInputText id="code" [(ngModel)]="currentGisement.gisementCode" required autofocus />
             <small class="p-error" *ngIf="submitted && !currentGisement.gisementCode">Code is required.</small>
         </div>
@@ -118,7 +113,7 @@
         </div>
 
         <div class="field">
-            <label for="secteur">Secteur</label>
+            <label for="secteur">Sector</label>
             <p-dropdown [(ngModel)]="currentGisement.secteur" inputId="secteur" [options]="secteur!" placeholder="Select">
                 <ng-template let-option pTemplate="item">
                     <span [class]="option.value">{{option.label}}</span>
@@ -131,23 +126,23 @@
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog1()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateGisement(currentGisement)"></button>
+        <button pButton pRipple label="Modify" icon="pi pi-check" class="p-button-text" (click)="updateGisement(currentGisement)"></button>
     </ng-template>
 </p-dialog>
 
 
 
-<p-dialog [(visible)]="deleteDialog" [style]="{width: '450px'}" header="Gisement Details" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="deleteDialog" [style]="{width: '450px'}" header="Delete Field?" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content" let-gisement>
        <div>
-        Are u sure want to delete this gisement
+        Do you want to delete this field?
        </div>
         
     </ng-template>
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog2()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="confirmDeleteGisement()"></button>
+        <button pButton pRipple label="Delete" icon="pi pi-check" class="p-button-text" (click)="confirmDeleteGisement()"></button>
     </ng-template>
 </p-dialog>
     

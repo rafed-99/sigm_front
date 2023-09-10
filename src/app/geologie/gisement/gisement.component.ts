@@ -34,10 +34,10 @@ export class GisementComponent implements OnInit{
     
    this.getGisements();
    this.secteur = [
-    {label: 'REDEYEF', value: 'Redeyef'},
-    {label: 'MOULARES', value: 'Moulares'},
-    {label: 'METLAOUI', value: 'Metlaoui'},
-    {label: 'MDHILLA', value: 'Mdhilla'},
+    {label: 'Redeyef', value: 'Redeyef'},
+    {label: 'Moulares', value: 'Moulares'},
+    {label: 'Metlaoui', value: 'Metlaoui'},
+    {label: 'Mdhilla', value: 'Mdhilla'},
   ]
   this.role = sessionStorage.getItem("role")!
   console.log(this.role);

@@ -131,7 +131,6 @@ else{
       this.points=this.points.filter(point=>{
         return (!point.archive);
       })
-      
       console.log(data);
     })
   }

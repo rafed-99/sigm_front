@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Table } from 'primeng/table';
 import { User } from 'src/app/model/user';
 import { AdminService } from 'src/app/services/admin.service';
 
@@ -9,6 +10,7 @@ import { AdminService } from 'src/app/services/admin.service';
 })
 export class UserComponent {
   constructor(private adminService : AdminService){}
+  @ViewChild('filter') filter!: ElementRef;
   users : User[] = []
   submitted ?: boolean;
   deleteDialog ?: boolean;
@@ -88,4 +90,12 @@ export class UserComponent {
     )
     this.updateDialog = false;
   }
+
+  clear(table: Table) {
+    table.clear();
+    this.filter.nativeElement.value = '';
+}
+onGlobalFilter(table: Table, event: Event) {
+  table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+}
 }

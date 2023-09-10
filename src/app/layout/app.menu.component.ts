@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { Gisement } from '../model/gisement';
 import { GisementService } from '../services/gisement.service';
 import { LayoutService } from './service/app.layout.service';
+import { Routes } from '@angular/router';
+import { PointComponent } from '../geologie/point/point.component';
 
 @Component({
     selector: 'app-menu',
@@ -13,6 +15,8 @@ export class AppMenuComponent implements OnInit {
     model: any[] = [];
     Points_routes:any[]=[];
     gisements :Gisement[]=[];
+    _routes:Routes=[];
+    url:string='';
 
 
     constructor(public layoutService: LayoutService, private gisementService : GisementService) { }
@@ -43,11 +47,11 @@ export class AppMenuComponent implements OnInit {
                     ]
                 },
                 {
-                    label: 'Centre',
+                    label: 'Research Center',
                     items: [
-                        { label: 'Bordereaux', icon: 'pi pi-fw pi-ticket', routerLink: ['/centre/bordereau'] },
+                        { label: 'Receipts', icon: 'pi pi-fw pi-ticket', routerLink: ['/centre/bordereau'] },
                         { label: 'Elements', icon: 'pi pi-fw pi-book', routerLink: ['/centre/element'] },
-                        { label: 'Archive', icon: 'pi pi-fw pi-save', routerLink: ['/geologie/archive'] },          
+                        { label: 'Archives', icon: 'pi pi-fw pi-save', routerLink: ['/centre/archive'] },          
                     ]
                 },
             ]
@@ -72,7 +76,9 @@ export class AppMenuComponent implements OnInit {
                 let gisListSecteur=[];
                 let items=[]
                 gisListSecteur =this.gisements.filter(gis=>{
+                   
                     return gis.secteur==secteur;
+                
                 })
                 console.log('gisListSecteur', gisListSecteur);
                 
@@ -91,10 +97,22 @@ export class AppMenuComponent implements OnInit {
                     
                 } 
                 this.Points_routes.push(routes);
+
+
+
             })
-            
+            this.gisements.forEach(gis=>{
+                 // genrate Routes for point routing module
+                 let url=gis.gisementId?.toString()
+                 this._routes.push({
+                     path:url,
+                     component:PointComponent
+                 })
+            })
+            localStorage.setItem('_routes',JSON.stringify(this._routes));
             
             console.log(this.Points_routes);
+            console.log(' _routes: ', this._routes);
             
             this.model = [
                 {
@@ -104,12 +122,12 @@ export class AppMenuComponent implements OnInit {
                     ]
                 },
                 {
-                    label: 'Geologie',
+                    label: 'Geology',
                     items: [
-                        { label: 'gisement', icon: 'pi pi-fw pi-map', routerLink: ['/geologie/gisement'] },
-                        { label: 'archive', icon: 'pi pi-fw pi-save', routerLink: ['/geologie/archive'] },
-                        { label: 'couche', icon: 'pi pi-fw pi-align-justify', routerLink: ['/geologie/couche'] },
-                        { label: 'point', icon: 'pi pi-fw pi-map-marker', items : 
+                        { label: 'Field', icon: 'pi pi-fw pi-map', routerLink: ['/geologie/gisement'] },
+                        { label: 'Archives', icon: 'pi pi-fw pi-save', routerLink: ['/geologie/archive'] },
+                        { label: 'Layers', icon: 'pi pi-fw pi-align-justify', routerLink: ['/geologie/couche'] },
+                        { label: 'Points', icon: 'pi pi-fw pi-map-marker', items : 
                             // {
                             //     label : 'metlaoui', items : [ 
                             //         {

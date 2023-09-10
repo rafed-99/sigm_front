@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import { MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
 import { ArchiveComponent } from 'src/app/geologie/archive/archive.component';
 import { Archive } from 'src/app/model/archive';
 import { Bordereau } from 'src/app/model/bordereau';
@@ -24,7 +25,7 @@ export class BordereauComponent {
 
   @Output()
   fermer : EventEmitter<boolean>  = new EventEmitter()
-
+  @ViewChild('filter') filter!: ElementRef;
 
   bordereaux : Bordereau[] = [];
   deleteDialog ?: boolean;
@@ -62,7 +63,13 @@ export class BordereauComponent {
     
     
   }
-
+  clear(table: Table) {
+    table.clear();
+    this.filter.nativeElement.value = '';
+}
+onGlobalFilter(table: Table, event: Event) {
+  table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+}
   retrieveBordereaux(){
     return this.bordereauService.getBordereaux().subscribe(
       data =>{

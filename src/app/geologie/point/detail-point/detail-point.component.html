@@ -7,7 +7,7 @@
     <!-- Tabs -->
     <div class="d-flex" >
         <p-tabView [(activeIndex)]="Tabindex">
-            <p-tabPanel header="Point details" leftIcon="pi pi-bell" >
+            <p-tabPanel header="Point details" leftIcon="pi pi-list" >
     
                 <div class="card">
                     <p-table #dt1 [value]="points" dataKey="id" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines"  [globalFilterFields]="['']" responsiveLayout="scroll">
@@ -99,10 +99,10 @@
                 </div>
     
             </p-tabPanel>
-            <p-tabPanel header="Geologies">
+            <p-tabPanel header="Geology" leftIcon="pi pi-compass">
                 <app-geologies  [geologies]="geologiee"></app-geologies>
             </p-tabPanel>
-            <p-tabPanel header="Samples">
+            <p-tabPanel header="Samples" leftIcon="pi pi-pencil">
                 <app-echantillon  ></app-echantillon>
     
             </p-tabPanel>

@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, ElementRef, Inject, Input, ViewChild } from '@angular/core';
 import { Geologie } from 'src/app/model/geologie';
 import { GeologieService } from 'src/app/services/geologie.service';
 import { DetailPointComponent } from '../point/detail-point/detail-point.component';
@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
 import { PointService } from 'src/app/services/point.service';
 import { Point } from 'src/app/model/point';
 import * as FileSaver from 'file-saver';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-geologies',
@@ -20,6 +21,7 @@ export class GeologiesComponent {
   
   constructor(private geologieService : GeologieService, @Inject (DetailPointComponent) private detailPointComponent:DetailPointComponent , private coucheService : CoucheService, private echantillonService : EchantillonService ,private messageService : MessageService, private pointService : PointService){}
 
+  @ViewChild('filter') filter!: ElementRef;
   idPoint:string = "";
   addDialog !: boolean;
   editDialog !: boolean;
@@ -54,7 +56,13 @@ export class GeologiesComponent {
     this.retrieveEchantillonByPoint();
   }
 
-
+  clear(table: Table) {
+    table.clear();
+    this.filter.nativeElement.value = '';
+}
+onGlobalFilter(table: Table, event: Event) {
+  table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+}
 
 
   getGeologiesByPoints(){

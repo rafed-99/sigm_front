@@ -7,7 +7,7 @@
 <div class="card" *ngIf="detailBordereauON===false && (role === 'ADMIN' ||role === 'CONFIRM' || role === 'USER' )"  >
     <p-button label="Retour To Archives" icon="pi pi-arrow-left" iconPos="left" (click)="retourToArchive()" *ngIf="modeArchive"></p-button>
     <h5>Receipt Management</h5>
-    <p-table #dt1 [value]="bordereaux" [(selection)]="selectedBordereau" dataKey="bordereauId" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['archiveLibelle','archiveDate','archiveType']" responsiveLayout="scroll">
+    <p-table #dt1 [value]="bordereaux" [(selection)]="selectedBordereau" dataKey="bordereauId" [rows]="50" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['bordereauCode','etatsBordereaux','dateEnvoi','analyseDemande']" responsiveLayout="scroll">
         
         <ng-template pTemplate="caption" >
             <div class="flex justify-content-between flex-column sm:flex-row">
@@ -16,11 +16,11 @@
                     <button pButton label="Export" class="p-button-outlined mb-2" icon="pi pi-file-excel" (click)="exportExcel()" ></button>
                     </div>
                     <div>
-                <span class="p-input-icon-left mb-2">
-                    <i class="pi pi-search"></i> 
-                    <input pInputText type="text" #filter  placeholder="Search Keyword" class="w-full"/> 
-                </span>
-            </div>
+                        <span class="p-input-icon-left mb-2">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword" class="w-full"/>
+                        </span>
+                    </div>
             </div>
         </ng-template> 
         
@@ -32,7 +32,7 @@
                 </th>
                 <th style="min-width: 8rem">
                     <div class="flex justify-content-between align-items-center">
-                        Bordereau Code
+                        Receipt Code
                     </div>
                 </th>
                 <th style="min-width: 8rem">
@@ -60,11 +60,11 @@
                         Receipt Status
                     </div>
                 </th>
-                <th style="min-width: 8rem">
+                <!-- <th style="min-width: 8rem">
                     <div class="flex justify-content-between align-items-center">
                         Reception Date
                     </div>
-                </th>
+                </th> -->
                 
                 
                
@@ -94,9 +94,9 @@
                 <td>
                     {{bordereau.etatsBordereaux}}
                 </td>
-                <td>
-                    {{bordereau.dateReception | date : 'dd/MM/yyyy'}}
-                </td>
+                <!-- <td>
+                    {{bordereau.echantillon.dateReception | date : 'dd/MM/yyyy'}}
+                </td> -->
                 
                 <td>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteNew(bordereau)" *ngIf="!modeArchive && (role === 'ADMIN' ||role === 'CONFIRM' || role === 'USER' )"></button>
@@ -115,7 +115,7 @@
 </div>
 
 <!-- delete bordereau -->
-<p-dialog [(visible)]="deleteDialog" [style]="{width: '450px'}" header="Archive Details" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="deleteDialog" [style]="{width: '450px'}" header="Delete Receipt" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content" let-gisement>
        <div>
         Do you want to delete this Receipt?
@@ -125,7 +125,7 @@
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog2()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="deleteBordereau()"></button>
+        <button pButton pRipple label="Delete" icon="pi pi-check" class="p-button-text" (click)="deleteBordereau()"></button>
     </ng-template>
 </p-dialog>
 
@@ -144,6 +144,6 @@
     </ng-template>
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog1()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateBordereau()"></button>
+        <button pButton pRipple label="Archive" icon="pi pi-check" class="p-button-text" (click)="updateBordereau()"></button>
     </ng-template>
 </p-dialog>
