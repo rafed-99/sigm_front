@@ -76,8 +76,8 @@
 
 
 <div *ngIf="role1 === 'ADMIN'">
-<p-dialog [(visible)]="updateDialog" [style]="{width: '450px'}" header="Modify Role" [modal]="true" styleClass="p-fluid">
-    <ng-template pTemplate="content" let-user>
+<p-dialog [(visible)]="updateDialog" [style]="{width: '450px'}" header="Modify Role" [contentStyle]="{overflow: 'unset'}" [draggable]=false [resizable]=false [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content" let-user style="overflow-y: unset !important">
         
         <div class="field">
             <label for="secteur">User Role</label>

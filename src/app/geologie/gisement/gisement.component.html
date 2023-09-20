@@ -65,8 +65,8 @@
         </p-table>
     </div>
     
-    <p-dialog [(visible)]="addDialog" [style]="{width: '450px'}" header="Field Detail" [modal]="true" styleClass="p-fluid">
-        <ng-template pTemplate="content" let-gisement>
+    <p-dialog [(visible)]="addDialog" [style]="{width: '450px'}" header="Field Detail" [contentStyle]="{overflow: 'unset'}" [draggable]=false [resizable]=false [modal]="true" styleClass="p-fluid">
+        <ng-template pTemplate="content" let-gisement style="overflow-y: unset !important">
             <div class="field">
                 <label for="code">Field Code</label>
                 <input type="text" pInputText id="code" [(ngModel)]="newGisement.gisementCode" required autofocus />
